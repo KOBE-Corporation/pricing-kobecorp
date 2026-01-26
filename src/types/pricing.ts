@@ -1,9 +1,9 @@
-export interface PricingFeature {
+export type PricingFeature = {
   name: string;
   included: boolean;
-}
+};
 
-export interface PricingPlan {
+export type PricingPlan = {
   id: string;
   name: string;
   description: string;
@@ -14,4 +14,4 @@ export interface PricingPlan {
   popular?: boolean; // Pour mettre en évidence un forfait populaire
   ctaText: string; // Texte du bouton d'action
   ctaLink?: string; // Lien du bouton (optionnel)
-}
+};
