@@ -1,6 +1,8 @@
 import Header from './components/Header';
 import PricingSection from './components/PricingSection';
+import Footer from './components/Footer';
 import { pricingPlans } from './data/pricingPlans';
+import { companyInfo } from './data/companyInfo';
 
 function App() {
   return (
@@ -8,19 +10,19 @@ function App() {
       <Header />
       <main>
         <PricingSection plans={pricingPlans} />
-        
+
         {/* Section Contact */}
         <section id="contact" className="py-20 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="font-display text-3xl font-semibold text-ink mb-4">
               Des questions sur nos forfaits ?
             </h2>
-            <p className="text-lg text-gray-600 mb-8">
+            <p className="font-sans text-lg text-neutral-600 mb-8">
               Contactez notre équipe pour obtenir plus d'informations
             </p>
             <a
-              href="mailto:contact@kobecorp.com"
-              className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              href={`mailto:${companyInfo.contact.email}`}
+              className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-8 py-3.5 text-sm font-semibold text-white shadow-md hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-lg transition-all"
             >
               Nous contacter
             </a>
@@ -28,14 +30,7 @@ function App() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-400">
-            © {new Date().getFullYear()} Kobe Corporation. Tous droits réservés.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
