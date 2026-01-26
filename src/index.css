@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --brand-primary: #0a7aff;
+  --brand-hover: #0066e6;
 }
 
 body {

@@ -61,7 +61,7 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-20 bg-white">
+    <section id="faq" className="py-20 bg-gradient-to-b from-white to-brand-50/30">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
@@ -78,24 +78,28 @@ const FAQ = () => {
           {faqData.map((faq, index) => (
             <div
               key={index}
-              className="rounded-2xl border border-neutral-200 bg-white shadow-subtle overflow-hidden transition-all hover:shadow-card"
+              className="rounded-2xl border border-neutral-200 bg-white shadow-subtle overflow-hidden transition-all hover:border-brand-300 hover:shadow-card"
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full flex items-center justify-between p-6 text-left"
+                className="w-full flex items-center justify-between p-6 text-left hover:bg-brand-50/50 transition-colors"
               >
-                <span className="font-sans font-semibold text-ink pr-4">
+                <span className={`font-sans font-semibold pr-4 transition-colors ${
+                  openIndex === index ? 'text-brand-600' : 'text-ink'
+                }`}>
                   {language === 'fr' ? faq.questionFr : faq.questionEn}
                 </span>
                 <ChevronDownIcon
-                  className={`h-5 w-5 text-neutral-600 flex-shrink-0 transition-transform ${
-                    openIndex === index ? 'transform rotate-180' : ''
+                  className={`h-5 w-5 flex-shrink-0 transition-all ${
+                    openIndex === index 
+                      ? 'transform rotate-180 text-brand-500' 
+                      : 'text-brand-400'
                   }`}
                 />
               </button>
               {openIndex === index && (
-                <div className="px-6 pb-6 animate-fadeInUp">
-                  <p className="font-sans text-neutral-600">
+                <div className="px-6 pb-6 animate-fadeInUp border-t border-brand-100">
+                  <p className="font-sans text-neutral-600 pt-4">
                     {language === 'fr' ? faq.answerFr : faq.answerEn}
                   </p>
                 </div>

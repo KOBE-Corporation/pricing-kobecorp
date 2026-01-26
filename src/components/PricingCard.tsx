@@ -45,7 +45,7 @@ const PricingCard = ({ plan }: { plan: PricingPlan }) => {
         {plan.features.map((feature, index) => (
           <li key={index} className="flex items-start">
             {feature.included ? (
-              <CheckIcon className="h-6 w-6 text-success-500 mr-3 flex-shrink-0" />
+              <CheckIcon className="h-6 w-6 text-brand-500 mr-3 flex-shrink-0" />
             ) : (
               <XMarkIcon className="h-6 w-6 text-neutral-300 mr-3 flex-shrink-0" />
             )}
