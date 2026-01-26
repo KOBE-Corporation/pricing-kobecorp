@@ -15,7 +15,13 @@ const PricingCard = ({ plan }: { plan: PricingPlan }) => {
     >
       {plan.popular && (
         <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-          <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-50 to-brand-100 text-brand-600 rounded-full px-4 py-1.5 text-xs font-semibold shadow-sm">
+          <span 
+            className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold shadow-sm"
+            style={{ 
+              background: 'linear-gradient(to right, #f0f7ff, #e0efff)',
+              color: '#0066e6'
+            }}
+          >
             <StarIcon className="h-3 w-3" />
             {t('pricing.popular')}
           </span>
@@ -45,7 +51,7 @@ const PricingCard = ({ plan }: { plan: PricingPlan }) => {
         {plan.features.map((feature, index) => (
           <li key={index} className="flex items-start">
             {feature.included ? (
-              <CheckIcon className="h-6 w-6 text-brand-500 mr-3 flex-shrink-0" />
+              <CheckIcon className="h-6 w-6 mr-3 flex-shrink-0" style={{ color: '#0a7aff' }} />
             ) : (
               <XMarkIcon className="h-6 w-6 text-neutral-300 mr-3 flex-shrink-0" />
             )}
@@ -65,9 +71,28 @@ const PricingCard = ({ plan }: { plan: PricingPlan }) => {
       <button
         className={`w-full inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 hover:-translate-y-0.5 py-3 px-6 ${
           plan.popular
-            ? 'bg-brand-500 text-white hover:bg-brand-600 shadow-md hover:shadow-lg'
-            : 'bg-white text-neutral-700 border border-neutral-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 shadow-subtle hover:shadow-md'
+            ? 'text-white shadow-md hover:shadow-lg'
+            : 'bg-white text-neutral-700 border border-neutral-200 shadow-subtle hover:shadow-md'
         }`}
+        style={plan.popular ? { backgroundColor: '#0a7aff' } : {}}
+        onMouseEnter={(e) => {
+          if (plan.popular) {
+            e.currentTarget.style.backgroundColor = '#0066e6';
+          } else {
+            e.currentTarget.style.borderColor = '#7cc2ff';
+            e.currentTarget.style.backgroundColor = '#f0f7ff';
+            e.currentTarget.style.color = '#0066e6';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (plan.popular) {
+            e.currentTarget.style.backgroundColor = '#0a7aff';
+          } else {
+            e.currentTarget.style.borderColor = '#e8e8e8';
+            e.currentTarget.style.backgroundColor = '#ffffff';
+            e.currentTarget.style.color = '#404040';
+          }
+        }}
         onClick={() => {
           if (plan.ctaLink) {
             const element = document.querySelector(plan.ctaLink);

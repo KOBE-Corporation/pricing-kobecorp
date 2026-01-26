@@ -25,7 +25,10 @@ const AppContent = () => {
         <section id="contact" className="py-20 bg-gradient-to-b from-brand-50/50 to-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-block mb-4">
-              <span className="inline-flex items-center gap-2 rounded-full bg-brand-100 px-4 py-2 text-sm font-semibold text-brand-600">
+              <span 
+                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
+                style={{ backgroundColor: '#e0efff', color: '#0066e6' }}
+              >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>

@@ -53,7 +53,7 @@ const faqData: FAQItem[] = [
 ];
 
 const FAQ = () => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleFAQ = (index: number) => {
@@ -84,17 +84,17 @@ const FAQ = () => {
                 onClick={() => toggleFAQ(index)}
                 className="w-full flex items-center justify-between p-6 text-left hover:bg-brand-50/50 transition-colors"
               >
-                <span className={`font-sans font-semibold pr-4 transition-colors ${
-                  openIndex === index ? 'text-brand-600' : 'text-ink'
-                }`}>
+                <span 
+                  className="font-sans font-semibold pr-4 transition-colors"
+                  style={{ color: openIndex === index ? '#0066e6' : '#171717' }}
+                >
                   {language === 'fr' ? faq.questionFr : faq.questionEn}
                 </span>
                 <ChevronDownIcon
                   className={`h-5 w-5 flex-shrink-0 transition-all ${
-                    openIndex === index 
-                      ? 'transform rotate-180 text-brand-500' 
-                      : 'text-brand-400'
+                    openIndex === index ? 'transform rotate-180' : ''
                   }`}
+                  style={{ color: openIndex === index ? '#0a7aff' : '#3b9eff' }}
                 />
               </button>
               {openIndex === index && (

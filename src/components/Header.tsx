@@ -47,7 +47,9 @@ const Header = () => {
               e.preventDefault();
               scrollToSection('#forfaits');
             }}
-            className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 hover:text-brand-500 transition-colors"
+            className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+            onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
           >
             {t('nav.pricing')}
           </a>
@@ -57,7 +59,9 @@ const Header = () => {
               e.preventDefault();
               scrollToSection('#contact');
             }}
-            className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 hover:text-brand-500 transition-colors"
+            className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+            onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
           >
             {t('nav.contact')}
           </a>
@@ -81,7 +85,10 @@ const Header = () => {
               e.preventDefault();
               scrollToSection('#forfaits');
             }}
-            className="rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-lg transition-all"
+            className="rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all"
+            style={{ backgroundColor: '#0a7aff' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0066e6'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0a7aff'}
           >
             {t('nav.viewOffers')}
           </a>
@@ -119,7 +126,9 @@ const Header = () => {
                 setIsMenuOpen(false);
                 scrollToSection('#forfaits');
               }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 hover:text-brand-500 transition-colors"
+              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+            onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
             >
               {t('nav.pricing')}
             </a>
@@ -130,7 +139,9 @@ const Header = () => {
                 setIsMenuOpen(false);
                 scrollToSection('#contact');
               }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 hover:text-brand-500 transition-colors"
+              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+            onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
             >
               {t('nav.contact')}
             </a>
@@ -141,7 +152,10 @@ const Header = () => {
                 setIsMenuOpen(false);
                 scrollToSection('#forfaits');
               }}
-              className="rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-brand-600 transition-colors text-center mt-2"
+              className="rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-colors text-center mt-2"
+              style={{ backgroundColor: '#0a7aff' }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0066e6'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0a7aff'}
             >
               {t('nav.viewOffers')}
             </a>

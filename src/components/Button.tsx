@@ -27,11 +27,11 @@ const Button = ({
 
   const variantClasses = {
     primary:
-      'bg-brand-500 text-white hover:bg-brand-600 shadow-md hover:shadow-lg',
+      'text-white shadow-md hover:shadow-lg',
     secondary:
-      'bg-white text-neutral-700 border border-neutral-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 shadow-subtle hover:shadow-md',
+      'bg-white text-neutral-700 border border-neutral-200 shadow-subtle hover:shadow-md',
     outline:
-      'bg-transparent text-brand-500 border border-brand-500 hover:bg-brand-50 hover:border-brand-600',
+      'bg-transparent border hover:bg-brand-50',
   };
 
   const sizeClasses = {
@@ -41,6 +41,41 @@ const Button = ({
   };
 
   const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+
+  // Styles inline pour forcer les couleurs bleues
+  const getStyle = () => {
+    if (variant === 'primary') {
+      return { backgroundColor: '#0a7aff' };
+    }
+    if (variant === 'outline') {
+      return { color: '#0a7aff', borderColor: '#0a7aff' };
+    }
+    return {};
+  };
+
+  const getHoverStyle = () => {
+    if (variant === 'primary') {
+      return {
+        onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+          e.currentTarget.style.backgroundColor = '#0066e6';
+        },
+        onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+          e.currentTarget.style.backgroundColor = '#0a7aff';
+        }
+      };
+    }
+    if (variant === 'outline') {
+      return {
+        onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+          e.currentTarget.style.borderColor = '#0066e6';
+        },
+        onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+          e.currentTarget.style.borderColor = '#0a7aff';
+        }
+      };
+    }
+    return {};
+  };
 
   const content = (
     <>
@@ -53,16 +88,19 @@ const Button = ({
     </>
   );
 
+  const style = getStyle();
+  const hoverHandlers = getHoverStyle();
+
   if (href) {
     return (
-      <a href={href} className={classes}>
+      <a href={href} className={classes} style={style} {...hoverHandlers}>
         {content}
       </a>
     );
   }
 
   return (
-    <button onClick={onClick} className={classes}>
+    <button onClick={onClick} className={classes} style={style} {...hoverHandlers}>
       {content}
     </button>
   );

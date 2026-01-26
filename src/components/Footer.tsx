@@ -39,7 +39,7 @@ const Footer = () => {
               <h2 className="font-display text-lg font-semibold text-ink">
                 {companyInfo.name}
               </h2>
-              <p className="text-sm font-semibold text-brand-500">
+              <p className="text-sm font-semibold" style={{ color: '#0a7aff' }}>
                 {companyInfo.slogan}
               </p>
             </a>
@@ -59,7 +59,9 @@ const Footer = () => {
               <li>
                 <a
                   href="#forfaits"
-                  className="text-sm text-neutral-600 hover:text-brand-500 transition-colors"
+                  className="text-sm text-neutral-600 transition-colors"
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
                   {language === 'fr' ? 'Forfaits' : 'Pricing'}
                 </a>
@@ -67,7 +69,9 @@ const Footer = () => {
               <li>
                 <a
                   href="#contact"
-                  className="text-sm text-neutral-600 hover:text-brand-500 transition-colors"
+                  className="text-sm text-neutral-600 transition-colors"
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
                   {language === 'fr' ? 'Contact' : 'Contact'}
                 </a>
@@ -85,7 +89,7 @@ const Footer = () => {
                 const Icon = info.icon;
                 const content = (
                   <div className="flex items-start gap-2">
-                    <Icon className="h-5 w-5 text-brand-500 flex-shrink-0 mt-0.5" />
+                    <Icon className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: '#0a7aff' }} />
                     <span className="text-sm text-neutral-600">{info.value}</span>
                   </div>
                 );
