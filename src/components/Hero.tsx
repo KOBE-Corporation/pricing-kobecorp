@@ -1,16 +1,28 @@
-import { PricingPlan } from '../types/pricing';
-import PricingCard from './PricingCard';
+import { SparklesIcon } from '@heroicons/react/24/outline';
 import { useLanguage } from '../contexts/LanguageContext';
+import Button from './Button';
+import Badge from './Badge';
 
-interface PricingSectionProps {
-  plans: PricingPlan[];
-}
-
-const PricingSection = ({ plans }: PricingSectionProps) => {
+const Hero = () => {
   const { t } = useLanguage();
+
+  const scrollToSection = (anchor: string) => {
+    const element = document.querySelector(anchor);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
     <section
-      id="forfaits"
+      id="hero"
       className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px] xl:min-h-[800px]"
       style={{ isolation: 'isolate' }}
     >
@@ -46,23 +58,46 @@ const PricingSection = ({ plans }: PricingSectionProps) => {
 
       {/* Contenu */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-display text-4xl font-semibold text-ink mb-4">
-            {t('pricing.title')}
-          </h2>
-          <p className="font-sans text-xl text-neutral-600 max-w-2xl mx-auto">
-            {t('pricing.subtitle')}
-          </p>
-        </div>
+        <div className="text-center max-w-4xl mx-auto pt-12 md:pt-16 lg:pt-20">
+          {/* Badge */}
+          <div className="flex justify-center mb-6">
+            <Badge variant="primary">
+              <SparklesIcon className="h-3 w-3" />
+              {t('hero.badge')}
+            </Badge>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {plans.map((plan) => (
-            <PricingCard key={plan.id} plan={plan} />
-          ))}
+          {/* Titre */}
+          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink mb-6">
+            {t('hero.title')}
+          </h1>
+
+          {/* Sous-titre */}
+          <p className="font-sans text-xl md:text-2xl text-neutral-600 mb-8 max-w-2xl mx-auto">
+            {t('hero.subtitle')}
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={() => scrollToSection('#forfaits')}
+            >
+              {t('hero.cta1')}
+            </Button>
+            <Button
+              variant="secondary"
+              size="lg"
+              onClick={() => scrollToSection('#contact')}
+            >
+              {t('hero.cta2')}
+            </Button>
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default PricingSection;
+export default Hero;

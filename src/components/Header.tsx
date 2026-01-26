@@ -1,13 +1,24 @@
 import { useState } from 'react';
 import { Bars3Icon, XMarkIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 import { companyInfo } from '../data/companyInfo';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [language, setLanguage] = useState<'fr' | 'en'>('fr');
+  const { language, setLanguage, t } = useLanguage();
 
   const toggleLanguage = () => {
     setLanguage(language === 'fr' ? 'en' : 'fr');
+  };
+
+  const scrollToSection = (anchor: string) => {
+    const element = document.querySelector(anchor);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -32,15 +43,23 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-1">
           <a
             href="#forfaits"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('#forfaits');
+            }}
             className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 hover:text-brand-500 transition-colors"
           >
-            {language === 'fr' ? 'Forfaits' : 'Pricing'}
+            {t('nav.pricing')}
           </a>
           <a
             href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('#contact');
+            }}
             className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 hover:text-brand-500 transition-colors"
           >
-            {language === 'fr' ? 'Contact' : 'Contact'}
+            {t('nav.contact')}
           </a>
         </nav>
 
@@ -57,10 +76,14 @@ const Header = () => {
 
           {/* CTA */}
           <a
-            href="#contact"
+            href="#forfaits"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('#forfaits');
+            }}
             className="rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-lg transition-all"
           >
-            {language === 'fr' ? 'Voir les offres' : 'View Offers'}
+            {t('nav.viewOffers')}
           </a>
         </div>
 
@@ -91,24 +114,36 @@ const Header = () => {
           <nav className="flex flex-col p-4 space-y-2">
             <a
               href="#forfaits"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                scrollToSection('#forfaits');
+              }}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 hover:text-brand-500 transition-colors"
             >
-              {language === 'fr' ? 'Forfaits' : 'Pricing'}
+              {t('nav.pricing')}
             </a>
             <a
               href="#contact"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                scrollToSection('#contact');
+              }}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 hover:text-brand-500 transition-colors"
             >
-              {language === 'fr' ? 'Contact' : 'Contact'}
+              {t('nav.contact')}
             </a>
             <a
-              href="#contact"
-              onClick={() => setIsMenuOpen(false)}
+              href="#forfaits"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                scrollToSection('#forfaits');
+              }}
               className="rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-brand-600 transition-colors text-center mt-2"
             >
-              {language === 'fr' ? 'Voir les offres' : 'View Offers'}
+              {t('nav.viewOffers')}
             </a>
           </nav>
         </div>

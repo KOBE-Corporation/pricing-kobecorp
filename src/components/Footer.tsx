@@ -1,8 +1,9 @@
 import { MapPinIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { companyInfo } from '../data/companyInfo';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Footer = () => {
-  const language: 'fr' | 'en' = 'fr'; // TODO: utiliser le contexte de langue
+  const { language, t } = useLanguage();
 
   const contactInfo = [
     {
@@ -52,7 +53,7 @@ const Footer = () => {
           {/* Liens rapides */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wide text-ink mb-4">
-              {language === 'fr' ? 'Liens rapides' : 'Quick Links'}
+              {t('footer.quickLinks')}
             </h3>
             <ul className="space-y-2">
               <li>
@@ -113,7 +114,7 @@ const Footer = () => {
           {/* Réseaux sociaux */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wide text-ink mb-4">
-              {language === 'fr' ? 'Suivez-nous' : 'Follow Us'}
+              {t('footer.followUs')}
             </h3>
             <div className="flex gap-3">
               <a
@@ -172,8 +173,7 @@ const Footer = () => {
         <div className="border-t border-neutral-200 pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm font-medium text-neutral-700">
-              © {new Date().getFullYear()} {companyInfo.name}.{' '}
-              {language === 'fr' ? 'Tous droits réservés.' : 'All rights reserved.'}
+              {t('footer.copyright')}
             </p>
             <div className="flex gap-4">
               <a
