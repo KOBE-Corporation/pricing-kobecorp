@@ -2,48 +2,22 @@ import { useLanguage } from '../contexts/LanguageContext';
 import {
   DevicePhoneMobileIcon,
   ComputerDesktopIcon,
-  GlobeAltIcon,
-  CommandLineIcon,
+  CodeBracketIcon,
+  ServerIcon,
 } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
+import { applicationsServices } from '../data/applicationsServices';
+
+// Mapping des icônes
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  DevicePhoneMobileIcon,
+  ComputerDesktopIcon,
+  CodeBracketIcon,
+  ServerIcon,
+};
 
 const Applications = () => {
   const { t, language } = useLanguage();
-
-  const appTypes = [
-    {
-      icon: DevicePhoneMobileIcon,
-      titleFr: 'Applications Mobiles',
-      titleEn: 'Mobile Applications',
-      descriptionFr:
-        'Développement d\'applications iOS et Android natives ou cross-platform avec React Native, Flutter.',
-      descriptionEn: 'Development of native or cross-platform iOS and Android applications with React Native, Flutter.',
-    },
-    {
-      icon: ComputerDesktopIcon,
-      titleFr: 'Applications Desktop',
-      titleEn: 'Desktop Applications',
-      descriptionFr:
-        'Applications desktop multiplateformes avec Electron, .NET, ou technologies natives.',
-      descriptionEn: 'Cross-platform desktop applications with Electron, .NET, or native technologies.',
-    },
-    {
-      icon: GlobeAltIcon,
-      titleFr: 'Applications Web',
-      titleEn: 'Web Applications',
-      descriptionFr:
-        'Applications web modernes avec React, Vue, Angular, ou frameworks backend Node.js, Python, PHP.',
-      descriptionEn: 'Modern web applications with React, Vue, Angular, or backend frameworks Node.js, Python, PHP.',
-    },
-    {
-      icon: CommandLineIcon,
-      titleFr: 'Applications Backend/API',
-      titleEn: 'Backend/API Applications',
-      descriptionFr:
-        'Développement d\'APIs RESTful, GraphQL, microservices et architectures serverless.',
-      descriptionEn: 'Development of RESTful APIs, GraphQL, microservices and serverless architectures.',
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -73,8 +47,8 @@ const Applications = () => {
             <Button variant="primary" size="lg" href="#contact">
               {language === 'fr' ? 'Démarrer un projet' : 'Start a Project'}
             </Button>
-            <Button variant="outline" size="lg" href="/#forfaits">
-              {t('nav.pricing')}
+            <Button variant="outline" size="lg" href="/saas">
+              {t('nav.saas')}
             </Button>
           </div>
         </div>
@@ -95,11 +69,13 @@ const Applications = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {appTypes.map((type, index) => {
-              const Icon = type.icon;
+            {applicationsServices.map((service) => {
+              const Icon = iconMap[service.icon] || CodeBracketIcon;
+              const translation = service.translations[language];
+              
               return (
                 <div
-                  key={index}
+                  key={service.id}
                   className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-subtle hover:border-brand-300 hover:shadow-card-hover transition-all"
                 >
                   <div className="flex items-start gap-4">
@@ -109,13 +85,28 @@ const Applications = () => {
                     >
                       <Icon className="h-8 w-8" style={{ color: '#0a7aff' }} />
                     </div>
-                    <div>
-                      <h3 className="font-display text-xl font-semibold text-ink mb-2">
-                        {language === 'fr' ? type.titleFr : type.titleEn}
-                      </h3>
-                      <p className="font-sans text-neutral-600">
-                        {language === 'fr' ? type.descriptionFr : type.descriptionEn}
-                      </p>
+                    <div className="flex-1">
+                      <div className="mb-2">
+                        <span className="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-brand-50 text-brand-600 mb-2">
+                          {service.sector[language]}
+                        </span>
+                        <h3 className="font-display text-xl font-semibold text-ink mb-2">
+                          {translation.title}
+                        </h3>
+                        <p className="font-sans text-neutral-600 mb-4">
+                          {translation.description}
+                        </p>
+                      </div>
+                      <ul className="space-y-2">
+                        {translation.features.map((feature, idx) => (
+                          <li key={idx} className="flex items-center gap-2">
+                            <svg className="h-4 w-4 flex-shrink-0" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span className="font-sans text-sm text-neutral-600">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 </div>
