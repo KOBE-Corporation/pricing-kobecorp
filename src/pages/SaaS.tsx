@@ -1,6 +1,8 @@
 import { useLanguage } from '../contexts/LanguageContext';
 import { CodeBracketIcon, ServerIcon, ChartBarIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
+import PricingCard from '../components/PricingCard';
+import { saasPlans } from '../data/saasPlans';
 
 const SaaS = () => {
   const { t, language } = useLanguage();
@@ -65,11 +67,11 @@ const SaaS = () => {
               : 'Develop and deploy performant and scalable SaaS applications to transform your business.'}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" size="lg" href="#contact">
-              {language === 'fr' ? 'Démarrer un projet' : 'Start a Project'}
+            <Button variant="primary" size="lg" href="#forfaits">
+              {language === 'fr' ? 'Voir les forfaits' : 'View Plans'}
             </Button>
-            <Button variant="outline" size="lg" href="/#forfaits">
-              {t('nav.pricing')}
+            <Button variant="outline" size="lg" href="#contact">
+              {language === 'fr' ? 'Nous contacter' : 'Contact Us'}
             </Button>
           </div>
         </div>
@@ -116,6 +118,157 @@ const SaaS = () => {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="forfaits" className="py-20 bg-gradient-to-b from-white to-brand-50/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-block mb-4">
+              <span
+                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
+                style={{ backgroundColor: '#e0efff', color: '#0066e6' }}
+              >
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                {language === 'fr' ? 'Nos Forfaits SaaS' : 'Our SaaS Plans'}
+              </span>
+            </div>
+            <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
+              {language === 'fr'
+                ? 'Choisissez le forfait adapté à vos besoins'
+                : 'Choose the plan that fits your needs'}
+            </h2>
+            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mb-6">
+              {language === 'fr'
+                ? 'Tous nos forfaits incluent l\'hébergement sécurisé, la maintenance, les mises à jour de sécurité, l\'accès 24/7, le certificat SSL et les sauvegardes automatisées.'
+                : 'All our plans include secure hosting, maintenance, security updates, 24/7 access, SSL certificate and automated backups.'}
+            </p>
+            <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-brand-50 border border-brand-200">
+              <svg className="h-4 w-4" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-neutral-700">
+                {language === 'fr'
+                  ? 'Délai de livraison : 45 jours maximum'
+                  : 'Delivery time: 45 days maximum'}
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {saasPlans.map((plan) => (
+              <PricingCard key={plan.id} plan={plan} />
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <div className="inline-flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-neutral-200 shadow-subtle max-w-2xl mx-auto">
+              <div className="flex items-center gap-2">
+                <svg className="h-5 w-5" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="font-sans text-sm font-semibold text-neutral-700">
+                  {language === 'fr'
+                    ? 'Tous les prix sont hors taxes (HT)'
+                    : 'All prices are excluding taxes (HT)'}
+                </p>
+              </div>
+              <p className="font-sans text-sm text-neutral-600">
+                {language === 'fr'
+                  ? '💰 Économisez 16% avec le paiement annuel (30 000 F à 60 000 F d\'économies selon le forfait)'
+                  : '💰 Save 16% with annual payment (30,000 to 60,000 FCFA savings depending on plan)'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Common Features Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
+              {language === 'fr'
+                ? 'Inclus dans tous les forfaits'
+                : 'Included in all plans'}
+            </h2>
+            <p className="font-sans text-lg text-neutral-600">
+              {language === 'fr'
+                ? 'Ces fonctionnalités sont communes à tous nos forfaits SaaS'
+                : 'These features are common to all our SaaS plans'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              {
+                titleFr: 'Hébergement sécurisé',
+                titleEn: 'Secure hosting',
+                descFr: 'Application hébergée sur des serveurs sécurisés',
+                descEn: 'Application hosted on secure servers',
+              },
+              {
+                titleFr: 'Maintenance & mises à jour',
+                titleEn: 'Maintenance & updates',
+                descFr: 'Maintenance régulière et mises à jour de sécurité',
+                descEn: 'Regular maintenance and security updates',
+              },
+              {
+                titleFr: 'Accès 24/7',
+                titleEn: '24/7 access',
+                descFr: 'Disponibilité continue de l\'application',
+                descEn: 'Continuous application availability',
+              },
+              {
+                titleFr: 'Certificat SSL (HTTPS)',
+                titleEn: 'SSL Certificate (HTTPS)',
+                descFr: 'Connexion sécurisée et chiffrée',
+                descEn: 'Secure and encrypted connection',
+              },
+              {
+                titleFr: 'Sauvegardes automatisées',
+                titleEn: 'Automated backups',
+                descFr: 'Sauvegardes régulières des données',
+                descEn: 'Regular data backups',
+              },
+              {
+                titleFr: 'Support technique',
+                titleEn: 'Technical support',
+                descFr: 'Assistance technique selon le niveau du forfait',
+                descEn: 'Technical assistance according to plan level',
+              },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50 border border-neutral-200"
+              >
+                <div
+                  className="rounded-lg p-2 flex-shrink-0"
+                  style={{ backgroundColor: '#f0f7ff' }}
+                >
+                  <svg className="h-5 w-5" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-ink mb-1">
+                    {language === 'fr' ? item.titleFr : item.titleEn}
+                  </h3>
+                  <p className="font-sans text-sm text-neutral-600">
+                    {language === 'fr' ? item.descFr : item.descEn}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
