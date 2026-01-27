@@ -71,6 +71,8 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
         choosePlan: 'Choisir ce forfait',
         contactUs: 'Nous contacter',
         popular: 'Populaire',
+        customQuote: 'Devis sur mesure',
+        contactForQuote: 'Contactez-nous pour un devis',
       },
       contact: {
         title: 'Des questions sur nos forfaits ?',
@@ -115,6 +117,8 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
         choosePlan: 'Choose This Plan',
         contactUs: 'Contact Us',
         popular: 'Popular',
+        customQuote: 'Custom Quote',
+        contactForQuote: 'Contact us for a quote',
       },
       contact: {
         title: 'Questions About Our Plans?',

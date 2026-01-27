@@ -36,15 +36,32 @@ const PricingCard = ({ plan }: { plan: PricingPlan }) => {
       </div>
 
       <div className="text-center mb-6">
-        <div className="flex items-baseline justify-center">
-          <span className="font-display text-5xl font-semibold text-ink">
-            {plan.price}
-          </span>
-          <span className="font-sans text-xl text-neutral-600 ml-2">
-            {plan.currency}
-          </span>
-        </div>
-        <p className="font-sans text-sm text-neutral-500 mt-2">/{plan.period}</p>
+        {plan.price === 0 ? (
+          <div className="flex flex-col items-center">
+            <span className="font-display text-3xl font-semibold text-ink mb-2">
+              {plan.period === 'devis' 
+                ? (t('pricing.customQuote') || 'Devis sur mesure')
+                : plan.period}
+            </span>
+            <p className="font-sans text-sm text-neutral-600">
+              {plan.period === 'devis' 
+                ? (t('pricing.contactForQuote') || 'Contactez-nous pour un devis')
+                : ''}
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-baseline justify-center">
+              <span className="font-display text-5xl font-semibold text-ink">
+                {plan.price}
+              </span>
+              <span className="font-sans text-xl text-neutral-600 ml-2">
+                {plan.currency}
+              </span>
+            </div>
+            <p className="font-sans text-sm text-neutral-500 mt-2">/{plan.period}</p>
+          </>
+        )}
       </div>
 
       <ul className="space-y-4 mb-8">

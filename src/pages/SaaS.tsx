@@ -1,11 +1,37 @@
+import { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { CodeBracketIcon, ServerIcon, ChartBarIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import PricingCard from '../components/PricingCard';
+import ComparisonSection from '../components/ComparisonSection';
 import { saasPlans } from '../data/saasPlans';
 
 const SaaS = () => {
   const { t, language } = useLanguage();
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
+
+  // Prix annuels avec économie de 16%
+  const annualPrices = {
+    'good-deal': 156000,
+    'pro': 258400,
+    'ultra': 430800,
+  };
+
+  // Créer les plans avec prix dynamiques
+  const plansWithDynamicPricing = saasPlans.map((plan) => {
+    if (billingPeriod === 'annual') {
+      return {
+        ...plan,
+        price: annualPrices[plan.id as keyof typeof annualPrices],
+        period: language === 'fr' ? 'an' : 'year',
+        originalPrice: plan.price,
+      };
+    }
+    return {
+      ...plan,
+      period: language === 'fr' ? 'mois' : 'month',
+    };
+  });
 
   const features = [
     {
@@ -191,6 +217,9 @@ const SaaS = () => {
           </div>
         </div>
       </section>
+
+      {/* Comparison Section */}
+      <ComparisonSection />
 
       {/* Common Features Section */}
       <section className="py-20 bg-white">
