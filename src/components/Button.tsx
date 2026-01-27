@@ -91,7 +91,15 @@ const Button = ({
   const style = getStyle();
   const hoverHandlers = getHoverStyle();
 
+  // Si href commence par /, utiliser Link de react-router-dom
   if (href) {
+    if (href.startsWith('/')) {
+      return (
+        <Link to={href} className={classes} style={style} {...hoverHandlers}>
+          {content}
+        </Link>
+      );
+    }
     return (
       <a href={href} className={classes} style={style} {...hoverHandlers}>
         {content}

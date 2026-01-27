@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { MapPinIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { companyInfo } from '../data/companyInfo';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -35,14 +36,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-6">
           {/* À propos - col-span-2 */}
           <div className="lg:col-span-2">
-            <a href="/" className="inline-block mb-3">
+            <Link to="/" className="inline-block mb-3">
               <h2 className="font-display text-lg font-semibold text-ink">
                 {companyInfo.name}
               </h2>
               <p className="text-sm font-semibold" style={{ color: '#0a7aff' }}>
                 {companyInfo.slogan}
               </p>
-            </a>
+            </Link>
             <p className="text-sm text-neutral-600 mb-4">
               {language === 'fr'
                 ? 'Votre partenaire technologique pour construire votre propre héritage numérique.'
@@ -57,44 +58,44 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="/saas"
+                <Link
+                  to="/saas"
                   className="text-sm text-neutral-600 transition-colors"
                   onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
                   {t('nav.saas')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/full-control"
+                <Link
+                  to="/full-control"
                   className="text-sm text-neutral-600 transition-colors"
                   onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
                   {t('nav.fullControl')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/hebergement"
+                <Link
+                  to="/hebergement"
                   className="text-sm text-neutral-600 transition-colors"
                   onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
                   {t('nav.hosting')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/applications"
+                <Link
+                  to="/applications"
                   className="text-sm text-neutral-600 transition-colors"
                   onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
                   {t('nav.applications')}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -106,24 +107,24 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="#forfaits"
+                <Link
+                  to="/#forfaits"
                   className="text-sm text-neutral-600 transition-colors"
                   onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
                   {t('nav.pricing')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#contact"
+                <Link
+                  to="/#contact"
                   className="text-sm text-neutral-600 transition-colors"
                   onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
                   {t('nav.contact')}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

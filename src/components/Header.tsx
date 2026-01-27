@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 import { companyInfo } from '../data/companyInfo';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -25,8 +26,8 @@ const Header = () => {
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/80 backdrop-blur-md shadow-subtle">
       <div className="mx-auto flex h-auto min-h-16 max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-8 lg:py-0 lg:h-16">
         {/* Logo */}
-        <a
-          href="/"
+        <Link
+          to="/"
           className="flex items-center gap-2 hover:scale-105 transition-transform duration-200"
         >
           <div className="flex flex-col">
@@ -37,47 +38,49 @@ const Header = () => {
               {companyInfo.slogan}
             </span>
           </div>
-        </a>
+        </Link>
 
         {/* Navigation Desktop */}
         <nav className="hidden md:flex items-center gap-1">
-          <a
-            href="/saas"
+          <Link
+            to="/saas"
             className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
             onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
           >
             {t('nav.saas')}
-          </a>
-          <a
-            href="/full-control"
+          </Link>
+          <Link
+            to="/full-control"
             className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
             onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
           >
             {t('nav.fullControl')}
-          </a>
-          <a
-            href="/hebergement"
+          </Link>
+          <Link
+            to="/hebergement"
             className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
             onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
           >
             {t('nav.hosting')}
-          </a>
-          <a
-            href="/applications"
+          </Link>
+          <Link
+            to="/applications"
             className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
             onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
           >
             {t('nav.applications')}
-          </a>
+          </Link>
           <a
-            href="#forfaits"
+            href="/#forfaits"
             onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('#forfaits');
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                scrollToSection('#forfaits');
+              }
             }}
             className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
             onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
@@ -86,10 +89,12 @@ const Header = () => {
             {t('nav.pricing')}
           </a>
           <a
-            href="#contact"
+            href="/#contact"
             onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('#contact');
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                scrollToSection('#contact');
+              }
             }}
             className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
             onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
@@ -111,19 +116,15 @@ const Header = () => {
           </button>
 
           {/* CTA */}
-          <a
-            href="#forfaits"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('#forfaits');
-            }}
+          <Link
+            to="/#forfaits"
             className="rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all"
             style={{ backgroundColor: '#0a7aff' }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0066e6'}
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0a7aff'}
           >
             {t('nav.viewOffers')}
-          </a>
+          </Link>
         </div>
 
         {/* Mobile - Language + Menu */}
@@ -151,82 +152,70 @@ const Header = () => {
       {isMenuOpen && (
         <div className="border-t border-neutral-200 bg-white backdrop-blur-md md:hidden animate-fadeInUp">
           <nav className="flex flex-col p-4 space-y-2">
-            <a
-              href="/saas"
+            <Link
+              to="/saas"
               onClick={() => setIsMenuOpen(false)}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
               onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
             >
               {t('nav.saas')}
-            </a>
-            <a
-              href="/full-control"
+            </Link>
+            <Link
+              to="/full-control"
               onClick={() => setIsMenuOpen(false)}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
               onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
             >
               {t('nav.fullControl')}
-            </a>
-            <a
-              href="/hebergement"
+            </Link>
+            <Link
+              to="/hebergement"
               onClick={() => setIsMenuOpen(false)}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
               onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
             >
               {t('nav.hosting')}
-            </a>
-            <a
-              href="/applications"
+            </Link>
+            <Link
+              to="/applications"
               onClick={() => setIsMenuOpen(false)}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
               onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
             >
               {t('nav.applications')}
-            </a>
-            <a
-              href="#forfaits"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMenuOpen(false);
-                scrollToSection('#forfaits');
-              }}
+            </Link>
+            <Link
+              to="/#forfaits"
+              onClick={() => setIsMenuOpen(false)}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
               onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
             >
               {t('nav.pricing')}
-            </a>
-            <a
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMenuOpen(false);
-                scrollToSection('#contact');
-              }}
+            </Link>
+            <Link
+              to="/#contact"
+              onClick={() => setIsMenuOpen(false)}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
               onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#404040'}
             >
               {t('nav.contact')}
-            </a>
-            <a
-              href="#forfaits"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMenuOpen(false);
-                scrollToSection('#forfaits');
-              }}
+            </Link>
+            <Link
+              to="/#forfaits"
+              onClick={() => setIsMenuOpen(false)}
               className="rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-colors text-center mt-2"
               style={{ backgroundColor: '#0a7aff' }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0066e6'}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0a7aff'}
             >
               {t('nav.viewOffers')}
-            </a>
+            </Link>
           </nav>
         </div>
       )}

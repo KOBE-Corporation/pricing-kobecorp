@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { SparklesIcon } from '@heroicons/react/24/outline';
 import { useLanguage } from '../contexts/LanguageContext';
 import Button from './Button';
@@ -82,14 +83,14 @@ const Hero = () => {
             <Button
               variant="primary"
               size="lg"
-              onClick={() => scrollToSection('#forfaits')}
+              href="/#forfaits"
             >
               {t('hero.cta1')}
             </Button>
             <Button
               variant="secondary"
               size="lg"
-              onClick={() => scrollToSection('#contact')}
+              href="/#contact"
             >
               {t('hero.cta2')}
             </Button>
