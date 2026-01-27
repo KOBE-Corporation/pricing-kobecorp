@@ -32,7 +32,7 @@ const Footer = () => {
   return (
     <footer className="bg-neutral-50 border-t border-neutral-200 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-6">
           {/* À propos - col-span-2 */}
           <div className="lg:col-span-2">
             <a href="/" className="inline-block mb-3">
@@ -50,6 +50,55 @@ const Footer = () => {
             </p>
           </div>
 
+          {/* Services */}
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-ink mb-4">
+              {language === 'fr' ? 'Services' : 'Services'}
+            </h3>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="/saas"
+                  className="text-sm text-neutral-600 transition-colors"
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
+                >
+                  {t('nav.saas')}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/full-control"
+                  className="text-sm text-neutral-600 transition-colors"
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
+                >
+                  {t('nav.fullControl')}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/hebergement"
+                  className="text-sm text-neutral-600 transition-colors"
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
+                >
+                  {t('nav.hosting')}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/applications"
+                  className="text-sm text-neutral-600 transition-colors"
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
+                >
+                  {t('nav.applications')}
+                </a>
+              </li>
+            </ul>
+          </div>
+
           {/* Liens rapides */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wide text-ink mb-4">
@@ -63,7 +112,7 @@ const Footer = () => {
                   onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
-                  {language === 'fr' ? 'Forfaits' : 'Pricing'}
+                  {t('nav.pricing')}
                 </a>
               </li>
               <li>
@@ -73,7 +122,7 @@ const Footer = () => {
                   onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
                 >
-                  {language === 'fr' ? 'Contact' : 'Contact'}
+                  {t('nav.contact')}
                 </a>
               </li>
             </ul>

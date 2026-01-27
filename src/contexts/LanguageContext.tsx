@@ -45,6 +45,10 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
       nav: {
         home: 'Accueil',
         services: 'Services',
+        saas: 'SaaS',
+        fullControl: 'Full-Control',
+        hosting: 'Hébergement',
+        applications: 'Applications',
         pricing: 'Forfaits',
         about: 'À propos',
         contact: 'Contact',
@@ -85,6 +89,10 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
       nav: {
         home: 'Home',
         services: 'Services',
+        saas: 'SaaS',
+        fullControl: 'Full-Control',
+        hosting: 'Hosting',
+        applications: 'Applications',
         pricing: 'Pricing',
         about: 'About',
         contact: 'Contact',
