@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import PricingCard from '../components/PricingCard';
+import ComparisonSection from '../components/ComparisonSection';
 import { fullControlPlans } from '../data/fullControlPlans';
 
 const FullControl = () => {

@@ -190,8 +190,69 @@ const SaaS = () => {
             </div>
           </div>
 
+          {/* Billing Toggle */}
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex items-center gap-3 p-1 rounded-full bg-white border border-neutral-200 shadow-subtle">
+              <button
+                onClick={() => setBillingPeriod('monthly')}
+                className={`px-6 py-2 rounded-full font-semibold text-sm transition-all ${
+                  billingPeriod === 'monthly'
+                    ? 'text-white shadow-md'
+                    : 'text-neutral-600 hover:text-neutral-900'
+                }`}
+                style={
+                  billingPeriod === 'monthly'
+                    ? { backgroundColor: '#0a7aff' }
+                    : { backgroundColor: 'transparent' }
+                }
+                onMouseEnter={(e) => {
+                  if (billingPeriod !== 'monthly') {
+                    e.currentTarget.style.backgroundColor = '#f0f7ff';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (billingPeriod !== 'monthly') {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }
+                }}
+              >
+                {language === 'fr' ? 'Mensuel' : 'Monthly'}
+              </button>
+              <button
+                onClick={() => setBillingPeriod('annual')}
+                className={`px-6 py-2 rounded-full font-semibold text-sm transition-all relative ${
+                  billingPeriod === 'annual'
+                    ? 'text-white shadow-md'
+                    : 'text-neutral-600 hover:text-neutral-900'
+                }`}
+                style={
+                  billingPeriod === 'annual'
+                    ? { backgroundColor: '#0a7aff' }
+                    : { backgroundColor: 'transparent' }
+                }
+                onMouseEnter={(e) => {
+                  if (billingPeriod !== 'annual') {
+                    e.currentTarget.style.backgroundColor = '#f0f7ff';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (billingPeriod !== 'annual') {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }
+                }}
+              >
+                {language === 'fr' ? 'Annuel' : 'Annual'}
+                {billingPeriod === 'annual' && (
+                  <span className="absolute -top-2 -right-2 bg-accent-500 text-white text-xs px-2 py-0.5 rounded-full">
+                    -16%
+                  </span>
+                )}
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {saasPlans.map((plan) => (
+            {plansWithDynamicPricing.map((plan) => (
               <PricingCard key={plan.id} plan={plan} />
             ))}
           </div>

@@ -3,8 +3,12 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const PricingCard = ({ plan }: { plan: PricingPlan }) => {
-  const { t } = useLanguage();
+interface ExtendedPricingPlan extends PricingPlan {
+  originalPrice?: number;
+}
+
+const PricingCard = ({ plan }: { plan: ExtendedPricingPlan }) => {
+  const { t, language } = useLanguage();
   return (
     <div
       className={`relative rounded-2xl border bg-white p-8 transition-all duration-300 hover:-translate-y-1 ${
@@ -53,13 +57,18 @@ const PricingCard = ({ plan }: { plan: PricingPlan }) => {
           <>
             <div className="flex items-baseline justify-center">
               <span className="font-display text-5xl font-semibold text-ink">
-                {plan.price}
+                {plan.price.toLocaleString('fr-FR')}
               </span>
               <span className="font-sans text-xl text-neutral-600 ml-2">
                 {plan.currency}
               </span>
             </div>
             <p className="font-sans text-sm text-neutral-500 mt-2">/{plan.period}</p>
+            {plan.originalPrice && (
+              <p className="font-sans text-xs text-neutral-400 mt-1 line-through">
+                {plan.originalPrice.toLocaleString('fr-FR')} {plan.currency} / {language === 'fr' ? 'mois' : 'month'}
+              </p>
+            )}
           </>
         )}
       </div>
