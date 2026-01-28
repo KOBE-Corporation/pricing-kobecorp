@@ -15,6 +15,7 @@ import ComparisonSection from '../components/ComparisonSection';
 import { fullControlPlans } from '../data/fullControlPlans';
 import IncludedFeaturesSection from '../components/IncludedFeaturesSection';
 import ContactCTA from '../components/ContactCTA';
+import PageHero from '../components/PageHero';
 
 const FullControl = () => {
   const { t, language } = useLanguage();
@@ -64,36 +65,25 @@ const FullControl = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 min-h-[500px]">
-        <div
-          className="absolute inset-0 overflow-hidden bg-white"
-          style={{ zIndex: 0 }}
-          aria-hidden="true"
-        >
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.15)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-          <div className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-300/70 animate-float-shape"></div>
-          <div className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-300/65 animate-float-gentle animate-pulse-border"></div>
-          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-50/20 to-transparent"></div>
-        </div>
-
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink mb-6">
-            {language === 'fr' ? 'Full-Control' : 'Full Control'}
-          </h1>
-          {language === 'en' && (
-            <p className="font-sans text-lg text-brand-600 font-medium mb-2">
-              Your Infrastructure, Your Rules.
-            </p>
-          )}
-          <p className="font-sans text-xl md:text-2xl text-neutral-600 max-w-3xl mx-auto mb-8">
-            {language === 'fr'
-              ? 'Prenez le contrôle total de votre infrastructure avec nos solutions Full-Control. Liberté, sécurité et performance maximales.'
-              : 'Take full control of your infrastructure with our Full Control solutions. Maximum freedom, security and performance.'}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center" />
-        </div>
-      </section>
+      <PageHero
+        title={language === 'fr' ? 'Full-Control' : 'Full Control'}
+        subtitle={
+          language === 'fr'
+            ? 'Prenez le contrôle total de votre infrastructure avec nos solutions Full-Control. Liberté, sécurité et performance maximales.'
+            : 'Take full control of your infrastructure with our Full Control solutions. Maximum freedom, security and performance.'
+        }
+        highlightLine={language === 'en' ? 'Your Infrastructure, Your Rules.' : undefined}
+        primaryCta={{
+          label: language === 'fr' ? 'Voir les forfaits' : 'View Plans',
+          href: '#forfaits',
+          variant: 'primary',
+        }}
+        secondaryCta={{
+          label: language === 'fr' ? 'Nous contacter' : 'Contact Us',
+          href: '#contact',
+          variant: 'outline',
+        }}
+      />
 
       {/* Features Section */}
       <section className="py-20 bg-white">

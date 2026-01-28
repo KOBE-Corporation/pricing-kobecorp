@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { CodeBracketIcon, ServerIcon, ChartBarIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
-import Button from '../components/Button';
 import PricingCard from '../components/PricingCard';
 import ComparisonSection from '../components/ComparisonSection';
 import { saasPlans } from '../data/saasPlans';
 import IncludedFeaturesSection from '../components/IncludedFeaturesSection';
 import ContactCTA from '../components/ContactCTA';
+import PageHero from '../components/PageHero';
 
 const SaaS = () => {
   const { language } = useLanguage();
@@ -80,43 +80,29 @@ const SaaS = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 min-h-[500px]">
-        <div
-          className="absolute inset-0 overflow-hidden bg-white"
-          style={{ zIndex: 0 }}
-          aria-hidden="true"
-        >
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.15)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-          <div className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-300/70 animate-float-shape"></div>
-          <div className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-300/65 animate-float-gentle animate-pulse-border"></div>
-          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-50/20 to-transparent"></div>
-        </div>
-
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink mb-6">
-            {language === 'fr' ? 'Services SaaS' : 'SaaS Services'}
-          </h1>
-          <p className="font-sans text-xl md:text-2xl text-neutral-600 max-w-3xl mx-auto mb-4">
-            {language === 'fr'
-              ? 'Solution rapide et autonome : applications disponibles et configurées en 15 jours maximum. Développez et déployez des applications SaaS performantes et scalables pour transformer votre entreprise.'
-              : 'Fast, autonomous solution: applications available and configured within 15 days max. Develop and deploy performant, scalable SaaS applications to transform your business.'}
-          </p>
-          <p className="font-sans text-base text-brand-600 font-medium max-w-2xl mx-auto mb-8">
-            {language === 'fr'
-              ? '✓ Mise en production rapide — ✓ Hébergement et maintenance inclus — ✓ Sans équipe technique'
-              : '✓ Quick launch — ✓ Hosting & maintenance included — ✓ No technical team required'}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" size="lg" href="#forfaits">
-              {language === 'fr' ? 'Voir les forfaits' : 'View Plans'}
-            </Button>
-            <Button variant="outline" size="lg" href="#contact">
-              {language === 'fr' ? 'Nous contacter' : 'Contact Us'}
-            </Button>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        title={language === 'fr' ? 'Services SaaS' : 'SaaS Services'}
+        subtitle={
+          language === 'fr'
+            ? 'Solution rapide et autonome : applications disponibles et configurées en 15 jours maximum. Développez et déployez des applications SaaS performantes et scalables pour transformer votre entreprise.'
+            : 'Fast, autonomous solution: applications available and configured within 15 days max. Develop and deploy performant, scalable SaaS applications to transform your business.'
+        }
+        highlightLine={
+          language === 'fr'
+            ? '✓ Mise en production rapide — ✓ Hébergement et maintenance inclus — ✓ Sans équipe technique'
+            : '✓ Quick launch — ✓ Hosting & maintenance included — ✓ No technical team required'
+        }
+        primaryCta={{
+          label: language === 'fr' ? 'Voir les forfaits' : 'View Plans',
+          href: '#forfaits',
+          variant: 'primary',
+        }}
+        secondaryCta={{
+          label: language === 'fr' ? 'Nous contacter' : 'Contact Us',
+          href: '#contact',
+          variant: 'outline',
+        }}
+      />
 
       {/* Features Section */}
       <section className="py-20 bg-white">
