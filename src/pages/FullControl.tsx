@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
   Cog6ToothIcon,
@@ -9,13 +10,22 @@ import {
   AcademicCapIcon,
   ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
-import Button from '../components/Button';
 import PricingCard from '../components/PricingCard';
 import ComparisonSection from '../components/ComparisonSection';
 import { fullControlPlans } from '../data/fullControlPlans';
+import IncludedFeaturesSection from '../components/IncludedFeaturesSection';
+import ContactCTA from '../components/ContactCTA';
 
 const FullControl = () => {
   const { t, language } = useLanguage();
+
+  // SEO : titre par page
+  useEffect(() => {
+    document.title =
+      language === 'fr'
+        ? 'Full-Control – Kobe Corporation'
+        : 'Full Control – Kobe Corporation';
+  }, [language]);
 
   const features = [
     {
@@ -81,14 +91,7 @@ const FullControl = () => {
               ? 'Prenez le contrôle total de votre infrastructure avec nos solutions Full-Control. Liberté, sécurité et performance maximales.'
               : 'Take full control of your infrastructure with our Full Control solutions. Maximum freedom, security and performance.'}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" size="lg" href="#forfaits">
-              {language === 'fr' ? 'Voir les forfaits' : 'View Plans'}
-            </Button>
-            <Button variant="outline" size="lg" href="#contact">
-              {language === 'fr' ? 'Nous contacter' : 'Contact Us'}
-            </Button>
-          </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center" />
         </div>
       </section>
 
@@ -221,113 +224,78 @@ const FullControl = () => {
       </section>
 
       {/* Common Features Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-              {language === 'fr'
-                ? 'Inclus dans tous les forfaits Full-Control'
-                : 'Included in all Full-Control plans'}
-            </h2>
-            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto">
-              {language === 'fr'
-                ? 'Ces éléments sont communs à tous nos forfaits Full-Control'
-                : 'These elements are common to all our Full-Control plans'}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: CodeBracketIcon,
-                titleFr: 'Code source complet',
-                titleEn: 'Complete source code',
-                descFr: '100% propriété du client, transfert complet à la livraison',
-                descEn: '100% client ownership, complete transfer at delivery',
-              },
-              {
-                icon: ServerStackIcon,
-                titleFr: 'API REST (Backend)',
-                titleEn: 'REST API (Backend)',
-                descFr: 'Architecture backend complète et documentée',
-                descEn: 'Complete and documented backend architecture',
-              },
-              {
-                icon: CommandLineIcon,
-                titleFr: 'Front-end complet',
-                titleEn: 'Complete Front-end',
-                descFr: 'Interface utilisateur complète et responsive',
-                descEn: 'Complete and responsive user interface',
-              },
-              {
-                icon: DocumentTextIcon,
-                titleFr: 'Documentation',
-                titleEn: 'Documentation',
-                descFr: 'Documentation technique et utilisateur (40-200 pages selon forfait)',
-                descEn: 'Technical and user documentation (40-200 pages depending on plan)',
-              },
-              {
-                icon: ServerStackIcon,
-                titleFr: 'VPS (Année 1)',
-                titleEn: 'VPS (Year 1)',
-                descFr: 'Serveur Virtuel Privé personnalisable selon vos besoins',
-                descEn: 'Customizable Virtual Private Server according to your needs',
-              },
-              {
-                icon: ShieldCheckIcon,
-                titleFr: 'Certificat SSL',
-                titleEn: 'SSL Certificate',
-                descFr: 'Sécurité HTTPS incluse',
-                descEn: 'HTTPS security included',
-              },
-              {
-                icon: LockClosedIcon,
-                titleFr: 'Nom de domaine',
-                titleEn: 'Domain name',
-                descFr: 'Domaine personnalisé inclus (1 an ou à vie selon forfait)',
-                descEn: 'Custom domain included (1 year or lifetime depending on plan)',
-              },
-              {
-                icon: AcademicCapIcon,
-                titleFr: 'Formation',
-                titleEn: 'Training',
-                descFr: 'Sessions de formation incluses (2-4 sessions selon forfait)',
-                descEn: 'Training sessions included (2-4 sessions depending on plan)',
-              },
-              {
-                icon: Cog6ToothIcon,
-                titleFr: 'Support post-livraison',
-                titleEn: 'Post-delivery support',
-                descFr: 'Support technique inclus (1-6 mois selon forfait)',
-                descEn: 'Technical support included (1-6 months depending on plan)',
-              },
-            ].map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={index}
-                  className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50 border border-neutral-200"
-                >
-                  <div
-                    className="rounded-lg p-2 flex-shrink-0"
-                    style={{ backgroundColor: '#f0f7ff' }}
-                  >
-                    <Icon className="h-5 w-5" style={{ color: '#0a7aff' }} />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-base font-semibold text-ink mb-1">
-                      {language === 'fr' ? item.titleFr : item.titleEn}
-                    </h3>
-                    <p className="font-sans text-sm text-neutral-600">
-                      {language === 'fr' ? item.descFr : item.descEn}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <IncludedFeaturesSection
+        titleFr="Inclus dans tous les forfaits Full-Control"
+        titleEn="Included in all Full-Control plans"
+        subtitleFr="Ces éléments sont communs à tous nos forfaits Full-Control"
+        subtitleEn="These elements are common to all our Full-Control plans"
+        items={[
+          {
+            icon: CodeBracketIcon,
+            titleFr: 'Code source complet',
+            titleEn: 'Complete source code',
+            descFr: '100% propriété du client, transfert complet à la livraison',
+            descEn: '100% client ownership, complete transfer at delivery',
+          },
+          {
+            icon: ServerStackIcon,
+            titleFr: 'API REST (Backend)',
+            titleEn: 'REST API (Backend)',
+            descFr: 'Architecture backend complète et documentée',
+            descEn: 'Complete and documented backend architecture',
+          },
+          {
+            icon: CommandLineIcon,
+            titleFr: 'Front-end complet',
+            titleEn: 'Complete Front-end',
+            descFr: 'Interface utilisateur complète et responsive',
+            descEn: 'Complete and responsive user interface',
+          },
+          {
+            icon: DocumentTextIcon,
+            titleFr: 'Documentation',
+            titleEn: 'Documentation',
+            descFr: 'Documentation technique et utilisateur (40-200 pages selon forfait)',
+            descEn: 'Technical and user documentation (40-200 pages depending on plan)',
+          },
+          {
+            icon: ServerStackIcon,
+            titleFr: 'VPS (Année 1)',
+            titleEn: 'VPS (Year 1)',
+            descFr: 'Serveur Virtuel Privé personnalisable selon vos besoins',
+            descEn: 'Customizable Virtual Private Server according to your needs',
+          },
+          {
+            icon: ShieldCheckIcon,
+            titleFr: 'Certificat SSL',
+            titleEn: 'SSL Certificate',
+            descFr: 'Sécurité HTTPS incluse',
+            descEn: 'HTTPS security included',
+          },
+          {
+            icon: LockClosedIcon,
+            titleFr: 'Nom de domaine',
+            titleEn: 'Domain name',
+            descFr: 'Domaine personnalisé inclus (1 an ou à vie selon forfait)',
+            descEn: 'Custom domain included (1 year or lifetime depending on plan)',
+          },
+          {
+            icon: AcademicCapIcon,
+            titleFr: 'Formation',
+            titleEn: 'Training',
+            descFr: 'Sessions de formation incluses (2-4 sessions selon forfait)',
+            descEn: 'Training sessions included (2-4 sessions depending on plan)',
+          },
+          {
+            icon: Cog6ToothIcon,
+            titleFr: 'Support post-livraison',
+            titleEn: 'Post-delivery support',
+            descFr: 'Support technique inclus (1-6 mois selon forfait)',
+            descEn: 'Technical support included (1-6 months depending on plan)',
+          },
+        ]}
+        cols={{ md: 2, lg: 3 }}
+      />
 
       {/* Stack Technique Section */}
       <section className="py-20 bg-gradient-to-b from-brand-50/30 to-white">
@@ -402,24 +370,15 @@ const FullControl = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section id="contact" className="py-20 bg-gradient-to-b from-brand-50/50 to-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-            {language === 'fr'
-              ? 'Prêt à prendre le contrôle total ?'
-              : 'Ready to take full control?'}
-          </h2>
-          <p className="font-sans text-lg text-neutral-600 mb-8">
-            {language === 'fr'
-              ? 'Contactez-nous pour discuter de votre projet Full-Control et obtenir un devis personnalisé.'
-              : 'Contact us to discuss your Full-Control project and get a personalized quote.'}
-          </p>
-          <Button variant="primary" size="lg" href={`mailto:contact@kobecorporation.com`}>
-            {t('contact.cta')}
-          </Button>
-        </div>
-      </section>
+      {/* CTA Section commune */}
+      <ContactCTA
+        id="contact"
+        titleFr="Prêt à prendre le contrôle total ?"
+        titleEn="Ready to take full control?"
+        subtitleFr="Contactez-nous pour discuter de votre projet Full-Control et obtenir un devis personnalisé."
+        subtitleEn="Contact us to discuss your Full-Control project and get a personalized quote."
+        mailSubjectSuffix="Projet Full-Control"
+      />
     </div>
   );
 };

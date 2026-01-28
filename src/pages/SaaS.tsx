@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { CodeBracketIcon, ServerIcon, ChartBarIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import PricingCard from '../components/PricingCard';
 import ComparisonSection from '../components/ComparisonSection';
 import { saasPlans } from '../data/saasPlans';
+import IncludedFeaturesSection from '../components/IncludedFeaturesSection';
+import ContactCTA from '../components/ContactCTA';
 
 const SaaS = () => {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
+
+  // SEO : titre par page
+  useEffect(() => {
+    document.title =
+      language === 'fr'
+        ? 'Services SaaS – Kobe Corporation'
+        : 'SaaS Services – Kobe Corporation';
+  }, [language]);
 
   // Prix annuels avec économie de 16%
   const annualPrices = {
@@ -305,104 +315,61 @@ const SaaS = () => {
       <ComparisonSection />
 
       {/* Common Features Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-              {language === 'fr'
-                ? 'Inclus dans tous les forfaits'
-                : 'Included in all plans'}
-            </h2>
-            <p className="font-sans text-lg text-neutral-600">
-              {language === 'fr'
-                ? 'Ces fonctionnalités sont communes à tous nos forfaits SaaS'
-                : 'These features are common to all our SaaS plans'}
-            </p>
-          </div>
+      <IncludedFeaturesSection
+        titleFr="Inclus dans tous les forfaits"
+        titleEn="Included in all plans"
+        subtitleFr="Ces fonctionnalités sont communes à tous nos forfaits SaaS"
+        subtitleEn="These features are common to all our SaaS plans"
+        items={[
+          {
+            titleFr: 'Hébergement sécurisé',
+            titleEn: 'Secure hosting',
+            descFr: 'Application hébergée sur des serveurs sécurisés',
+            descEn: 'Application hosted on secure servers',
+          },
+          {
+            titleFr: 'Maintenance & mises à jour',
+            titleEn: 'Maintenance & updates',
+            descFr: 'Maintenance régulière et mises à jour de sécurité',
+            descEn: 'Regular maintenance and security updates',
+          },
+          {
+            titleFr: 'Accès 24/7',
+            titleEn: '24/7 access',
+            descFr: 'Disponibilité continue de l\'application',
+            descEn: 'Continuous application availability',
+          },
+          {
+            titleFr: 'Certificat SSL (HTTPS)',
+            titleEn: 'SSL Certificate (HTTPS)',
+            descFr: 'Connexion sécurisée et chiffrée',
+            descEn: 'Secure and encrypted connection',
+          },
+          {
+            titleFr: 'Sauvegardes automatisées',
+            titleEn: 'Automated backups',
+            descFr: 'Sauvegardes régulières des données',
+            descEn: 'Regular data backups',
+          },
+          {
+            titleFr: 'Support technique',
+            titleEn: 'Technical support',
+            descFr: 'Assistance technique selon le niveau du forfait',
+            descEn: 'Technical assistance according to plan level',
+          },
+        ]}
+        cols={{ md: 2, lg: 2 }}
+      />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              {
-                titleFr: 'Hébergement sécurisé',
-                titleEn: 'Secure hosting',
-                descFr: 'Application hébergée sur des serveurs sécurisés',
-                descEn: 'Application hosted on secure servers',
-              },
-              {
-                titleFr: 'Maintenance & mises à jour',
-                titleEn: 'Maintenance & updates',
-                descFr: 'Maintenance régulière et mises à jour de sécurité',
-                descEn: 'Regular maintenance and security updates',
-              },
-              {
-                titleFr: 'Accès 24/7',
-                titleEn: '24/7 access',
-                descFr: 'Disponibilité continue de l\'application',
-                descEn: 'Continuous application availability',
-              },
-              {
-                titleFr: 'Certificat SSL (HTTPS)',
-                titleEn: 'SSL Certificate (HTTPS)',
-                descFr: 'Connexion sécurisée et chiffrée',
-                descEn: 'Secure and encrypted connection',
-              },
-              {
-                titleFr: 'Sauvegardes automatisées',
-                titleEn: 'Automated backups',
-                descFr: 'Sauvegardes régulières des données',
-                descEn: 'Regular data backups',
-              },
-              {
-                titleFr: 'Support technique',
-                titleEn: 'Technical support',
-                descFr: 'Assistance technique selon le niveau du forfait',
-                descEn: 'Technical assistance according to plan level',
-              },
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50 border border-neutral-200"
-              >
-                <div
-                  className="rounded-lg p-2 flex-shrink-0"
-                  style={{ backgroundColor: '#f0f7ff' }}
-                >
-                  <svg className="h-5 w-5" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-display text-base font-semibold text-ink mb-1">
-                    {language === 'fr' ? item.titleFr : item.titleEn}
-                  </h3>
-                  <p className="font-sans text-sm text-neutral-600">
-                    {language === 'fr' ? item.descFr : item.descEn}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section id="contact" className="py-20 bg-gradient-to-b from-brand-50/50 to-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-            {language === 'fr'
-              ? 'Prêt à lancer votre SaaS ?'
-              : 'Ready to launch your SaaS?'}
-          </h2>
-          <p className="font-sans text-lg text-neutral-600 mb-8">
-            {language === 'fr'
-              ? 'Contactez-nous pour discuter de votre projet SaaS.'
-              : 'Contact us to discuss your SaaS project.'}
-          </p>
-          <Button variant="primary" size="lg" href={`mailto:contact@kobecorporation.com`}>
-            {t('contact.cta')}
-          </Button>
-        </div>
-      </section>
+      {/* CTA Section commune */}
+      <ContactCTA
+        id="contact"
+        titleFr="Prêt à lancer votre SaaS ?"
+        titleEn="Ready to launch your SaaS?"
+        subtitleFr="Contactez-nous pour discuter de votre projet SaaS."
+        subtitleEn="Contact us to discuss your SaaS project."
+        mailSubjectSuffix="Projet SaaS"
+      />
     </div>
   );
 };
