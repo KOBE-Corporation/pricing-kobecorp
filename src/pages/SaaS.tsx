@@ -261,9 +261,6 @@ const SaaS = () => {
         </div>
       </section>
 
-      {/* Comparison Section */}
-      <ComparisonSection />
-
       {/* Common Features Section */}
       <IncludedFeaturesSection
         titleFr="Inclus dans tous les forfaits"
@@ -310,6 +307,9 @@ const SaaS = () => {
         ]}
         cols={{ md: 2, lg: 2 }}
       />
+
+      {/* Comparison Section */}
+      <ComparisonSection />
 
       {/* CTA Section commune */}
       <ContactCTA

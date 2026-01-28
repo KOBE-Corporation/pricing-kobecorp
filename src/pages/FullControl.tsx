@@ -94,9 +94,6 @@ const FullControl = () => {
         items={features}
       />
 
-      {/* Comparison Section - placée avant les forfaits pour aider au choix */}
-      <ComparisonSection />
-
       {/* Pricing Section */}
       <section id="forfaits" className="py-20 bg-gradient-to-b from-white to-brand-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -323,6 +320,9 @@ const FullControl = () => {
           </div>
         </div>
       </section>
+
+      {/* Comparison Section */}
+      <ComparisonSection />
 
       {/* CTA Section commune */}
       <ContactCTA
