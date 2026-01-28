@@ -3,15 +3,24 @@ export type PricingFeature = {
   included: boolean;
 };
 
+/** Fourchette de prix (ex. dev logiciel en F CFA) en fonction du délai de livraison */
+export type PriceRange = {
+  min: number;       // Montant min en F CFA
+  max: number;       // Montant max en F CFA
+  deliveryDays: number; // Délai de livraison en jours (pour affichage)
+};
+
 export type PricingPlan = {
   id: string;
   name: string;
   description: string;
   price: number;
   currency: string;
-  period: string; // "mois", "année", etc.
+  period: string; // "mois", "année", "devis", etc.
   features: PricingFeature[];
-  popular?: boolean; // Pour mettre en évidence un forfait populaire
-  ctaText: string; // Texte du bouton d'action
-  ctaLink?: string; // Lien du bouton (optionnel)
+  popular?: boolean;
+  ctaText: string;
+  ctaLink?: string;
+  /** Fourchette indicative (ex. Full-Control) : min/max F CFA pour X jours */
+  priceRange?: PriceRange;
 };

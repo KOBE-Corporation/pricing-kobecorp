@@ -87,10 +87,15 @@ const SaaS = () => {
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink mb-6">
             {language === 'fr' ? 'Services SaaS' : 'SaaS Services'}
           </h1>
-          <p className="font-sans text-xl md:text-2xl text-neutral-600 max-w-3xl mx-auto mb-8">
+          <p className="font-sans text-xl md:text-2xl text-neutral-600 max-w-3xl mx-auto mb-4">
             {language === 'fr'
-              ? 'Développez et déployez des applications SaaS performantes et scalables pour transformer votre entreprise.'
-              : 'Develop and deploy performant and scalable SaaS applications to transform your business.'}
+              ? 'Solution rapide et autonome : applications disponibles et configurées en 15 jours maximum. Développez et déployez des applications SaaS performantes et scalables pour transformer votre entreprise.'
+              : 'Fast, autonomous solution: applications available and configured within 15 days max. Develop and deploy performant, scalable SaaS applications to transform your business.'}
+          </p>
+          <p className="font-sans text-base text-brand-600 font-medium max-w-2xl mx-auto mb-8">
+            {language === 'fr'
+              ? '✓ Mise en production rapide — ✓ Hébergement et maintenance inclus — ✓ Sans équipe technique'
+              : '✓ Quick launch — ✓ Hosting & maintenance included — ✓ No technical team required'}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="primary" size="lg" href="#forfaits">
@@ -178,15 +183,25 @@ const SaaS = () => {
                 ? 'Tous nos forfaits incluent l\'hébergement sécurisé, la maintenance, les mises à jour de sécurité, l\'accès 24/7, le certificat SSL et les sauvegardes automatisées.'
                 : 'All our plans include secure hosting, maintenance, security updates, 24/7 access, SSL certificate and automated backups.'}
             </p>
-            <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-brand-50 border border-brand-200">
-              <svg className="h-4 w-4" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="text-neutral-700">
-                {language === 'fr'
-                  ? 'Délai de livraison : 45 jours maximum'
-                  : 'Delivery time: 45 days maximum'}
-              </span>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-2">
+              <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-brand-50 border border-brand-200">
+                <svg className="h-4 w-4" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span className="text-neutral-700">
+                  {language === 'fr'
+                    ? 'Applications disponibles et configurées : 15 jours maximum'
+                    : 'Applications available and configured: 15 days maximum'}
+                </span>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-green-50 border border-green-200 text-green-800">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span>
+                  {language === 'fr' ? 'Solution rapide et autonome' : 'Fast & autonomous solution'}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -250,6 +265,13 @@ const SaaS = () => {
               </button>
             </div>
           </div>
+          {billingPeriod === 'annual' && (
+            <p className="text-center text-sm font-semibold text-green-700 mb-6">
+              {language === 'fr'
+                ? 'Économisez 30 000 F à 60 000 F selon le forfait (jusqu\'à 60 000 F sur Ultra)'
+                : 'Save 30,000 to 60,000 FCFA depending on plan (up to 60,000 F on Ultra)'}
+            </p>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {plansWithDynamicPricing.map((plan) => (

@@ -5,12 +5,13 @@ export const fullControlPlans: PricingPlan[] = [
     id: 'ultra-speed',
     name: 'Ultra Speed',
     description: 'Forfait express pour projets urgents, avec équipe dédiée à temps plein.',
-    price: 0, // Devis sur mesure
+    price: 0,
     currency: '',
     period: 'devis',
     popular: false,
     ctaText: 'Demander un devis',
-    ctaLink: '#contact',
+    ctaLink: 'mailto:contact@kobecorporation.com?subject=Devis%20Full-Control%20-%20Ultra%20Speed',
+    priceRange: { min: 20_000_000, max: 33_000_000, deliveryDays: 65 },
     features: [
       { name: 'Délai de livraison : 65 jours', included: true },
       { name: 'Équipe dédiée à temps plein', included: true },
@@ -33,12 +34,13 @@ export const fullControlPlans: PricingPlan[] = [
     id: 'speed',
     name: 'Speed',
     description: 'Forfait équilibré, recommandé pour la plupart des projets métier.',
-    price: 0, // Budget équilibré
+    price: 0,
     currency: '',
     period: 'devis',
     popular: true,
     ctaText: 'Demander un devis',
-    ctaLink: '#contact',
+    ctaLink: 'mailto:contact@kobecorporation.com?subject=Devis%20Full-Control%20-%20Speed',
+    priceRange: { min: 28_000_000, max: 44_000_000, deliveryDays: 110 },
     features: [
       { name: 'Délai de livraison : 110 jours', included: true },
       { name: 'Planning optimisé et gérable', included: true },
@@ -63,12 +65,13 @@ export const fullControlPlans: PricingPlan[] = [
     id: 'normal',
     name: 'Normal',
     description: 'Forfait budget optimisé, qualité maximale. Rythme de développement confortable.',
-    price: 0, // Coût optimisé
+    price: 0,
     currency: '',
     period: 'devis',
     popular: false,
     ctaText: 'Demander un devis',
-    ctaLink: '#contact',
+    ctaLink: 'mailto:contact@kobecorporation.com?subject=Devis%20Full-Control%20-%20Normal',
+    priceRange: { min: 36_000_000, max: 55_000_000, deliveryDays: 180 },
     features: [
       { name: 'Délai de livraison : 180 jours', included: true },
       { name: 'Rythme de développement confortable', included: true },

@@ -7,6 +7,8 @@ interface ExtendedPricingPlan extends PricingPlan {
   originalPrice?: number;
 }
 
+const formatXAF = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
+
 const PricingCard = ({ plan }: { plan: ExtendedPricingPlan }) => {
   const { t, language } = useLanguage();
   return (
@@ -47,11 +49,33 @@ const PricingCard = ({ plan }: { plan: ExtendedPricingPlan }) => {
                 ? (t('pricing.customQuote') || 'Devis sur mesure')
                 : plan.period}
             </span>
+            {plan.priceRange && (
+              <div className="text-center mb-2">
+                <p className="font-display text-xl font-semibold text-ink">
+                  {formatXAF(plan.priceRange.min)} – {formatXAF(plan.priceRange.max)} F CFA
+                </p>
+                <p className="font-sans text-xs text-neutral-500 mt-1">
+                  {language === 'fr'
+                    ? `pour ${plan.priceRange.deliveryDays} jours de développement`
+                    : `for ${plan.priceRange.deliveryDays} days of development`}
+                </p>
+              </div>
+            )}
             <p className="font-sans text-sm text-neutral-600">
-              {plan.period === 'devis' 
-                ? (t('pricing.contactForQuote') || 'Contactez-nous pour un devis')
+              {plan.period === 'devis'
+                ? plan.priceRange
+                  ? (language === 'fr' ? 'Fourchette indicative (XAF)' : 'Indicative range (XAF)')
+                  : (t('pricing.contactForQuote') || 'Contactez-nous pour un devis')
                 : ''}
             </p>
+            {plan.period === 'devis' && (
+              <span className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {language === 'fr' ? 'Devis sous 48h' : 'Quote within 48h'}
+              </span>
+            )}
           </div>
         ) : (
           <>
@@ -120,14 +144,17 @@ const PricingCard = ({ plan }: { plan: ExtendedPricingPlan }) => {
           }
         }}
         onClick={() => {
-          if (plan.ctaLink) {
-            const element = document.querySelector(plan.ctaLink);
-            if (element) {
-              const headerOffset = 80;
-              const elementPosition = element.getBoundingClientRect().top;
-              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-            }
+          if (!plan.ctaLink) return;
+          if (plan.ctaLink.startsWith('mailto:')) {
+            window.location.href = plan.ctaLink;
+            return;
+          }
+          const element = document.querySelector(plan.ctaLink);
+          if (element) {
+            const headerOffset = 80;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
           }
         }}
       >

@@ -10,7 +10,7 @@ export const saasPlans: PricingPlan[] = [
     period: 'mois',
     popular: true,
     ctaText: 'Choisir Good Deal',
-    ctaLink: '#contact',
+    ctaLink: 'mailto:contact@kobecorporation.com?subject=Forfait%20SaaS%20-%20Good%20Deal',
     features: [
       { name: 'Stockage : 10 Go de base + facturation supplémentaire', included: true },
       { name: 'Nom de domaine professionnel', included: true },
@@ -38,7 +38,7 @@ export const saasPlans: PricingPlan[] = [
     period: 'mois',
     popular: false,
     ctaText: 'Choisir Pro',
-    ctaLink: '#contact',
+    ctaLink: 'mailto:contact@kobecorporation.com?subject=Forfait%20SaaS%20-%20Pro',
     features: [
       { name: 'Stockage : 15 Go de base + facturation supplémentaire', included: true },
       { name: 'Nom de domaine + 1 sous-domaine', included: true },
@@ -67,7 +67,7 @@ export const saasPlans: PricingPlan[] = [
     period: 'mois',
     popular: false,
     ctaText: 'Choisir Ultra',
-    ctaLink: '#contact',
+    ctaLink: 'mailto:contact@kobecorporation.com?subject=Forfait%20SaaS%20-%20Ultra',
     features: [
       { name: 'Stockage : 20 Go de base + facturation supplémentaire', included: true },
       { name: 'Nom de domaine + 2 sous-domaines', included: true },

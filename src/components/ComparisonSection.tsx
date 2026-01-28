@@ -61,7 +61,7 @@ const ComparisonSection = () => {
     },
     {
       criterion: language === 'fr' ? 'Délai de livraison' : 'Delivery time',
-      saas: language === 'fr' ? '45 jours maximum' : '45 days maximum',
+      saas: language === 'fr' ? '15 jours maximum' : '15 days maximum',
       fullControl: language === 'fr' ? '65-180 jours selon forfait' : '65-180 days depending on plan',
     },
   ];
@@ -182,8 +182,8 @@ const ComparisonSection = () => {
                 <span className="text-brand-500 mt-1">•</span>
                 <span>
                   {language === 'fr'
-                    ? 'Mise en production rapide (45 jours)'
-                    : 'Quick production launch (45 days)'}
+                    ? 'Mise en production rapide (15 jours max)'
+                    : 'Quick production launch (15 days max)'}
                 </span>
               </li>
             </ul>

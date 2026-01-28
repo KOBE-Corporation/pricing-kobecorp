@@ -69,12 +69,17 @@ const FullControl = () => {
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink mb-6">
-            {language === 'fr' ? 'Full-Control' : 'Full-Control'}
+            {language === 'fr' ? 'Full-Control' : 'Full Control'}
           </h1>
+          {language === 'en' && (
+            <p className="font-sans text-lg text-brand-600 font-medium mb-2">
+              Your Infrastructure, Your Rules.
+            </p>
+          )}
           <p className="font-sans text-xl md:text-2xl text-neutral-600 max-w-3xl mx-auto mb-8">
             {language === 'fr'
               ? 'Prenez le contrôle total de votre infrastructure avec nos solutions Full-Control. Liberté, sécurité et performance maximales.'
-              : 'Take full control of your infrastructure with our Full-Control solutions. Maximum freedom, security and performance.'}
+              : 'Take full control of your infrastructure with our Full Control solutions. Maximum freedom, security and performance.'}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="primary" size="lg" href="#forfaits">
@@ -132,6 +137,9 @@ const FullControl = () => {
         </div>
       </section>
 
+      {/* Comparison Section - placée avant les forfaits pour aider au choix */}
+      <ComparisonSection />
+
       {/* Pricing Section */}
       <section id="forfaits" className="py-20 bg-gradient-to-b from-white to-brand-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -149,7 +157,7 @@ const FullControl = () => {
                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                {language === 'fr' ? 'Nos Forfaits Full-Control' : 'Our Full-Control Plans'}
+                {language === 'fr' ? 'Nos Forfaits Full-Control' : 'Our Full Control Plans'}
               </span>
             </div>
             <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
@@ -160,17 +168,27 @@ const FullControl = () => {
             <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mb-6">
               {language === 'fr'
                 ? 'Avec Full-Control, vous possédez 100% du code source et de la propriété intellectuelle. Autonomie totale garantie.'
-                : 'With Full-Control, you own 100% of the source code and intellectual property. Total autonomy guaranteed.'}
+                : 'With Full Control, you own 100% of the source code and intellectual property. Total autonomy guaranteed.'}
             </p>
-            <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-brand-50 border border-brand-200">
-              <svg className="h-4 w-4" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              <span className="text-neutral-700">
-                {language === 'fr'
-                  ? '100% propriété du code source'
-                  : '100% source code ownership'}
-              </span>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
+              <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-brand-50 border border-brand-200">
+                <svg className="h-4 w-4" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span className="text-neutral-700">
+                  {language === 'fr'
+                    ? '100% propriété du code source'
+                    : '100% source code ownership'}
+                </span>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-emerald-50 border border-emerald-200 text-emerald-800">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>
+                  {language === 'fr' ? 'Devis personnalisé sous 48h' : 'Personalized quote within 48h'}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -310,9 +328,6 @@ const FullControl = () => {
           </div>
         </div>
       </section>
-
-      {/* Comparison Section */}
-      <ComparisonSection />
 
       {/* Stack Technique Section */}
       <section className="py-20 bg-gradient-to-b from-brand-50/30 to-white">
