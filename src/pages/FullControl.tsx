@@ -5,7 +5,7 @@ import {
   LockClosedIcon,
   CommandLineIcon,
   ServerStackIcon,
-  CodeBracketIcon,
+  KeyIcon,
   DocumentTextIcon,
   AcademicCapIcon,
   ShieldCheckIcon,
@@ -19,78 +19,52 @@ import PageHero from '../components/PageHero';
 import SectionFeatures from '../components/SectionFeatures';
 
 const FullControl = () => {
-  const { t, language } = useLanguage();
+  const { t, tLang, language } = useLanguage();
 
-  // SEO : titre par page
+  // SEO : titre et meta description par page
   useEffect(() => {
-    document.title =
-      language === 'fr'
-        ? 'Full-Control – Kobe Corporation'
-        : 'Full Control – Kobe Corporation';
+    document.title = t('fullControl.meta.title');
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'description');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', t('fullControl.meta.description'));
   }, [language]);
 
-  const features = [
-    {
-      icon: Cog6ToothIcon,
-      titleFr: 'Contrôle Total',
-      titleEn: 'Full Control',
-      descriptionFr:
-        'Accédez à tous les paramètres et configurations de votre infrastructure sans limitations.',
-      descriptionEn: 'Access all settings and configurations of your infrastructure without limitations.',
-    },
-    {
-      icon: LockClosedIcon,
-      titleFr: 'Sécurité Avancée',
-      titleEn: 'Advanced Security',
-      descriptionFr:
-        'Gérez votre propre sécurité avec des outils de monitoring et de protection avancés.',
-      descriptionEn: 'Manage your own security with advanced monitoring and protection tools.',
-    },
-    {
-      icon: CommandLineIcon,
-      titleFr: 'Accès Root/Admin',
-      titleEn: 'Root/Admin Access',
-      descriptionFr:
-        'Accès complet au système pour personnaliser et optimiser selon vos besoins.',
-      descriptionEn: 'Full system access to customize and optimize according to your needs.',
-    },
-    {
-      icon: ServerStackIcon,
-      titleFr: 'Infrastructure Dédiée',
-      titleEn: 'Dedicated Infrastructure',
-      descriptionFr:
-        'Serveurs et ressources dédiés exclusivement à votre entreprise pour des performances optimales.',
-      descriptionEn: 'Servers and resources dedicated exclusively to your business for optimal performance.',
-    },
-  ];
+  const featureIcons = [Cog6ToothIcon, LockClosedIcon, CommandLineIcon, ServerStackIcon];
+  const features = [0, 1, 2, 3].map((i) => ({
+    icon: featureIcons[i],
+    titleFr: tLang(`fullControl.sectionFeatures.features.${i}.title`, 'fr'),
+    titleEn: tLang(`fullControl.sectionFeatures.features.${i}.title`, 'en'),
+    descriptionFr: tLang(`fullControl.sectionFeatures.features.${i}.description`, 'fr'),
+    descriptionEn: tLang(`fullControl.sectionFeatures.features.${i}.description`, 'en'),
+  }));
 
   return (
     <div className="min-h-screen bg-white">
       <PageHero
-        title={language === 'fr' ? 'Full-Control' : 'Full Control'}
-        subtitle={
-          language === 'fr'
-            ? 'Prenez le contrôle total de votre infrastructure avec nos solutions Full-Control. Liberté, sécurité et performance maximales.'
-            : 'Take full control of your infrastructure with our Full Control solutions. Maximum freedom, security and performance.'
-        }
-        highlightLine={language === 'en' ? 'Your Infrastructure, Your Rules.' : undefined}
+        title={t('fullControl.hero.title')}
+        subtitle={t('fullControl.hero.subtitle')}
+        highlightLine={language === 'en' ? t('fullControl.hero.highlightLineEn') : undefined}
         primaryCta={{
-          label: language === 'fr' ? 'Voir les forfaits' : 'View Plans',
+          label: t('fullControl.hero.primaryCta'),
           href: '#forfaits',
           variant: 'primary',
         }}
         secondaryCta={{
-          label: language === 'fr' ? 'Nous contacter' : 'Contact Us',
+          label: t('fullControl.hero.secondaryCta'),
           href: '#contact',
           variant: 'outline',
         }}
       />
 
       <SectionFeatures
-        titleFr="Avantages Full-Control"
-        titleEn="Full-Control Benefits"
-        subtitleFr="Profitez d'un contrôle total sur votre infrastructure et vos données."
-        subtitleEn="Enjoy total control over your infrastructure and data."
+        titleFr={tLang('fullControl.sectionFeatures.title', 'fr')}
+        titleEn={tLang('fullControl.sectionFeatures.title', 'en')}
+        subtitleFr={tLang('fullControl.sectionFeatures.subtitle', 'fr')}
+        subtitleEn={tLang('fullControl.sectionFeatures.subtitle', 'en')}
         items={features}
       />
 
@@ -99,10 +73,7 @@ const FullControl = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block mb-4">
-              <span
-                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
-                style={{ backgroundColor: '#e0efff', color: '#0066e6' }}
-              >
+              <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold bg-brand-100 text-brand-600">
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -111,37 +82,29 @@ const FullControl = () => {
                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                {language === 'fr' ? 'Nos Forfaits Full-Control' : 'Our Full Control Plans'}
+                {t('fullControl.pricing.badge')}
               </span>
             </div>
             <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-              {language === 'fr'
-                ? 'Choisissez le forfait adapté à votre projet'
-                : 'Choose the plan that fits your project'}
+              {t('fullControl.pricing.heading')}
             </h2>
             <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mb-6">
-              {language === 'fr'
-                ? 'Avec Full-Control, vous possédez 100% du code source et de la propriété intellectuelle. Autonomie totale garantie.'
-                : 'With Full Control, you own 100% of the source code and intellectual property. Total autonomy guaranteed.'}
+              {t('fullControl.pricing.description')}
+            </p>
+            {/* Délais mis en avant : 65 / 110 / 180 jours */}
+            <p className="font-sans text-base font-semibold text-brand-600 mb-4">
+              {t('fullControl.pricing.deliveryLevels')}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
               <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-brand-50 border border-brand-200">
-                <svg className="h-4 w-4" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-                <span className="text-neutral-700">
-                  {language === 'fr'
-                    ? '100% propriété du code source'
-                    : '100% source code ownership'}
-                </span>
+                <KeyIcon className="h-4 w-4 text-brand-500" aria-hidden />
+                <span className="text-neutral-700">{t('fullControl.pricing.badgeCodeOwnership')}</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-emerald-50 border border-emerald-200 text-emerald-800">
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>
-                  {language === 'fr' ? 'Devis personnalisé sous 48h' : 'Personalized quote within 48h'}
-                </span>
+                <span>{t('fullControl.pricing.badgeDevis48h')}</span>
               </div>
             </div>
           </div>
@@ -155,95 +118,37 @@ const FullControl = () => {
           <div className="mt-12 text-center">
             <div className="inline-flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-neutral-200 shadow-subtle max-w-2xl mx-auto">
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-5 w-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <p className="font-sans text-sm font-semibold text-neutral-700">
-                  {language === 'fr'
-                    ? 'Paiement : 50% à la signature, 50% à la livraison'
-                    : 'Payment: 50% at signing, 50% at delivery'}
+                  {t('fullControl.pricing.paymentNote')}
                 </p>
               </div>
               <p className="font-sans text-sm text-neutral-600">
-                {language === 'fr'
-                  ? '💡 Tous les forfaits incluent : Code source complet, API REST, Front-end, Documentation, VPS (année 1), SSL, Domaine, Formation et Support post-livraison'
-                  : '💡 All plans include: Complete source code, REST API, Front-end, Documentation, VPS (year 1), SSL, Domain, Training and Post-delivery support'}
+                {t('fullControl.pricing.plansIncludeNote')}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Common Features Section */}
+      {/* Common Features Section - KeyIcon pour propriété du code */}
       <IncludedFeaturesSection
-        titleFr="Inclus dans tous les forfaits Full-Control"
-        titleEn="Included in all Full-Control plans"
-        subtitleFr="Ces éléments sont communs à tous nos forfaits Full-Control"
-        subtitleEn="These elements are common to all our Full-Control plans"
+        titleFr={tLang('fullControl.included.title', 'fr')}
+        titleEn={tLang('fullControl.included.title', 'en')}
+        subtitleFr={tLang('fullControl.included.subtitle', 'fr')}
+        subtitleEn={tLang('fullControl.included.subtitle', 'en')}
         items={[
-          {
-            icon: CodeBracketIcon,
-            titleFr: 'Code source complet',
-            titleEn: 'Complete source code',
-            descFr: '100% propriété du client, transfert complet à la livraison',
-            descEn: '100% client ownership, complete transfer at delivery',
-          },
-          {
-            icon: ServerStackIcon,
-            titleFr: 'API REST (Backend)',
-            titleEn: 'REST API (Backend)',
-            descFr: 'Architecture backend complète et documentée',
-            descEn: 'Complete and documented backend architecture',
-          },
-          {
-            icon: CommandLineIcon,
-            titleFr: 'Front-end complet',
-            titleEn: 'Complete Front-end',
-            descFr: 'Interface utilisateur complète et responsive',
-            descEn: 'Complete and responsive user interface',
-          },
-          {
-            icon: DocumentTextIcon,
-            titleFr: 'Documentation',
-            titleEn: 'Documentation',
-            descFr: 'Documentation technique et utilisateur (40-200 pages selon forfait)',
-            descEn: 'Technical and user documentation (40-200 pages depending on plan)',
-          },
-          {
-            icon: ServerStackIcon,
-            titleFr: 'VPS (Année 1)',
-            titleEn: 'VPS (Year 1)',
-            descFr: 'Serveur Virtuel Privé personnalisable selon vos besoins',
-            descEn: 'Customizable Virtual Private Server according to your needs',
-          },
-          {
-            icon: ShieldCheckIcon,
-            titleFr: 'Certificat SSL',
-            titleEn: 'SSL Certificate',
-            descFr: 'Sécurité HTTPS incluse',
-            descEn: 'HTTPS security included',
-          },
-          {
-            icon: LockClosedIcon,
-            titleFr: 'Nom de domaine',
-            titleEn: 'Domain name',
-            descFr: 'Domaine personnalisé inclus (1 an ou à vie selon forfait)',
-            descEn: 'Custom domain included (1 year or lifetime depending on plan)',
-          },
-          {
-            icon: AcademicCapIcon,
-            titleFr: 'Formation',
-            titleEn: 'Training',
-            descFr: 'Sessions de formation incluses (2-4 sessions selon forfait)',
-            descEn: 'Training sessions included (2-4 sessions depending on plan)',
-          },
-          {
-            icon: Cog6ToothIcon,
-            titleFr: 'Support post-livraison',
-            titleEn: 'Post-delivery support',
-            descFr: 'Support technique inclus (1-6 mois selon forfait)',
-            descEn: 'Technical support included (1-6 months depending on plan)',
-          },
+          { icon: KeyIcon, titleFr: tLang('fullControl.included.items.0.title', 'fr'), titleEn: tLang('fullControl.included.items.0.title', 'en'), descFr: tLang('fullControl.included.items.0.desc', 'fr'), descEn: tLang('fullControl.included.items.0.desc', 'en') },
+          { icon: ServerStackIcon, titleFr: tLang('fullControl.included.items.1.title', 'fr'), titleEn: tLang('fullControl.included.items.1.title', 'en'), descFr: tLang('fullControl.included.items.1.desc', 'fr'), descEn: tLang('fullControl.included.items.1.desc', 'en') },
+          { icon: CommandLineIcon, titleFr: tLang('fullControl.included.items.2.title', 'fr'), titleEn: tLang('fullControl.included.items.2.title', 'en'), descFr: tLang('fullControl.included.items.2.desc', 'fr'), descEn: tLang('fullControl.included.items.2.desc', 'en') },
+          { icon: DocumentTextIcon, titleFr: tLang('fullControl.included.items.3.title', 'fr'), titleEn: tLang('fullControl.included.items.3.title', 'en'), descFr: tLang('fullControl.included.items.3.desc', 'fr'), descEn: tLang('fullControl.included.items.3.desc', 'en') },
+          { icon: ServerStackIcon, titleFr: tLang('fullControl.included.items.4.title', 'fr'), titleEn: tLang('fullControl.included.items.4.title', 'en'), descFr: tLang('fullControl.included.items.4.desc', 'fr'), descEn: tLang('fullControl.included.items.4.desc', 'en') },
+          { icon: ShieldCheckIcon, titleFr: tLang('fullControl.included.items.5.title', 'fr'), titleEn: tLang('fullControl.included.items.5.title', 'en'), descFr: tLang('fullControl.included.items.5.desc', 'fr'), descEn: tLang('fullControl.included.items.5.desc', 'en') },
+          { icon: LockClosedIcon, titleFr: tLang('fullControl.included.items.6.title', 'fr'), titleEn: tLang('fullControl.included.items.6.title', 'en'), descFr: tLang('fullControl.included.items.6.desc', 'fr'), descEn: tLang('fullControl.included.items.6.desc', 'en') },
+          { icon: AcademicCapIcon, titleFr: tLang('fullControl.included.items.7.title', 'fr'), titleEn: tLang('fullControl.included.items.7.title', 'en'), descFr: tLang('fullControl.included.items.7.desc', 'fr'), descEn: tLang('fullControl.included.items.7.desc', 'en') },
+          { icon: Cog6ToothIcon, titleFr: tLang('fullControl.included.items.8.title', 'fr'), titleEn: tLang('fullControl.included.items.8.title', 'en'), descFr: tLang('fullControl.included.items.8.desc', 'fr'), descEn: tLang('fullControl.included.items.8.desc', 'en') },
         ]}
         cols={{ md: 2, lg: 3 }}
       />
@@ -253,68 +158,25 @@ const FullControl = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-              {language === 'fr'
-                ? 'Stack Technique & Infrastructure'
-                : 'Technical Stack & Infrastructure'}
+              {t('fullControl.stack.title')}
             </h2>
             <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto">
-              {language === 'fr'
-                ? 'Technologies modernes, robustes et scalables pour tous vos projets'
-                : 'Modern, robust and scalable technologies for all your projects'}
+              {t('fullControl.stack.subtitle')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                titleFr: 'Backend',
-                titleEn: 'Backend',
-                tech: 'Spring Boot (Kotlin/Java)',
-              },
-              {
-                titleFr: 'Frontend',
-                titleEn: 'Frontend',
-                tech: 'React + Vite + TypeScript',
-              },
-              {
-                titleFr: 'Base de données',
-                titleEn: 'Database',
-                tech: 'MongoDB',
-              },
-              {
-                titleFr: 'Cache',
-                titleEn: 'Cache',
-                tech: 'Redis (Speed & Normal)',
-              },
-              {
-                titleFr: 'Sécurité',
-                titleEn: 'Security',
-                tech: 'JWT, HTTPS, OWASP Top 10',
-              },
-              {
-                titleFr: 'Conteneurs',
-                titleEn: 'Containers',
-                tech: 'Docker (Normal)',
-              },
-              {
-                titleFr: 'CI/CD',
-                titleEn: 'CI/CD',
-                tech: 'Pipelines automatisés (Normal)',
-              },
-              {
-                titleFr: 'Infrastructure',
-                titleEn: 'Infrastructure',
-                tech: 'VPS Ubuntu + Nginx',
-              },
-            ].map((item, index) => (
+            {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
               <div
-                key={index}
+                key={i}
                 className="p-6 rounded-xl bg-white border border-neutral-200 shadow-subtle text-center"
               >
                 <h3 className="font-display text-lg font-semibold text-ink mb-2">
-                  {language === 'fr' ? item.titleFr : item.titleEn}
+                  {t(`fullControl.stack.items.${i}.title`)}
                 </h3>
-                <p className="font-sans text-sm text-neutral-600">{item.tech}</p>
+                <p className="font-sans text-sm text-neutral-600">
+                  {t(`fullControl.stack.items.${i}.tech`)}
+                </p>
               </div>
             ))}
           </div>
@@ -327,10 +189,10 @@ const FullControl = () => {
       {/* CTA Section commune */}
       <ContactCTA
         id="contact"
-        titleFr="Prêt à prendre le contrôle total ?"
-        titleEn="Ready to take full control?"
-        subtitleFr="Contactez-nous pour discuter de votre projet Full-Control et obtenir un devis personnalisé."
-        subtitleEn="Contact us to discuss your Full-Control project and get a personalized quote."
+        titleFr={tLang('fullControl.cta.title', 'fr')}
+        titleEn={tLang('fullControl.cta.title', 'en')}
+        subtitleFr={tLang('fullControl.cta.subtitle', 'fr')}
+        subtitleEn={tLang('fullControl.cta.subtitle', 'en')}
         mailSubjectSuffix="Projet Full-Control"
       />
     </div>

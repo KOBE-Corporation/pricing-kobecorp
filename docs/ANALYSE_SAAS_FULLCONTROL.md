@@ -37,7 +37,12 @@
 | **Section “Avantages Full-Control” factorisée** | Ancienne section remplacée par `SectionFeatures` avec le tableau `features` (4 avantages principaux). |
 | **Section “Inclus dans tous les forfaits Full-Control” factorisée** | Utilisation de `IncludedFeaturesSection` avec 9 éléments (code source, API, front, doc, VPS, SSL, domaine, formation, support). |
 | **CTA final factorisé** | Utilisation de `ContactCTA` avec titre/sous-titre spécifiques Full-Control et objet mail **« Projet Full-Control »**. |
-| **SEO (titre de page)** | `useEffect` dans `FullControl.tsx` : `document.title = 'Full-Control – Kobe Corporation'` (FR) / `'Full Control – Kobe Corporation'` (EN). |
+| **SEO (titre de page)** | `useEffect` dans `FullControl.tsx` : `document.title = t('fullControl.meta.title')` (FR/EN via LanguageContext). |
+| **Traductions centralisées (Full-Control)** | Tous les textes FR/EN de la page Full-Control sont dans `LanguageContext` sous `fullControl.*` (meta, hero, sectionFeatures, pricing, included, stack, cta). Utilisation de `t()` et `tLang()`. |
+| **Meta description dédiée Full-Control** | Dans le même `useEffect`, mise à jour de `<meta name="description">` avec `t('fullControl.meta.description')`. |
+| **Délais 65/110/180 j mis en avant** | Ligne dédiée sous le titre de la section Forfaits : « 3 niveaux de délais : 65 / 110 / 180 jours » (FR) / « 3 delivery levels: 65 / 110 / 180 days » (EN). |
+| **Icône propriété du code** | Badge « 100% propriété du code source » et premier item « Code source complet » utilisent désormais `KeyIcon` (clé) au lieu de cadenas/code pour symboliser la propriété. |
+| **Couleurs Tailwind (Full-Control + ComparisonSection)** | Remplacement des couleurs inline (`#0a7aff`, `#e0efff`, `#0066e6`) par `bg-brand-100`, `text-brand-500`, `text-brand-600` sur Full-Control et dans `ComparisonSection`. |
 
 ### 1.3 Composants partagés (SaaS, Full-Control, et plus)
 
@@ -52,15 +57,15 @@
 
 ### 1.4 Fichiers principaux modifiés
 
-- `src/contexts/LanguageContext.tsx` (ajout `saas.*`, `tLang`)
+- `src/contexts/LanguageContext.tsx` (ajout `saas.*`, `fullControl.*`, `tLang`)
 - `src/pages/SaaS.tsx`
 - `src/pages/FullControl.tsx`
+- `src/components/ComparisonSection.tsx` (couleurs Tailwind)
 - `src/components/PageHero.tsx`
 - `src/components/SectionFeatures.tsx`
 - `src/components/IncludedFeaturesSection.tsx`
 - `src/components/ContactCTA.tsx`
 - `src/components/PricingCard.tsx`
-- `src/components/ComparisonSection.tsx`
 - `src/data/saasPlans.ts`
 - `src/data/fullControlPlans.ts`
 
@@ -102,15 +107,13 @@ Les deux pages partagent maintenant une structure très homogène, avec des comp
 - Offre Full-Control clairement différenciée du SaaS grâce à la comparaison.
 - Mise en avant des **délais** (65/110/180 j), des **fourchettes de prix** et des éléments inclus (code source, doc, infra, support).
 - Cohérence UX avec SaaS (Hero, features, inclus, CTA).
+- **Fait :** textes centralisés dans LanguageContext (`fullControl.*`), meta description dédiée, ligne « 3 niveaux de délais : 65 / 110 / 180 jours », icône KeyIcon pour propriété du code, couleurs Tailwind (Full-Control + ComparisonSection).
 
 ### 4.2 Améliorations restantes
 
 | Priorité | Amélioration | Détail |
 |----------|--------------|--------|
-| **Moyenne** | Traductions centralisées | Comme pour SaaS, déplacer les textes FR/EN de `FullControl.tsx` dans le `LanguageContext`. Ça inclut : titres et sous-titres, textes d’avantages, messages dans les badges, etc. |
-| **Moyenne** | Délais de livraison plus visibles | Aujourd’hui, les délais (65, 110, 180 jours) apparaissent dans les features des plans et dans la comparaison. Les mettre davantage en avant à côté des fourchettes (ex. badge « 65 j » sur la carte, ou une phrase récap type « 3 niveaux de délais : 65/110/180 j ») renforcerait la lisibilité. |
-| **Basse** | Icône « propriété du code » | Envisager une icône plus explicite (clé, document, badge) pour symboliser la propriété du code dans les sections correspondantes ou dans la comparaison. |
-| **Basse** | Raffinement visuel | Ajuster au besoin les petits détails (espacements, ombres, couleurs) pour être parfaitement aligné avec la page SaaS, même si la cohérence actuelle est déjà bonne. |
+| — | *(Toutes les améliorations prévues pour Full-Control sont implémentées.)* | Optionnel : micro-interactions (animate-fadeInUp sur cartes/stack), SEO avancé (composant Seo commun). |
 
 ---
 
@@ -118,7 +121,7 @@ Les deux pages partagent maintenant une structure très homogène, avec des comp
 
 | Amélioration | Bénéfice |
 |--------------|----------|
-| **I18n complet (LanguageContext)** | En centralisant tous les textes FR/EN de `SaaS.tsx` et `FullControl.tsx`, l’ajout de nouvelles langues et la maintenance des contenus deviennent beaucoup plus simples. |
+| **I18n complet (LanguageContext)** | ~~En centralisant tous les textes FR/EN de `SaaS.tsx` et `FullControl.tsx`~~ ✅ Fait pour SaaS et Full-Control. Hébergement et Applications peuvent suivre le même modèle. |
 | **SEO avancé** | Créer un petit composant `Seo` ou un hook pour gérer `document.title` + `<meta name="description">` et éventuellement d’autres metas spécifiques à chaque route. |
 | **Micro-interactions** | Étendre l’usage de `animate-fadeInUp` (déjà utilisé dans `SectionFeatures`) aux cartes de pricing et à la stack technique pour ajouter un effet d’apparition fluide au scroll. |
 | **Accessibilité globale** | Vérifier systématiquement ARIA, focus clavier et contrastes sur tous les éléments interactifs (toggles, boutons, liens, tableaux de comparaison). |
@@ -135,8 +138,9 @@ Les deux pages partagent maintenant une structure très homogène, avec des comp
   *Rien de critique restant sur SaaS.*
 
 - **Sur Full-Control** :  
-  1. Centraliser aussi les textes FR/EN dans `LanguageContext`.  
-  2. Mettre encore plus en avant les **délais (65/110/180 j)** aux côtés des fourchettes de prix.  
-  3. Éventuellement changer l’icône associée à la **propriété du code**.  
-  4. (Optionnel) Fignoler l’UI pour un alignement parfait avec SaaS.
+  1. ~~Centraliser aussi les textes FR/EN dans `LanguageContext`.~~ ✅  
+  2. ~~Mettre encore plus en avant les **délais (65/110/180 j)** aux côtés des fourchettes de prix.~~ ✅  
+  3. ~~Éventuellement changer l’icône associée à la **propriété du code**.~~ ✅ (KeyIcon)  
+  4. ~~(Optionnel) Fignoler l’UI pour un alignement parfait avec SaaS.~~ ✅  
+  *Rien de critique restant sur Full-Control.*
 

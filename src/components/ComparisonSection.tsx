@@ -15,7 +15,7 @@ const ComparisonSection = () => {
       saas: language === 'fr' ? 'Développeur' : 'Developer',
       fullControl: language === 'fr' ? 'Client (100%)' : 'Client (100%)',
       saasIcon: <XMarkIcon className="h-5 w-5 text-neutral-400" />,
-      fullControlIcon: <CheckIcon className="h-5 w-5" style={{ color: '#0a7aff' }} />,
+      fullControlIcon: <CheckIcon className="h-5 w-5 text-brand-500" />,
     },
     {
       criterion: language === 'fr' ? 'Hébergement' : 'Hosting',
@@ -28,7 +28,7 @@ const ComparisonSection = () => {
       criterion: language === 'fr' ? 'Maintenance' : 'Maintenance',
       saas: language === 'fr' ? 'Incluse à vie' : 'Included for life',
       fullControl: language === 'fr' ? 'Limitée (1-6 mois)' : 'Limited (1-6 months)',
-      saasIcon: <CheckIcon className="h-5 w-5" style={{ color: '#0a7aff' }} />,
+      saasIcon: <CheckIcon className="h-5 w-5 text-brand-500" />,
       fullControlIcon: <XMarkIcon className="h-5 w-5 text-neutral-400" />,
     },
     {
@@ -36,27 +36,27 @@ const ComparisonSection = () => {
       saas: language === 'fr' ? 'Interdites' : 'Not allowed',
       fullControl: language === 'fr' ? 'Autorisées' : 'Allowed',
       saasIcon: <XMarkIcon className="h-5 w-5 text-neutral-400" />,
-      fullControlIcon: <CheckIcon className="h-5 w-5" style={{ color: '#0a7aff' }} />,
+      fullControlIcon: <CheckIcon className="h-5 w-5 text-brand-500" />,
     },
     {
       criterion: language === 'fr' ? 'Revente' : 'Resale',
       saas: language === 'fr' ? 'Interdite' : 'Not allowed',
       fullControl: language === 'fr' ? 'Autorisée' : 'Allowed',
       saasIcon: <XMarkIcon className="h-5 w-5 text-neutral-400" />,
-      fullControlIcon: <CheckIcon className="h-5 w-5" style={{ color: '#0a7aff' }} />,
+      fullControlIcon: <CheckIcon className="h-5 w-5 text-brand-500" />,
     },
     {
       criterion: language === 'fr' ? 'Support' : 'Support',
       saas: language === 'fr' ? 'Inclus dans l\'abonnement' : 'Included in subscription',
       fullControl: language === 'fr' ? 'Période limitée (1-6 mois)' : 'Limited period (1-6 months)',
-      saasIcon: <CheckIcon className="h-5 w-5" style={{ color: '#0a7aff' }} />,
+      saasIcon: <CheckIcon className="h-5 w-5 text-brand-500" />,
       fullControlIcon: <XMarkIcon className="h-5 w-5 text-neutral-400" />,
     },
     {
       criterion: language === 'fr' ? 'Mises à jour' : 'Updates',
       saas: language === 'fr' ? 'Incluses dans l\'abonnement' : 'Included in subscription',
       fullControl: language === 'fr' ? 'Client gère' : 'Client manages',
-      saasIcon: <CheckIcon className="h-5 w-5" style={{ color: '#0a7aff' }} />,
+      saasIcon: <CheckIcon className="h-5 w-5 text-brand-500" />,
       fullControlIcon: <XMarkIcon className="h-5 w-5 text-neutral-400" />,
     },
     {
@@ -71,10 +71,7 @@ const ComparisonSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="inline-block mb-4">
-            <span
-              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
-              style={{ backgroundColor: '#e0efff', color: '#0066e6' }}
-            >
+            <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold bg-brand-100 text-brand-600">
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -150,7 +147,7 @@ const ComparisonSection = () => {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="p-6 rounded-xl bg-white border border-neutral-200 shadow-subtle">
             <h3 className="font-display text-xl font-semibold text-ink mb-4 flex items-center gap-2">
-              <CheckIcon className="h-6 w-6" style={{ color: '#0a7aff' }} />
+              <CheckIcon className="h-6 w-6 text-brand-500" />
               {language === 'fr' ? 'Choisir SaaS si :' : 'Choose SaaS if:'}
             </h3>
             <ul className="space-y-2 font-sans text-sm text-neutral-600">
@@ -191,7 +188,7 @@ const ComparisonSection = () => {
 
           <div className="p-6 rounded-xl bg-white border border-neutral-200 shadow-subtle">
             <h3 className="font-display text-xl font-semibold text-ink mb-4 flex items-center gap-2">
-              <CheckIcon className="h-6 w-6" style={{ color: '#0a7aff' }} />
+              <CheckIcon className="h-6 w-6 text-brand-500" />
               {language === 'fr' ? 'Choisir Full-Control si :' : 'Choose Full-Control if:'}
             </h3>
             <ul className="space-y-2 font-sans text-sm text-neutral-600">
