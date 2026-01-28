@@ -1,21 +1,26 @@
 # Analyse des pages SaaS et Full-Control – Pistes d’amélioration
 
-**Dernière mise à jour :** après implémentation des priorités hautes (SaaS + Full-Control).
+**Dernière mise à jour :** après implémentation des priorités hautes **et** des composants communs (Hero, sections de features, CTA, fourchettes Full-Control).
 
 ---
 
-## Implémenté (priorités hautes)
+## 1. Implémenté
 
-### Page SaaS
+### 1.1 Page SaaS
 
 | Élément | Détail technique |
 |--------|------------------|
 | **Délai de livraison : 15 jours max** | Tous les textes « 45 jours » ont été remplacés par « 15 jours » : dans le Hero, la section Forfaits (badge « Applications disponibles et configurées : 15 jours maximum »), la section Comparaison (tableau SaaS vs Full-Control et encadré « Choisir SaaS si »). Le SaaS est positionné comme **solution rapide et autonome**. |
-| **Positionnement « solution rapide et autonome »** | Hero : sous-titre enrichi (« Solution rapide et autonome : applications disponibles et configurées en 15 jours maximum ») + ligne de bénéfices (« Mise en production rapide — Hébergement et maintenance inclus — Sans équipe technique »). Section Forfaits : deux badges — « Applications disponibles et configurées : 15 jours max » (icône éclair) et « Solution rapide et autonome » (badge vert). |
+| **Positionnement « solution rapide et autonome »** | Hero (via `PageHero`) : sous-titre enrichi (« Solution rapide et autonome : applications disponibles et configurées en 15 jours maximum ») + ligne de bénéfices (« Mise en production rapide — Hébergement et maintenance inclus — Sans équipe technique »). Section Forfaits : deux badges — « Applications disponibles et configurées : 15 jours max » (icône éclair) et « Solution rapide et autonome » (badge vert). |
 | **CTA cartes → mailto avec sujet** | Dans `saasPlans.ts`, `ctaLink` est passé de `#contact` à un `mailto:contact@kobecorporation.com?subject=Forfait%20SaaS%20-%20[Good%20Deal|Pro|Ultra]`. Au clic sur « Choisir Good Deal / Pro / Ultra », le client mail s’ouvre avec l’objet pré-rempli. |
 | **Économie annuelle en F CFA** | Quand la période « Annuel » est sélectionnée, une ligne s’affiche sous le toggle : « Économisez 30 000 F à 60 000 F selon le forfait (jusqu’à 60 000 F sur Ultra) ». Les montants restent cohérents avec les features des cartes (156k, 258k, 430k annuels). |
+| **Hero factorisé (`PageHero`)** | Le Hero SaaS utilise `PageHero` (titre, sous-titre, ligne de mise en avant, 2 CTAs). Même fond visuel que les autres pages (grille + formes animées), avec textes/CTAs spécifiques SaaS. |
+| **Section “Nos Services SaaS” factorisée** | Ancienne section locale remplacée par `SectionFeatures` avec le tableau `features` (icône + titres FR/EN + descriptions FR/EN). |
+| **Section “Inclus dans tous les forfaits” factorisée** | Ancienne section remplacée par `IncludedFeaturesSection` (liste de 6 items : hébergement, maintenance, 24/7, SSL, sauvegardes, support). |
+| **CTA final factorisé** | Ancienne section CTA remplacée par `ContactCTA` avec titre/sous-titre spécifiques SaaS et objet mail **« Projet SaaS »**. |
+| **SEO (titre de page)** | `useEffect` dans `SaaS.tsx` : `document.title = 'Services SaaS – Kobe Corporation'` (FR) / `'SaaS Services – Kobe Corporation'` (EN). |
 
-### Page Full-Control
+### 1.2 Page Full-Control
 
 | Élément | Détail technique |
 |--------|------------------|
@@ -23,110 +28,111 @@
 | **Ordre des sections** | La section **Comparaison SaaS vs Full-Control** a été déplacée : elle apparaît maintenant **après « Avantages Full-Control »** et **avant « Forfaits »**. L’utilisateur voit d’abord la comparaison, puis les forfaits Full-Control. La section Comparaison qui était après « Inclus dans tous les forfaits » a été supprimée (éviter le doublon). |
 | **Titre et sous-titre EN** | Titre Hero : « Full Control » (avec espace) en EN au lieu de « Full-Control ». Sous-titre EN ajouté : « Your Infrastructure, Your Rules. » Les libellés « Our Full Control Plans » et « With Full Control » sont harmonisés en EN. |
 | **CTA cartes → mailto avec sujet** | Dans `fullControlPlans.ts`, `ctaLink` est passé à `mailto:contact@kobecorporation.com?subject=Devis%20Full-Control%20-%20[Ultra%20Speed|Speed|Normal]`. Au clic sur « Demander un devis », le client mail s’ouvre avec l’objet correspondant au forfait. |
+| **Fourchettes de prix (triangle coût–qualité–délai)** | Dans `fullControlPlans.ts`, chaque plan a une `priceRange` en F CFA cohérente avec sa durée : Ultra Speed (65 j) ≈ 13–20 M F, Speed (110 j) ≈ 10–16 M F, Normal (180 j) ≈ 8–12 M F. Affichées dans `PricingCard` comme « X – Y F CFA » + « pour N jours de développement ». |
+| **Hero factorisé (`PageHero`)** | Le Hero Full-Control utilise `PageHero` ; en EN, une `highlightLine` affiche « Your Infrastructure, Your Rules. ». |
+| **Section “Avantages Full-Control” factorisée** | Ancienne section remplacée par `SectionFeatures` avec le tableau `features` (4 avantages principaux). |
+| **Section “Inclus dans tous les forfaits Full-Control” factorisée** | Utilisation de `IncludedFeaturesSection` avec 9 éléments (code source, API, front, doc, VPS, SSL, domaine, formation, support). |
+| **CTA final factorisé** | Utilisation de `ContactCTA` avec titre/sous-titre spécifiques Full-Control et objet mail **« Projet Full-Control »**. |
+| **SEO (titre de page)** | `useEffect` dans `FullControl.tsx` : `document.title = 'Full-Control – Kobe Corporation'` (FR) / `'Full Control – Kobe Corporation'` (EN). |
 
-### Composant partagé
+### 1.3 Composants partagés (SaaS, Full-Control, et plus)
 
-| Élément | Détail technique |
-|--------|------------------|
-| **PricingCard : support mailto** | Dans `PricingCard.tsx`, au `onClick` du bouton CTA : si `plan.ctaLink` commence par `mailto:`, alors `window.location.href = plan.ctaLink` (ouverture du client mail). Sinon, comportement inchangé : `document.querySelector(plan.ctaLink)` + scroll smooth vers l’ancre. Les deux types de liens (mailto et #contact) sont ainsi gérés. |
+| Composant | Utilisation |
+|-----------|-------------|
+| **`PageHero`** | Utilisé sur `SaaS`, `FullControl`, `Hosting`, `Applications` avec textes et CTAs adaptés. |
+| **`SectionFeatures`** | Utilisé pour les blocs « Nos Services SaaS », « Avantages Full-Control », « Types d’Hébergement », « Types d’Applications ». |
+| **`IncludedFeaturesSection`** | Utilisé pour « Inclus dans tous les forfaits » (SaaS) et « Inclus dans tous les forfaits Full-Control ». |
+| **`ContactCTA`** | Utilisé comme bloc CTA final sur `SaaS`, `FullControl`, `Hosting`, `Applications` avec sujets d’email contextualisés (Projet SaaS, Full-Control, Hébergement, Applications). |
+| **`PricingCard : support mailto & fourchettes`** | Dans `PricingCard.tsx`, le `onClick` du CTA : si `plan.ctaLink` commence par `mailto:`, on ouvre le client mail, sinon scroll smooth vers une ancre. Pour les plans `period === 'devis'` avec `priceRange`, affichage de la fourchette « min – max F CFA » + délai en jours, et badge « Devis sous 48h ». |
+| **`ComparisonSection`** | Section de comparaison SaaS vs Full-Control (paiement, propriété du code, maintenance, support, délais, etc.), utilisée sur les deux pages. |
 
-### Fichiers modifiés
+### 1.4 Fichiers principaux modifiés
 
-- `src/pages/SaaS.tsx` — Hero, section Forfaits (15 jours, badges, économie annuelle).
-- `src/pages/FullControl.tsx` — Hero (titre/sous-titre EN), déplacement de `ComparisonSection`, badge « Devis sous 48h ».
-- `src/components/ComparisonSection.tsx` — Délai SaaS : « 15 jours maximum » et « Mise en production rapide (15 jours max) ».
-- `src/components/PricingCard.tsx` — Gestion mailto dans `ctaLink` + badge « Devis sous 48h » pour `period === 'devis'`.
-- `src/data/saasPlans.ts` — `ctaLink` en mailto avec sujet par forfait.
-- `src/data/fullControlPlans.ts` — `ctaLink` en mailto avec sujet par forfait.
+- `src/pages/SaaS.tsx`
+- `src/pages/FullControl.tsx`
+- `src/components/PageHero.tsx`
+- `src/components/SectionFeatures.tsx`
+- `src/components/IncludedFeaturesSection.tsx`
+- `src/components/ContactCTA.tsx`
+- `src/components/PricingCard.tsx`
+- `src/components/ComparisonSection.tsx`
+- `src/data/saasPlans.ts`
+- `src/data/fullControlPlans.ts`
 
 ---
 
-## Vue d’ensemble (structure actuelle)
+## 2. Vue d’ensemble (structure actuelle)
 
-Les deux pages partagent une structure proche : **Hero → Services/Avantages → (Full-Control : Comparaison) → Forfaits → Section commune (inclus / stack) → CTA**. Le code réutilise bien les composants (PricingCard, ComparisonSection).
+- **SaaS** :  
+  `PageHero → SectionFeatures (services) → Forfaits (+ toggle mensuel/annuel) → ComparisonSection → IncludedFeaturesSection → ContactCTA`.
+
+- **Full-Control** :  
+  `PageHero → SectionFeatures (avantages) → ComparisonSection → Forfaits (+ badges code & devis 48h, fourchettes) → IncludedFeaturesSection → Stack technique → ContactCTA`.
+
+Les deux pages partagent maintenant une structure très homogène, avec des composants communs bien factorisés.
 
 ---
 
-## 1. Page SaaS – État actuel et suite possible
+## 3. Page SaaS – Ce qu’il reste à faire
 
-### Points forts (inchangés)
+### 3.1 Points forts (résumé)
 
-- Toggle Mensuel / Annuel avec -16 % et **économie en F CFA** affichée en vue Annuel.
-- Délai **15 jours max** et positionnement **solution rapide et autonome** clairement affichés.
-- CTA des cartes = mailto avec sujet par forfait.
-- Section « Inclus dans tous les forfaits » lisible.
-- Données (saasPlans) séparées du composant.
+- Positionnement clair : **solution SaaS rapide (15 jours)**, autonome, hébergement & maintenance inclus.
+- Forfaits mensuels/annuels avec économie visible en F CFA.
+- UI homogène avec Full-Control / Hosting / Applications (Hero, features, inclus, CTA, comparison).
 
-### Améliorations restantes (non implémentées)
+### 3.2 Améliorations restantes
 
 | Priorité | Amélioration | Détail |
 |----------|--------------|--------|
-| **Moyenne** | Traductions centralisées | Remplacer les `language === 'fr' ? ... : ...` par des clés du LanguageContext (comme `t('pricing.popular')`) pour tout le texte SaaS. |
-| **Moyenne** | Ancre « forfaits » | S’assurer que le scroll depuis le Hero vers « Voir les forfaits » cible bien la section pricing (id `forfaits` déjà présent). |
-| **Basse** | Couleurs en variables | Remplacer les `style={{ backgroundColor: '#f0f7ff' }}` et `#0a7aff` par des classes Tailwind (ex. `bg-brand-50`, `text-brand-600`) ou variables CSS pour cohérence et thème sombre. |
-| **Basse** | Accessibilité | Ajouter `aria-pressed` sur le toggle Mensuel/Annuel et un `role="group"` + légende pour « Choisir le forfait ». |
+| **Moyenne** | Traductions centralisées | Déplacer les chaînes FR/EN encore codées en dur dans `SaaS.tsx` (titres de sections, phrases, badges) dans le `LanguageContext` et les consommer via `t('saas.hero.title')`, `t('saas.features.title')`, etc. |
+| **Moyenne** | Meta description | Ajouter une meta description dédiée SaaS (via un composant ou un hook SEO) du style : « Développement SaaS sur mesure en 15 jours max, hébergement & maintenance inclus, modèle d’abonnement flexible… ». |
+| **Basse** | Couleurs en variables/classes | Remplacer les `style={{ backgroundColor: '#f0f7ff' }}` et `#0a7aff` par des classes Tailwind ou des variables CSS (ex. `bg-brand-50`, `text-brand-600`) pour préparer un futur thème/dark mode. |
+| **Basse** | Accessibilité du toggle | Ajouter `role="group"` au conteneur du toggle Mensuel/Annuel, `aria-pressed` sur les boutons, et un libellé (visuel ou aria) indiquant clairement que c’est le choix de période de facturation. |
 
 ---
 
-## 2. Page Full-Control – État actuel et suite possible
+## 4. Page Full-Control – Ce qu’il reste à faire
 
-### Points forts (inchangés)
+### 4.1 Points forts (résumé)
 
-- Section « Stack Technique & Infrastructure » (Backend, Frontend, DB, etc.).
-- « Inclus dans tous les forfaits » avec icônes par bloc.
-- Message sur la propriété du code (100 %) et paiement 50/50.
-- **Devis sous 48h** affiché en en-tête de section et sur chaque carte forfait.
-- **Comparaison** affichée avant les forfaits.
-- **Titre et sous-titre EN** (« Full Control », « Your Infrastructure, Your Rules »).
-- CTA des cartes = mailto avec sujet par forfait.
+- Offre Full-Control clairement différenciée du SaaS grâce à la comparaison.
+- Mise en avant des **délais** (65/110/180 j), des **fourchettes de prix** et des éléments inclus (code source, doc, infra, support).
+- Cohérence UX avec SaaS (Hero, features, inclus, CTA).
 
-### Améliorations restantes (non implémentées)
+### 4.2 Améliorations restantes
 
 | Priorité | Amélioration | Détail |
 |----------|--------------|--------|
-| **Moyenne** | Traductions | Centraliser les textes dans le LanguageContext comme pour SaaS. |
-| **Moyenne** | Délais de livraison | Les délais (65, 110, 180 jours) sont dans les features ; les mettre en avant dans le sous-titre ou un bandeau sous le nom du forfait améliore la lisibilité. |
-| **Basse** | Icône « propriété du code » | Envisager une icône « Document/Badge » ou « Key » au lieu du bouclier pour « ownership ». |
-| **Basse** | Cohérence visuelle | Aligner dégradés, espacements et style des cartes avec la page SaaS (même PricingCard, mêmes sections). |
+| **Moyenne** | Traductions centralisées | Comme pour SaaS, déplacer les textes FR/EN de `FullControl.tsx` dans le `LanguageContext`. Ça inclut : titres et sous-titres, textes d’avantages, messages dans les badges, etc. |
+| **Moyenne** | Délais de livraison plus visibles | Aujourd’hui, les délais (65, 110, 180 jours) apparaissent dans les features des plans et dans la comparaison. Les mettre davantage en avant à côté des fourchettes (ex. badge « 65 j » sur la carte, ou une phrase récap type « 3 niveaux de délais : 65/110/180 j ») renforcerait la lisibilité. |
+| **Basse** | Icône « propriété du code » | Envisager une icône plus explicite (clé, document, badge) pour symboliser la propriété du code dans les sections correspondantes ou dans la comparaison. |
+| **Basse** | Raffinement visuel | Ajuster au besoin les petits détails (espacements, ombres, couleurs) pour être parfaitement aligné avec la page SaaS, même si la cohérence actuelle est déjà bonne. |
 
 ---
 
-## 3. Améliorations communes (non implémentées)
+## 5. Améliorations communes restantes
 
 | Amélioration | Bénéfice |
 |--------------|----------|
-| Composant Hero réutilisable | Un seul `PageHero` (titre, sous-titre, 2 boutons, option ancre) pour SaaS, Full-Control, Applications, Hébergement. |
-| Composant SectionFeatures | Liste de blocs (icône + titre + description) en props pour « Nos Services SaaS », « Avantages Full-Control », etc. |
-| Composant SectionIncluded | Grille « Inclus dans tous les forfaits » en props, partagée entre SaaS et Full-Control. |
-| CTA contact unique | Bloc `ContactCTA` avec titre, sous-titre et bouton mailto (sujet optionnel selon la page). |
-| SEO | Balises `<title>` et `<meta name="description">` différentes par route (SaaS vs Full-Control). |
-| Micro-interactions | Animation légère au scroll (fade-in, slide-up) sur les cartes et blocs « inclus ». |
+| **I18n complet (LanguageContext)** | En centralisant tous les textes FR/EN de `SaaS.tsx` et `FullControl.tsx`, l’ajout de nouvelles langues et la maintenance des contenus deviennent beaucoup plus simples. |
+| **SEO avancé** | Créer un petit composant `Seo` ou un hook pour gérer `document.title` + `<meta name="description">` et éventuellement d’autres metas spécifiques à chaque route. |
+| **Micro-interactions** | Étendre l’usage de `animate-fadeInUp` (déjà utilisé dans `SectionFeatures`) aux cartes de pricing et à la stack technique pour ajouter un effet d’apparition fluide au scroll. |
+| **Accessibilité globale** | Vérifier systématiquement ARIA, focus clavier et contrastes sur tous les éléments interactifs (toggles, boutons, liens, tableaux de comparaison). |
 
 ---
 
-## 4. Synthèse des actions
+## 6. Synthèse rapide des TODO pour SaaS & Full-Control
 
-### Fait (priorités hautes)
+- **Sur SaaS** :  
+  1. Centraliser les textes FR/EN dans `LanguageContext`.  
+  2. Ajouter une **meta description** dédiée SaaS.  
+  3. Améliorer l’accessibilité du toggle Mensuel/Annuel (ARIA, `role="group"`, `aria-pressed`).  
+  4. (Optionnel) Remplacer les couleurs inline par des classes/variables Tailwind.
 
-1. **SaaS**  
-   - 15 jours max partout (Hero, Forfaits, Comparaison).  
-   - Positionnement « solution rapide et autonome » (texte + badges).  
-   - CTA cartes = mailto avec sujet par forfait.  
-   - Affichage de l’économie en F CFA en vue Annuel.
+- **Sur Full-Control** :  
+  1. Centraliser aussi les textes FR/EN dans `LanguageContext`.  
+  2. Mettre encore plus en avant les **délais (65/110/180 j)** aux côtés des fourchettes de prix.  
+  3. Éventuellement changer l’icône associée à la **propriété du code**.  
+  4. (Optionnel) Fignoler l’UI pour un alignement parfait avec SaaS.
 
-2. **Full-Control**  
-   - « Devis personnalisé sous 48h » (section + carte).  
-   - Comparaison déplacée avant les forfaits.  
-   - Titre EN « Full Control » + sous-titre « Your Infrastructure, Your Rules ».  
-   - CTA cartes = mailto avec sujet par forfait.
-
-3. **PricingCard**  
-   - Support des liens `mailto:` dans `ctaLink` (ouverture client mail).  
-   - Badge « Devis sous 48h » pour les plans en `period === 'devis'`.
-
-### À faire (recommandé)
-
-- **Moyen terme :** traductions centralisées (LanguageContext), composants réutilisables (Hero, SectionFeatures, SectionIncluded), couleurs en Tailwind/variables.  
-- **Long terme :** SEO par page, animations au scroll, accessibilité (ARIA, focus, contraste).
-
-Ce document est synchronisé avec l’état actuel du code après implémentation des priorités hautes.
