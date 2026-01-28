@@ -1,6 +1,6 @@
 # Analyse des pages SaaS et Full-Control – Pistes d’amélioration
 
-**Dernière mise à jour :** après implémentation des priorités hautes **et** des composants communs (Hero, sections de features, CTA, fourchettes Full-Control).
+**Dernière mise à jour :** après centralisation i18n SaaS, meta description SaaS, accessibilité toggle et couleurs Tailwind.
 
 ---
 
@@ -18,7 +18,11 @@
 | **Section “Nos Services SaaS” factorisée** | Ancienne section locale remplacée par `SectionFeatures` avec le tableau `features` (icône + titres FR/EN + descriptions FR/EN). |
 | **Section “Inclus dans tous les forfaits” factorisée** | Ancienne section remplacée par `IncludedFeaturesSection` (liste de 6 items : hébergement, maintenance, 24/7, SSL, sauvegardes, support). |
 | **CTA final factorisé** | Ancienne section CTA remplacée par `ContactCTA` avec titre/sous-titre spécifiques SaaS et objet mail **« Projet SaaS »**. |
-| **SEO (titre de page)** | `useEffect` dans `SaaS.tsx` : `document.title = 'Services SaaS – Kobe Corporation'` (FR) / `'SaaS Services – Kobe Corporation'` (EN). |
+| **SEO (titre de page)** | `useEffect` dans `SaaS.tsx` : `document.title = t('saas.meta.title')` (FR/EN via LanguageContext). |
+| **Traductions centralisées (SaaS)** | Tous les textes FR/EN de la page SaaS sont dans `LanguageContext` sous `saas.*` (hero, sectionFeatures, pricing, included, cta, meta). Utilisation de `t()` et `tLang(path, lang)` pour les composants qui attendent titleFr/titleEn. |
+| **Meta description dédiée SaaS** | Dans le même `useEffect`, mise à jour de `<meta name="description">` avec `t('saas.meta.description')` (texte dédié SaaS, 15 jours, forfaits inclus). |
+| **Accessibilité toggle Mensuel/Annuel** | Conteneur avec `role="group"` et `aria-label` (Période de facturation / Billing period). Boutons avec `aria-pressed`, `aria-label` (Facturation mensuelle / annuelle) et `type="button"`. |
+| **Couleurs Tailwind (SaaS)** | Remplacement des `style={{ backgroundColor: '#0a7aff' }}` et `#e0efff` par `bg-brand-500`, `bg-brand-100`, `text-brand-500`, `text-brand-600`, `hover:bg-brand-50`. |
 
 ### 1.2 Page Full-Control
 
@@ -48,6 +52,7 @@
 
 ### 1.4 Fichiers principaux modifiés
 
+- `src/contexts/LanguageContext.tsx` (ajout `saas.*`, `tLang`)
 - `src/pages/SaaS.tsx`
 - `src/pages/FullControl.tsx`
 - `src/components/PageHero.tsx`
@@ -64,10 +69,10 @@
 ## 2. Vue d’ensemble (structure actuelle)
 
 - **SaaS** :  
-  `PageHero → SectionFeatures (services) → Forfaits (+ toggle mensuel/annuel) → ComparisonSection → IncludedFeaturesSection → ContactCTA`.
+  `PageHero → SectionFeatures (services) → Forfaits (+ toggle mensuel/annuel) → IncludedFeaturesSection → ComparisonSection → ContactCTA`.
 
 - **Full-Control** :  
-  `PageHero → SectionFeatures (avantages) → ComparisonSection → Forfaits (+ badges code & devis 48h, fourchettes) → IncludedFeaturesSection → Stack technique → ContactCTA`.
+  `PageHero → SectionFeatures (avantages) → Forfaits (+ badges code & devis 48h, fourchettes) → IncludedFeaturesSection → Stack technique → ComparisonSection → ContactCTA`.
 
 Les deux pages partagent maintenant une structure très homogène, avec des composants communs bien factorisés.
 
@@ -80,15 +85,13 @@ Les deux pages partagent maintenant une structure très homogène, avec des comp
 - Positionnement clair : **solution SaaS rapide (15 jours)**, autonome, hébergement & maintenance inclus.
 - Forfaits mensuels/annuels avec économie visible en F CFA.
 - UI homogène avec Full-Control / Hosting / Applications (Hero, features, inclus, CTA, comparison).
+- **Fait :** textes centralisés dans LanguageContext (`saas.*`), meta description dédiée, toggle accessible (ARIA), couleurs en Tailwind.
 
 ### 3.2 Améliorations restantes
 
 | Priorité | Amélioration | Détail |
 |----------|--------------|--------|
-| **Moyenne** | Traductions centralisées | Déplacer les chaînes FR/EN encore codées en dur dans `SaaS.tsx` (titres de sections, phrases, badges) dans le `LanguageContext` et les consommer via `t('saas.hero.title')`, `t('saas.features.title')`, etc. |
-| **Moyenne** | Meta description | Ajouter une meta description dédiée SaaS (via un composant ou un hook SEO) du style : « Développement SaaS sur mesure en 15 jours max, hébergement & maintenance inclus, modèle d’abonnement flexible… ». |
-| **Basse** | Couleurs en variables/classes | Remplacer les `style={{ backgroundColor: '#f0f7ff' }}` et `#0a7aff` par des classes Tailwind ou des variables CSS (ex. `bg-brand-50`, `text-brand-600`) pour préparer un futur thème/dark mode. |
-| **Basse** | Accessibilité du toggle | Ajouter `role="group"` au conteneur du toggle Mensuel/Annuel, `aria-pressed` sur les boutons, et un libellé (visuel ou aria) indiquant clairement que c’est le choix de période de facturation. |
+| — | *(Toutes les améliorations prévues pour SaaS sont implémentées.)* | Optionnel : étendre le même modèle i18n à Full-Control, Hébergement, Applications. |
 
 ---
 
@@ -125,10 +128,11 @@ Les deux pages partagent maintenant une structure très homogène, avec des comp
 ## 6. Synthèse rapide des TODO pour SaaS & Full-Control
 
 - **Sur SaaS** :  
-  1. Centraliser les textes FR/EN dans `LanguageContext`.  
-  2. Ajouter une **meta description** dédiée SaaS.  
-  3. Améliorer l’accessibilité du toggle Mensuel/Annuel (ARIA, `role="group"`, `aria-pressed`).  
-  4. (Optionnel) Remplacer les couleurs inline par des classes/variables Tailwind.
+  1. ~~Centraliser les textes FR/EN dans `LanguageContext`.~~ ✅  
+  2. ~~Ajouter une **meta description** dédiée SaaS.~~ ✅  
+  3. ~~Améliorer l’accessibilité du toggle Mensuel/Annuel (ARIA, `role="group"`, `aria-pressed`).~~ ✅  
+  4. ~~(Optionnel) Remplacer les couleurs inline par des classes/variables Tailwind.~~ ✅  
+  *Rien de critique restant sur SaaS.*
 
 - **Sur Full-Control** :  
   1. Centraliser aussi les textes FR/EN dans `LanguageContext`.  
