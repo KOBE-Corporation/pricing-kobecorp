@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Home from './pages/Home';
 import SaaS from './pages/SaaS';
 import FullControl from './pages/FullControl';
 import Hosting from './pages/Hosting';
@@ -14,7 +13,7 @@ const AppContent = () => {
       <Header />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<SaaS />} />
           <Route path="/saas" element={<SaaS />} />
           <Route path="/full-control" element={<FullControl />} />
           <Route path="/hebergement" element={<Hosting />} />
