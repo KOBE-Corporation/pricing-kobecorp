@@ -12,6 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import PageHero from '../components/PageHero';
 import ContactCTA from '../components/ContactCTA';
+import SectionFeatures from '../components/SectionFeatures';
 import { applicationsServices } from '../data/applicationsServices';
 import { applicationsExamples } from '../data/applicationsExamples';
 
@@ -56,67 +57,23 @@ const Applications = () => {
         }}
       />
 
-      {/* App Types Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-              {language === 'fr' ? 'Types d\'Applications' : 'Application Types'}
-            </h2>
-            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto">
-              {language === 'fr'
-                ? 'Nous développons tous types d\'applications selon vos besoins.'
-                : 'We develop all types of applications according to your needs.'}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {applicationsServices.map((service) => {
-              const Icon = iconMap[service.icon] || CodeBracketIcon;
-              const translation = service.translations[language];
-              
-              return (
-                <div
-                  key={service.id}
-                  className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-subtle hover:border-brand-300 hover:shadow-card-hover transition-all"
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="rounded-xl p-3 flex-shrink-0"
-                      style={{ backgroundColor: '#f0f7ff' }}
-                    >
-                      <Icon className="h-8 w-8" style={{ color: '#0a7aff' }} />
-                    </div>
-                    <div className="flex-1">
-                      <div className="mb-2">
-                        <span className="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-brand-50 text-brand-600 mb-2">
-                          {service.sector[language]}
-                        </span>
-                        <h3 className="font-display text-xl font-semibold text-ink mb-2">
-                          {translation.title}
-                        </h3>
-                        <p className="font-sans text-neutral-600 mb-4">
-                          {translation.description}
-                        </p>
-                      </div>
-                      <ul className="space-y-2">
-                        {translation.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-center gap-2">
-                            <svg className="h-4 w-4 flex-shrink-0" style={{ color: '#0a7aff' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span className="font-sans text-sm text-neutral-600">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* App Types Section (factorisée) */}
+      <SectionFeatures
+        titleFr="Types d'Applications"
+        titleEn="Application Types"
+        subtitleFr="Nous développons tous types d'applications selon vos besoins."
+        subtitleEn="We develop all types of applications according to your needs."
+        items={applicationsServices.map((service) => {
+          const Icon = iconMap[service.icon] || CodeBracketIcon;
+          return {
+            icon: Icon,
+            titleFr: service.translations.fr.title,
+            titleEn: service.translations.en.title,
+            descriptionFr: service.translations.fr.description,
+            descriptionEn: service.translations.en.description,
+          };
+        })}
+      />
 
       {/* Exemples d'applications métier */}
       <section className="py-20 bg-neutral-50">

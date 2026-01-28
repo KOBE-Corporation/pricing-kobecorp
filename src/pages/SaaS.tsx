@@ -7,6 +7,7 @@ import { saasPlans } from '../data/saasPlans';
 import IncludedFeaturesSection from '../components/IncludedFeaturesSection';
 import ContactCTA from '../components/ContactCTA';
 import PageHero from '../components/PageHero';
+import SectionFeatures from '../components/SectionFeatures';
 
 const SaaS = () => {
   const { language } = useLanguage();
@@ -104,50 +105,13 @@ const SaaS = () => {
         }}
       />
 
-      {/* Features Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-              {language === 'fr' ? 'Nos Services SaaS' : 'Our SaaS Services'}
-            </h2>
-            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto">
-              {language === 'fr'
-                ? 'Des solutions complètes pour créer, déployer et maintenir vos applications SaaS.'
-                : 'Complete solutions to create, deploy and maintain your SaaS applications.'}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <div
-                  key={index}
-                  className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-subtle hover:border-brand-300 hover:shadow-card-hover transition-all"
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="rounded-xl p-3 flex-shrink-0"
-                      style={{ backgroundColor: '#f0f7ff' }}
-                    >
-                      <Icon className="h-8 w-8" style={{ color: '#0a7aff' }} />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-xl font-semibold text-ink mb-2">
-                        {language === 'fr' ? feature.titleFr : feature.titleEn}
-                      </h3>
-                      <p className="font-sans text-neutral-600">
-                        {language === 'fr' ? feature.descriptionFr : feature.descriptionEn}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <SectionFeatures
+        titleFr="Nos Services SaaS"
+        titleEn="Our SaaS Services"
+        subtitleFr="Des solutions complètes pour créer, déployer et maintenir vos applications SaaS."
+        subtitleEn="Complete solutions to create, deploy and maintain your SaaS applications."
+        items={features}
+      />
 
       {/* Pricing Section */}
       <section id="forfaits" className="py-20 bg-gradient-to-b from-white to-brand-50/30">

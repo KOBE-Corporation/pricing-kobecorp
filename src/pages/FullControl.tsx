@@ -16,6 +16,7 @@ import { fullControlPlans } from '../data/fullControlPlans';
 import IncludedFeaturesSection from '../components/IncludedFeaturesSection';
 import ContactCTA from '../components/ContactCTA';
 import PageHero from '../components/PageHero';
+import SectionFeatures from '../components/SectionFeatures';
 
 const FullControl = () => {
   const { t, language } = useLanguage();
@@ -85,50 +86,13 @@ const FullControl = () => {
         }}
       />
 
-      {/* Features Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-              {language === 'fr' ? 'Avantages Full-Control' : 'Full-Control Benefits'}
-            </h2>
-            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto">
-              {language === 'fr'
-                ? 'Profitez d\'un contrôle total sur votre infrastructure et vos données.'
-                : 'Enjoy total control over your infrastructure and data.'}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <div
-                  key={index}
-                  className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-subtle hover:border-brand-300 hover:shadow-card-hover transition-all"
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="rounded-xl p-3 flex-shrink-0"
-                      style={{ backgroundColor: '#f0f7ff' }}
-                    >
-                      <Icon className="h-8 w-8" style={{ color: '#0a7aff' }} />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-xl font-semibold text-ink mb-2">
-                        {language === 'fr' ? feature.titleFr : feature.titleEn}
-                      </h3>
-                      <p className="font-sans text-neutral-600">
-                        {language === 'fr' ? feature.descriptionFr : feature.descriptionEn}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <SectionFeatures
+        titleFr="Avantages Full-Control"
+        titleEn="Full-Control Benefits"
+        subtitleFr="Profitez d'un contrôle total sur votre infrastructure et vos données."
+        subtitleEn="Enjoy total control over your infrastructure and data."
+        items={features}
+      />
 
       {/* Comparison Section - placée avant les forfaits pour aider au choix */}
       <ComparisonSection />
