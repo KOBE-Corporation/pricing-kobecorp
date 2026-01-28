@@ -11,7 +11,9 @@ export const fullControlPlans: PricingPlan[] = [
     popular: false,
     ctaText: 'Demander un devis',
     ctaLink: 'mailto:contact@kobecorporation.com?subject=Devis%20Full-Control%20-%20Ultra%20Speed',
-    priceRange: { min: 20_000_000, max: 33_000_000, deliveryDays: 65 },
+    // Fourchette indicative basée sur un tarif journalier plus élevé (urgence, équipe dédiée)
+    // ~200k–300k F CFA / jour pour 65 jours
+    priceRange: { min: 13_000_000, max: 20_000_000, deliveryDays: 65 },
     features: [
       { name: 'Délai de livraison : 65 jours', included: true },
       { name: 'Équipe dédiée à temps plein', included: true },
@@ -40,7 +42,9 @@ export const fullControlPlans: PricingPlan[] = [
     popular: true,
     ctaText: 'Demander un devis',
     ctaLink: 'mailto:contact@kobecorporation.com?subject=Devis%20Full-Control%20-%20Speed',
-    priceRange: { min: 28_000_000, max: 44_000_000, deliveryDays: 110 },
+    // Fourchette indicative avec tarif journalier intermédiaire
+    // ~120k–180k F CFA / jour pour 110 jours
+    priceRange: { min: 10_000_000, max: 16_000_000, deliveryDays: 110 },
     features: [
       { name: 'Délai de livraison : 110 jours', included: true },
       { name: 'Planning optimisé et gérable', included: true },
@@ -71,7 +75,9 @@ export const fullControlPlans: PricingPlan[] = [
     popular: false,
     ctaText: 'Demander un devis',
     ctaLink: 'mailto:contact@kobecorporation.com?subject=Devis%20Full-Control%20-%20Normal',
-    priceRange: { min: 36_000_000, max: 55_000_000, deliveryDays: 180 },
+    // Fourchette indicative avec tarif journalier plus bas (rythme confortable)
+    // ~80k–130k F CFA / jour pour 180 jours
+    priceRange: { min: 8_000_000, max: 12_000_000, deliveryDays: 180 },
     features: [
       { name: 'Délai de livraison : 180 jours', included: true },
       { name: 'Rythme de développement confortable', included: true },
