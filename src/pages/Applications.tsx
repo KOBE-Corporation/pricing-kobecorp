@@ -7,10 +7,8 @@ import SectionFeatures from '../components/SectionFeatures';
 import ApplicationServiceCard from '../components/ApplicationServiceCard';
 import { applicationsServices } from '../data/applicationsServices';
 import {
-  allServices,
   getServicesByCategory,
   getCategoryLabel,
-  categories,
   uiTexts,
 } from '../data/servicesData';
 import type { ServiceCategory } from '../types/servicesData';
