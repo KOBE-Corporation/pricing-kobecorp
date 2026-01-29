@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { DevicePhoneMobileIcon, ComputerDesktopIcon, CodeBracketIcon, ServerIcon } from '@heroicons/react/24/outline';
 import PageHero from '../components/PageHero';
@@ -6,11 +6,7 @@ import ContactCTA from '../components/ContactCTA';
 import SectionFeatures from '../components/SectionFeatures';
 import ApplicationServiceCard from '../components/ApplicationServiceCard';
 import { applicationsServices } from '../data/applicationsServices';
-import {
-  getServicesByCategory,
-  getCategoryLabel,
-  uiTexts,
-} from '../data/servicesData';
+import { getServicesByCategory, getCategoryLabel } from '../data/servicesData';
 import type { ServiceCategory } from '../types/servicesData';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -23,27 +19,35 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 const CATEGORY_KEYS: (ServiceCategory | 'all')[] = ['all', 'web', 'ecommerce', 'apps', 'business', 'vertical'];
 
 const Applications = () => {
-  const { t, language } = useLanguage();
+  const { t, tLang, language } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
   const lang = language as 'fr' | 'en';
   const filteredServices = getServicesByCategory(selectedCategory);
 
+  // SEO : titre et meta description
+  useEffect(() => {
+    document.title = t('applications.meta.title');
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'description');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', t('applications.meta.description'));
+  }, [language]);
+
   return (
     <div className="min-h-screen bg-white">
       <PageHero
-        title={language === 'fr' ? 'Applications' : 'Applications'}
-        subtitle={
-          language === 'fr'
-            ? 'Développement d\'applications sur mesure pour tous types de plateformes : mobile, web, desktop et backend.'
-            : 'Custom application development for all types of platforms: mobile, web, desktop and backend.'
-        }
+        title={t('applications.hero.title')}
+        subtitle={t('applications.hero.subtitle')}
         primaryCta={{
-          label: language === 'fr' ? 'Démarrer un projet' : 'Start a Project',
+          label: t('applications.hero.primaryCta'),
           href: '#contact',
           variant: 'primary',
         }}
         secondaryCta={{
-          label: t('nav.saas'),
+          label: t('applications.hero.secondaryCta'),
           href: '/saas',
           variant: 'outline',
         }}
@@ -51,10 +55,10 @@ const Applications = () => {
 
       {/* Types d'Applications */}
       <SectionFeatures
-        titleFr="Types d'Applications"
-        titleEn="Application Types"
-        subtitleFr="Nous développons tous types d'applications selon vos besoins."
-        subtitleEn="We develop all types of applications according to your needs."
+        titleFr={tLang('applications.sectionTypes.titleFr', 'fr')}
+        titleEn={tLang('applications.sectionTypes.titleEn', 'en')}
+        subtitleFr={tLang('applications.sectionTypes.subtitleFr', 'fr')}
+        subtitleEn={tLang('applications.sectionTypes.subtitleEn', 'en')}
         items={applicationsServices.map((service) => {
           const Icon = iconMap[service.icon] || CodeBracketIcon;
           return {
@@ -72,14 +76,14 @@ const Applications = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
-              {lang === 'fr' ? (uiTexts?.fr?.allServicesTitle ?? 'Tous nos services') : (uiTexts?.en?.allServicesTitle ?? 'All our services')}
+              {t('applications.servicesSection.title')}
             </h2>
             <p className="font-sans text-lg text-neutral-600 max-w-3xl mx-auto mb-8">
-              {lang === 'fr' ? (uiTexts?.fr?.allServicesSubtitle ?? 'Des solutions complètes pour tous vos besoins digitaux') : (uiTexts?.en?.allServicesSubtitle ?? 'Complete solutions for all your digital needs')}
+              {t('applications.servicesSection.subtitle')}
             </p>
 
             {/* Filtre par catégorie */}
-            <div className="flex flex-wrap justify-center gap-2" role="tablist" aria-label={language === 'fr' ? 'Filtrer par catégorie' : 'Filter by category'}>
+            <div className="flex flex-wrap justify-center gap-2" role="tablist" aria-label={t('applications.servicesSection.filterLabel')}>
               {CATEGORY_KEYS.map((key) => (
                 <button
                   key={key}
@@ -98,7 +102,7 @@ const Applications = () => {
               ))}
             </div>
             <p className="mt-4 font-sans text-sm text-neutral-500">
-              {filteredServices.length} {language === 'fr' ? (filteredServices.length <= 1 ? 'service' : 'services') : (filteredServices.length === 1 ? 'service' : 'services')}
+              {filteredServices.length} {filteredServices.length <= 1 ? t('applications.servicesSection.serviceCountOne') : t('applications.servicesSection.serviceCountPlural')}
             </p>
           </div>
 
@@ -113,10 +117,10 @@ const Applications = () => {
       {/* CTA Section commune */}
       <ContactCTA
         id="contact"
-        titleFr="Prêt à développer votre application ?"
-        titleEn="Ready to develop your application?"
-        subtitleFr="Contactez-nous pour discuter de votre projet d'application."
-        subtitleEn="Contact us to discuss your application project."
+        titleFr={tLang('applications.cta.title', 'fr')}
+        titleEn={tLang('applications.cta.title', 'en')}
+        subtitleFr={tLang('applications.cta.subtitle', 'fr')}
+        subtitleEn={tLang('applications.cta.subtitle', 'en')}
         mailSubjectSuffix="Projet Applications"
       />
     </div>

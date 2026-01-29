@@ -1,8 +1,9 @@
 /**
- * Chargement des services depuis SERVICES_DATA.json (racine du projet).
+ * Chargement des services depuis SERVICES_DATA.json (src/data/).
+ * Copier le fichier depuis la racine du projet si besoin : SERVICES_DATA.json → src/data/SERVICES_DATA.json
  */
 import type { Service, ServicesDataRoot, ServiceCategory } from '../types/servicesData';
-import rawData from '../../SERVICES_DATA.json';
+import rawData from './SERVICES_DATA.json';
 
 const data = rawData as ServicesDataRoot;
 

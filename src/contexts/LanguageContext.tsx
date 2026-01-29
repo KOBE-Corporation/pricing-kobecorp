@@ -206,6 +206,35 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
           subtitle: 'Contactez-nous pour discuter de votre projet Full-Control et obtenir un devis personnalisé.',
         },
       },
+      applications: {
+        meta: {
+          title: 'Applications – Kobe Corporation',
+          description: 'Développement d\'applications sur mesure : mobile, web, desktop, API. E-commerce, gestion restaurant, facturation, CRM et solutions métier. Demandez un devis.',
+        },
+        hero: {
+          title: 'Applications',
+          subtitle: 'Développement d\'applications sur mesure pour tous types de plateformes : mobile, web, desktop et backend.',
+          primaryCta: 'Démarrer un projet',
+          secondaryCta: 'Voir SaaS',
+        },
+        sectionTypes: {
+          titleFr: "Types d'Applications",
+          titleEn: 'Application Types',
+          subtitleFr: "Nous développons tous types d'applications selon vos besoins.",
+          subtitleEn: 'We develop all types of applications according to your needs.',
+        },
+        servicesSection: {
+          title: 'Tous nos services',
+          subtitle: 'Des solutions complètes pour tous vos besoins digitaux',
+          filterLabel: 'Filtrer par catégorie',
+          serviceCountOne: 'service',
+          serviceCountPlural: 'services',
+        },
+        cta: {
+          title: 'Prêt à développer votre application ?',
+          subtitle: "Contactez-nous pour discuter de votre projet d'application.",
+        },
+      },
     },
     en: {
       nav: {
@@ -368,6 +397,35 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
         cta: {
           title: 'Ready to take full control?',
           subtitle: 'Contact us to discuss your Full-Control project and get a personalized quote.',
+        },
+      },
+      applications: {
+        meta: {
+          title: 'Applications – Kobe Corporation',
+          description: 'Custom application development: mobile, web, desktop, API. E-commerce, restaurant management, billing, CRM and business solutions. Request a quote.',
+        },
+        hero: {
+          title: 'Applications',
+          subtitle: 'Custom application development for all types of platforms: mobile, web, desktop and backend.',
+          primaryCta: 'Start a Project',
+          secondaryCta: 'View SaaS',
+        },
+        sectionTypes: {
+          titleFr: "Types d'Applications",
+          titleEn: 'Application Types',
+          subtitleFr: "Nous développons tous types d'applications selon vos besoins.",
+          subtitleEn: 'We develop all types of applications according to your needs.',
+        },
+        servicesSection: {
+          title: 'All our services',
+          subtitle: 'Complete solutions for all your digital needs',
+          filterLabel: 'Filter by category',
+          serviceCountOne: 'service',
+          serviceCountPlural: 'services',
+        },
+        cta: {
+          title: 'Ready to develop your application?',
+          subtitle: 'Contact us to discuss your application project.',
         },
       },
     },

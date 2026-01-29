@@ -1,6 +1,6 @@
 # Page Applications – Améliorations
 
-**Dernière mise à jour :** après création du composant `ApplicationServiceCard` et affichage des services depuis `SERVICES_DATA.json`.
+**Dernière mise à jour :** après priorité haute (import JSON fiable, meta description, i18n `applications.*`).
 
 ---
 
@@ -20,7 +20,7 @@
 ### 1.2 Données et types
 
 - **Types :** `src/types/servicesData.ts` – `Service`, `ServiceTranslation`, `ServiceColors`, `ServicesDataRoot`, `hasDetailedContent(service)`.
-- **Chargement :** `src/data/servicesData.ts` – import de `SERVICES_DATA.json` (racine du projet : `../../SERVICES_DATA.json`), export de `allServices`, `getServicesByCategory(category)`, `getCategoryLabel(key, lang)`, `categories`, `uiTexts`.
+- **Chargement :** `src/data/servicesData.ts` – import de `SERVICES_DATA.json` depuis `src/data/` (`./SERVICES_DATA.json`). Fichier copié à la racine de `src/data/` pour un build fiable. Export de `allServices`, `getServicesByCategory(category)`, `getCategoryLabel(key, lang)`, `categories`, `uiTexts`.
 
 ### 1.3 Page Applications
 
@@ -33,13 +33,13 @@
 
 ## 2. Améliorations proposées
 
-### 2.1 Priorité haute
+### 2.1 Priorité haute ✅ (fait)
 
 | Amélioration | Détail |
 |--------------|--------|
-| **Import JSON fiable** | Si l’import `../../SERVICES_DATA.json` échoue au build (selon l’environnement), copier `SERVICES_DATA.json` dans `src/data/` et utiliser `import rawData from './SERVICES_DATA.json'` dans `servicesData.ts`. |
-| **Meta description** | Comme sur SaaS/Full-Control : dans un `useEffect`, définir `document.title` et `<meta name="description">` pour la page Applications (titres FR/EN). |
-| **Centraliser les textes (i18n)** | Déplacer les chaînes encore en dur (titres Hero, « Types d’Applications », « Démarrer un projet », CTA, etc.) dans `LanguageContext` sous une clé `applications.*`. |
+| ~~**Import JSON fiable**~~ | ✅ `SERVICES_DATA.json` copié dans `src/data/`, import `./SERVICES_DATA.json` dans `servicesData.ts`. |
+| ~~**Meta description**~~ | ✅ `useEffect` dans `Applications.tsx` : `document.title = t('applications.meta.title')`, mise à jour de `<meta name="description">` avec `t('applications.meta.description')`. |
+| ~~**Centraliser les textes (i18n)**~~ | ✅ Clé `applications.*` dans `LanguageContext` (meta, hero, sectionTypes, servicesSection, cta). Page Applications utilise `t()` et `tLang()` pour tous les textes. |
 
 ### 2.2 Priorité moyenne
 
