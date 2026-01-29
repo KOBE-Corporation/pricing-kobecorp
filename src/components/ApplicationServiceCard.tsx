@@ -88,18 +88,30 @@ function getCheckClass(background: string): string {
   return 'text-brand-500';
 }
 
+/** Libellés d’affichage pour les ids de forfaits (SaaS / Full-Control). */
+const planIdToLabel: Record<string, string> = {
+  goodDeal: 'Good Deal',
+  pro: 'Pro',
+  ultra: 'Ultra',
+  normal: 'Normal',
+  speed: 'Speed',
+  ultraSpeed: 'Ultra Speed',
+};
+
 export interface ApplicationServiceCardProps {
   service: Service;
   /** Afficher la version détaillée (detailedDescription, valueProposition, possibleFeatures) si dispo */
   variant?: 'auto' | 'compact' | 'detailed';
+  /** Classe(s) CSS optionnelles (ex. animation). */
+  className?: string;
 }
 
 /**
  * Carte d'affichage d'un service/appplication depuis SERVICES_DATA.json.
  * Affiche secteur, titre, description (ou detailedDescription), valueProposition, features/possibleFeatures.
  */
-const ApplicationServiceCard = ({ service, variant = 'auto' }: ApplicationServiceCardProps) => {
-  const { language } = useLanguage();
+const ApplicationServiceCard = ({ service, variant = 'auto', className = '' }: ApplicationServiceCardProps) => {
+  const { language, t } = useLanguage();
   const lang = language as 'fr' | 'en';
   const tr = service.translations[lang];
   const isDetailed = variant === 'detailed' || (variant === 'auto' && hasDetailedContent(service));
@@ -114,9 +126,13 @@ const ApplicationServiceCard = ({ service, variant = 'auto' }: ApplicationServic
     ? tr.possibleFeatures
     : tr.features) ?? [];
 
+  const plans = service.eligiblePlans;
+  const saasLabels = plans?.saas?.map((id) => planIdToLabel[id] ?? id) ?? [];
+  const fullControlLabels = plans?.fullControl?.map((id) => planIdToLabel[id] ?? id) ?? [];
+
   return (
     <article
-      className="rounded-2xl border border-neutral-200 bg-white p-8 md:p-10 shadow-subtle hover:border-neutral-300 hover:shadow-card-hover transition-all"
+      className={`rounded-2xl border border-neutral-200 bg-white p-8 md:p-10 shadow-subtle hover:border-neutral-300 hover:shadow-card-hover transition-all animate-fadeInUp ${className}`.trim()}
       data-service-id={service.id}
     >
       <div className="flex flex-col md:flex-row md:items-start gap-6">
@@ -151,6 +167,28 @@ const ApplicationServiceCard = ({ service, variant = 'auto' }: ApplicationServic
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          {plans && (saasLabels.length > 0 || fullControlLabels.length > 0) && (
+            <div className="mt-6 pt-4 border-t border-neutral-200">
+              <p className="font-display text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-2">
+                {t('applications.eligiblePlansLabel')}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {saasLabels.length > 0 && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-50 text-brand-700 text-xs font-medium border border-brand-200">
+                    <span className="font-semibold">SaaS:</span>
+                    <span>{saasLabels.join(', ')}</span>
+                  </span>
+                )}
+                {fullControlLabels.length > 0 && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-neutral-100 text-neutral-700 text-xs font-medium border border-neutral-200">
+                    <span className="font-semibold">Full-Control:</span>
+                    <span>{fullControlLabels.join(', ')}</span>
+                  </span>
+                )}
+              </div>
             </div>
           )}
         </div>

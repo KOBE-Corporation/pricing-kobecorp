@@ -234,6 +234,7 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
           title: 'Prêt à développer votre application ?',
           subtitle: "Contactez-nous pour discuter de votre projet d'application.",
         },
+        eligiblePlansLabel: 'Forfaits éligibles',
       },
     },
     en: {
@@ -427,6 +428,7 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
           title: 'Ready to develop your application?',
           subtitle: 'Contact us to discuss your application project.',
         },
+        eligiblePlansLabel: 'Eligible plans',
       },
     },
   };

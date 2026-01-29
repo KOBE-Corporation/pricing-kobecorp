@@ -1,19 +1,74 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { DevicePhoneMobileIcon, ComputerDesktopIcon, CodeBracketIcon, ServerIcon } from '@heroicons/react/24/outline';
-import PageHero from '../components/PageHero';
-import ContactCTA from '../components/ContactCTA';
-import SectionFeatures from '../components/SectionFeatures';
-import ApplicationServiceCard from '../components/ApplicationServiceCard';
-import { applicationsServices } from '../data/applicationsServices';
-import { getServicesByCategory, getCategoryLabel } from '../data/servicesData';
-import type { ServiceCategory } from '../types/servicesData';
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+import {
   DevicePhoneMobileIcon,
   ComputerDesktopIcon,
   CodeBracketIcon,
   ServerIcon,
+  GlobeAltIcon,
+  DocumentTextIcon,
+  StarIcon,
+  ShoppingBagIcon,
+  CommandLineIcon,
+  WrenchScrewdriverIcon,
+  CubeIcon,
+  BuildingStorefrontIcon,
+  CalculatorIcon,
+  ClipboardDocumentListIcon,
+  CreditCardIcon,
+  UserGroupIcon,
+  TruckIcon,
+  CalendarIcon,
+  BeakerIcon,
+  HeartIcon,
+  ScissorsIcon,
+  HomeIcon,
+  BanknotesIcon,
+  CurrencyDollarIcon,
+  WalletIcon,
+  MapPinIcon,
+  BuildingOfficeIcon,
+  AcademicCapIcon,
+  BuildingLibraryIcon,
+} from '@heroicons/react/24/outline';
+import PageHero from '../components/PageHero';
+import ContactCTA from '../components/ContactCTA';
+import SectionFeatures from '../components/SectionFeatures';
+import ApplicationServiceCard from '../components/ApplicationServiceCard';
+import { getServicesByCategory, getCategoryLabel } from '../data/servicesData';
+import type { ServiceCategory } from '../types/servicesData';
+import { hasDetailedContent } from '../types/servicesData';
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  GlobeAltIcon,
+  DocumentTextIcon,
+  StarIcon,
+  ShoppingBagIcon,
+  CodeBracketIcon,
+  DevicePhoneMobileIcon,
+  ComputerDesktopIcon,
+  ServerIcon,
+  CommandLineIcon,
+  WrenchScrewdriverIcon,
+  CubeIcon,
+  BuildingStorefrontIcon,
+  CalculatorIcon,
+  ClipboardDocumentListIcon,
+  CreditCardIcon,
+  UserGroupIcon,
+  TruckIcon,
+  CalendarIcon,
+  BeakerIcon,
+  HeartIcon,
+  ScissorsIcon,
+  HomeIcon,
+  BanknotesIcon,
+  CurrencyDollarIcon,
+  WalletIcon,
+  MapPinIcon,
+  BuildingOfficeIcon,
+  AcademicCapIcon,
+  BuildingLibraryIcon,
 };
 
 const CATEGORY_KEYS: (ServiceCategory | 'all')[] = ['all', 'web', 'ecommerce', 'apps', 'business', 'vertical'];
@@ -23,6 +78,7 @@ const Applications = () => {
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
   const lang = language as 'fr' | 'en';
   const filteredServices = getServicesByCategory(selectedCategory);
+  const appTypesServices = getServicesByCategory('apps');
 
   // SEO : titre et meta description
   useEffect(() => {
@@ -53,13 +109,13 @@ const Applications = () => {
         }}
       />
 
-      {/* Types d'Applications */}
+      {/* Types d'Applications (source unique: SERVICES_DATA.json, catégorie apps) */}
       <SectionFeatures
         titleFr={tLang('applications.sectionTypes.titleFr', 'fr')}
         titleEn={tLang('applications.sectionTypes.titleEn', 'en')}
         subtitleFr={tLang('applications.sectionTypes.subtitleFr', 'fr')}
         subtitleEn={tLang('applications.sectionTypes.subtitleEn', 'en')}
-        items={applicationsServices.map((service) => {
+        items={appTypesServices.map((service) => {
           const Icon = iconMap[service.icon] || CodeBracketIcon;
           return {
             icon: Icon,
@@ -106,9 +162,14 @@ const Applications = () => {
             </p>
           </div>
 
-          <div className="space-y-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {filteredServices.map((service) => (
-              <ApplicationServiceCard key={service.id} service={service} variant="auto" />
+              <div
+                key={service.id}
+                className={hasDetailedContent(service) ? 'md:col-span-2' : undefined}
+              >
+                <ApplicationServiceCard service={service} variant="auto" />
+              </div>
             ))}
           </div>
         </div>
