@@ -166,7 +166,7 @@ const Applications = () => {
             {filteredServices.map((service) => (
               <div
                 key={service.id}
-                className={hasDetailedContent(service) ? 'md:col-span-2' : undefined}
+                className={hasDetailedContent(service) ? 'md:col-span-2' : ''}
               >
                 <ApplicationServiceCard service={service} variant="auto" />
               </div>

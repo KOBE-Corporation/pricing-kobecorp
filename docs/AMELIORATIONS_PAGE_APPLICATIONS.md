@@ -1,6 +1,6 @@
 # Page Applications – Améliorations
 
-**Dernière mise à jour :** après priorité haute (import JSON fiable, meta description, i18n `applications.*`).
+**Dernière mise à jour :** après priorité basse (animation, grille, forfaits éligibles, Types d’Applications depuis SERVICES_DATA).
 
 ---
 
@@ -50,14 +50,14 @@
 | **Ancre / scroll** | Clic sur un onglet catégorie fait défiler la page vers la section `#services` si besoin (déjà présent comme id). |
 | **SEO** | Titre de page dédié (ex. « Applications – Kobe Corporation ») et meta description spécifique aux applications. |
 
-### 2.3 Priorité basse
+### 2.3 Priorité basse ✅ (fait)
 
 | Amélioration | Détail |
 |--------------|--------|
-| **Animation** | Appliquer `animate-fadeInUp` aux cartes ou au conteneur de la liste pour un effet au scroll. |
-| **Grille / cartes compactes** | Option d’affichage en grille (2 colonnes) pour les services sans detailedDescription, au lieu d’une seule colonne. |
-| **Indication des forfaits éligibles** | Afficher sur la carte les forfaits SaaS/Full-Control éligibles (`service.eligiblePlans`) sous forme de petits badges ou d’une ligne de texte. |
-| **Partage de la section « Types d’Applications »** | Alimenter cette section à partir de `SERVICES_DATA.json` (catégorie `apps` ou champs dédiés) pour une seule source de vérité. |
+| ~~**Animation**~~ | ✅ `animate-fadeInUp` appliqué sur chaque carte (`ApplicationServiceCard`). |
+| ~~**Grille / cartes compactes**~~ | ✅ Grille `grid-cols-1 md:grid-cols-2` ; les services avec detailedDescription prennent toute la largeur (`md:col-span-2`), les autres s’affichent en 2 colonnes sur md+. |
+| ~~**Indication des forfaits éligibles**~~ | ✅ Bloc « Forfaits éligibles » en bas de carte : badges SaaS (Good Deal, Pro, Ultra) et Full-Control (Normal, Speed, Ultra Speed) via `service.eligiblePlans`. Libellé i18n `applications.eligiblePlansLabel`. |
+| ~~**Partage de la section « Types d’Applications »**~~ | ✅ Section alimentée par `getServicesByCategory('apps')` depuis `SERVICES_DATA.json` ; plus d’usage de `applicationsServices.ts` pour cette section (source unique). |
 
 ---
 
@@ -75,4 +75,5 @@
 
 - **Composant :** `ApplicationServiceCard` affiche correctement un service au format 519–568 de `SERVICES_DATA.json` (avec ou sans detailedDescription/valueProposition/possibleFeatures).
 - **Page :** La section « Tous nos services » affiche tous les services avec filtre par catégorie (Tous, Web, E-commerce, Apps, Business, Vertical).
-- **Suite possible :** Meta description + i18n Applications, recherche texte, CTA « Devis » par carte, animations et option grille.
+- **Fait (priorité basse) :** Animation sur cartes, grille 2 colonnes pour services compacts, badges forfaits éligibles, section Types d’Applications depuis SERVICES_DATA (catégorie apps).
+- **Suite possible :** Recherche texte, CTA « Devis » par carte.
