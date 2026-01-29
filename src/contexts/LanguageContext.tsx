@@ -235,6 +235,9 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
           subtitle: "Contactez-nous pour discuter de votre projet d'application.",
         },
         eligiblePlansLabel: 'Forfaits éligibles',
+        featuresLabel: 'Fonctionnalités possibles',
+        saasPlanLabel: 'SaaS\u00A0:',
+        fullControlPlanLabel: 'Full-Control\u00A0:',
       },
     },
     en: {
@@ -429,6 +432,9 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
           subtitle: 'Contact us to discuss your application project.',
         },
         eligiblePlansLabel: 'Eligible plans',
+        featuresLabel: 'Possible features',
+        saasPlanLabel: 'SaaS:',
+        fullControlPlanLabel: 'Full-Control:',
       },
     },
   };

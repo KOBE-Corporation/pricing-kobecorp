@@ -107,7 +107,7 @@ export interface ApplicationServiceCardProps {
 }
 
 /**
- * Carte d'affichage d'un service/appplication depuis SERVICES_DATA.json.
+ * Carte d'affichage d'un service/application depuis SERVICES_DATA.json.
  * Affiche secteur, titre, description (ou detailedDescription), valueProposition, features/possibleFeatures.
  */
 const ApplicationServiceCard = ({ service, variant = 'auto', className = '' }: ApplicationServiceCardProps) => {
@@ -157,7 +157,7 @@ const ApplicationServiceCard = ({ service, variant = 'auto', className = '' }: A
           {features.length > 0 && (
             <div>
               <h4 className="font-display text-sm font-semibold text-ink uppercase tracking-wide mb-3">
-                {language === 'fr' ? 'Fonctionnalités possibles' : 'Possible features'}
+                {t('applications.featuresLabel')}
               </h4>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {features.map((feature, idx) => (
@@ -184,7 +184,7 @@ const ApplicationServiceCard = ({ service, variant = 'auto', className = '' }: A
                 )}
                 {fullControlLabels.length > 0 && (
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-neutral-100 text-neutral-700 text-xs font-medium border border-neutral-200">
-                    <span className="font-semibold">Full-Control:</span>
+                    <span className="font-semibold">{t('applications.fullControlPlanLabel')}</span>
                     <span>{fullControlLabels.join(', ')}</span>
                   </span>
                 )}
