@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { LanguageProvider } from './contexts/LanguageContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SaaS from './pages/SaaS';
@@ -28,9 +27,7 @@ const AppContent = () => {
 function App() {
   return (
     <BrowserRouter>
-      <LanguageProvider>
-        <AppContent />
-      </LanguageProvider>
+      <AppContent />
     </BrowserRouter>
   );
 }

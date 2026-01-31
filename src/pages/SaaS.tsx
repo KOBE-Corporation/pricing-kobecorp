@@ -25,10 +25,10 @@ const SaaS = () => {
     meta.setAttribute('content', t('saas.meta.description'));
   }, [language]);
 
-  // Prix annuels avec économie de 16%
+  // Prix annuels (économies : Good Deal -30 000 F, Pro -50 000 F, Ultra -60 000 F)
   const annualPrices = {
-    'good-deal': 156000,
-    'pro': 258400,
+    'good-deal': 150000,
+    'pro': 282400,
     'ultra': 430800,
   };
 
