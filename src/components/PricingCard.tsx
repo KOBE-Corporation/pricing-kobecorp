@@ -7,15 +7,28 @@ interface ExtendedPricingPlan extends PricingPlan {
   originalPrice?: number;
 }
 
+interface PricingCardProps {
+  plan: ExtendedPricingPlan;
+  /** Économie en F avec le paiement annuel (ex. 30 000) */
+  annualSavings?: number;
+  /** Période affichée : mensuel ou annuel */
+  billingPeriod?: 'monthly' | 'annual';
+  /** Prix mensuel de base (pour afficher "Soit X F/mois" en mode annuel) */
+  monthlyPrice?: number;
+}
+
 const formatXAF = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
 
-const PricingCard = ({ plan }: { plan: ExtendedPricingPlan }) => {
+const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPrice }: PricingCardProps) => {
   const { t, language } = useLanguage();
+  const formatAmount = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
+  const saveLabel = t('saas.pricing.saveAnnualLabel').replace('{amount}', formatAmount(annualSavings ?? 0));
+  const equivLabel = t('saas.pricing.equivalentPerMonth').replace('{amount}', formatAmount(monthlyPrice ?? 0));
   return (
     <div
       className={`relative rounded-2xl border bg-white p-8 transition-all duration-300 hover:-translate-y-1 ${
         plan.popular
-          ? 'ring-2 ring-brand-500 border-brand-300 shadow-card-hover transform scale-105'
+          ? 'ring-2 ring-brand-500 border-brand-300 shadow-card-hover'
           : 'border-neutral-200 shadow-card hover:border-brand-300 hover:shadow-card-hover'
       }`}
     >
@@ -88,7 +101,14 @@ const PricingCard = ({ plan }: { plan: ExtendedPricingPlan }) => {
               </span>
             </div>
             <p className="font-sans text-sm text-neutral-500 mt-2">/{plan.period}</p>
-            {plan.originalPrice && (
+            <p className="font-sans text-xs text-neutral-500 mt-1">({t('saas.pricing.exclTax')})</p>
+            {billingPeriod === 'annual' && monthlyPrice != null && (
+              <p className="font-sans text-sm text-brand-600 font-medium mt-2">{equivLabel}</p>
+            )}
+            {billingPeriod === 'monthly' && annualSavings != null && annualSavings > 0 && (
+              <p className="font-sans text-sm text-green-600 font-medium mt-2">{saveLabel}</p>
+            )}
+            {plan.originalPrice && !(billingPeriod === 'annual' && monthlyPrice != null) && (
               <p className="font-sans text-xs text-neutral-400 mt-1 line-through">
                 {plan.originalPrice.toLocaleString('fr-FR')} {plan.currency} / {language === 'fr' ? 'mois' : 'month'}
               </p>

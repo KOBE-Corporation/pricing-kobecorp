@@ -27,9 +27,15 @@ const SaaS = () => {
 
   // Prix annuels (économies : Good Deal -30 000 F, Pro -50 000 F, Ultra -60 000 F)
   const annualPrices = {
-    'good-deal': 150000,
+    'good-deal': 156000,
     'pro': 282400,
     'ultra': 430800,
+  };
+
+  const annualSavingsByPlan = {
+    'good-deal': 30000,
+    'pro': 50000,
+    'ultra': 60000,
   };
 
   // Créer les plans avec prix dynamiques
@@ -159,14 +165,20 @@ const SaaS = () => {
             </div>
           </div>
           {billingPeriod === 'annual' && (
-            <p className="text-center text-sm font-semibold text-green-700 mb-6">
+            <p className="text-center text-sm font-semibold text-green-700 mb-10">
               {t('saas.pricing.savingsNote')}
             </p>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             {plansWithDynamicPricing.map((plan) => (
-              <PricingCard key={plan.id} plan={plan} />
+              <PricingCard
+                key={plan.id}
+                plan={plan}
+                billingPeriod={billingPeriod}
+                annualSavings={annualSavingsByPlan[plan.id as keyof typeof annualSavingsByPlan]}
+                monthlyPrice={saasPlans.find((p) => p.id === plan.id)?.price}
+              />
             ))}
           </div>
 

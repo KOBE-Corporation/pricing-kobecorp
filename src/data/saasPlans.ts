@@ -26,7 +26,7 @@ export const saasPlans: PricingPlan[] = [
     id: 'good-deal',
     name: 'Good Deal',
     description: 'Forfait accessible pour lancer votre plateforme personnalisée à moindre coût.',
-    price: 15000,
+    price: 15500,
     currency: 'F CFA',
     period: 'mois',
     popular: true,

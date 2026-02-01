@@ -122,6 +122,9 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
           savingsNote: "Économisez 30 000 F à 60 000 F selon le forfait (jusqu'à 60 000 F sur Ultra)",
           pricesHT: 'Tous les prix sont hors taxes (HT)',
           economyNote: "💰 Économisez 16% avec le paiement annuel (30 000 F à 60 000 F d'économies selon le forfait)",
+          exclTax: 'Hors taxes',
+          saveAnnualLabel: 'Économisez {amount} F avec le paiement annuel',
+          equivalentPerMonth: 'Soit {amount} F/mois',
         },
         included: {
           title: 'Inclus dans tous les forfaits',
@@ -319,6 +322,9 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
           savingsNote: 'Save 30,000 to 60,000 FCFA depending on plan (up to 60,000 F on Ultra)',
           pricesHT: 'All prices are excluding taxes (HT)',
           economyNote: '💰 Save 16% with annual payment (30,000 to 60,000 FCFA savings depending on plan)',
+          exclTax: 'Excl. tax',
+          saveAnnualLabel: 'Save {amount} F with annual payment',
+          equivalentPerMonth: 'i.e. {amount} F/month',
         },
         included: {
           title: 'Included in all plans',
