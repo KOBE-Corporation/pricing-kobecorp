@@ -64,7 +64,7 @@ const SaaS = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white antialiased">
       <PageHero
         title={t('saas.hero.title')}
         subtitle={t('saas.hero.subtitle')}
@@ -81,16 +81,18 @@ const SaaS = () => {
         }}
       />
 
-      <SectionFeatures
-        titleFr={tLang('saas.sectionFeatures.title', 'fr')}
-        titleEn={tLang('saas.sectionFeatures.title', 'en')}
-        subtitleFr={tLang('saas.sectionFeatures.subtitle', 'fr')}
-        subtitleEn={tLang('saas.sectionFeatures.subtitle', 'en')}
-        items={features}
-      />
+      <section aria-label={language === 'fr' ? 'Nos services SaaS' : 'Our SaaS services'}>
+        <SectionFeatures
+          titleFr={tLang('saas.sectionFeatures.title', 'fr')}
+          titleEn={tLang('saas.sectionFeatures.title', 'en')}
+          subtitleFr={tLang('saas.sectionFeatures.subtitle', 'fr')}
+          subtitleEn={tLang('saas.sectionFeatures.subtitle', 'en')}
+          items={features}
+        />
+      </section>
 
       {/* Pricing Section */}
-      <section id="forfaits" className="py-24 bg-gradient-to-b from-white via-neutral-50/50 to-brand-50/20">
+      <section id="forfaits" className="py-24 bg-gradient-to-b from-white via-neutral-50/50 to-brand-50/20" aria-label={language === 'fr' ? 'Forfaits et tarifs' : 'Plans and pricing'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <header className="text-center mb-14">
             <span className="inline-flex items-center gap-2 rounded-full bg-brand-100 px-4 py-2 text-sm font-semibold text-brand-600 ring-1 ring-brand-500/10 mb-6">
@@ -211,10 +213,10 @@ const SaaS = () => {
         cols={{ md: 2, lg: 2 }}
       />
 
-      {/* Comparison Section */}
+      {/* Comparaison SaaS vs Full-Control */}
       <ComparisonSection />
 
-      {/* CTA Section commune */}
+      {/* Contact */}
       <ContactCTA
         id="contact"
         titleFr={tLang('saas.cta.title', 'fr')}
