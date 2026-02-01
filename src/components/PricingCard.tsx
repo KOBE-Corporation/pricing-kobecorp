@@ -1,6 +1,6 @@
 import { PricingPlan } from '../types/pricing';
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { StarIcon } from '@heroicons/react/24/solid';
+import { XMarkIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { CheckIcon as CheckIconSolid } from '@heroicons/react/24/solid';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface ExtendedPricingPlan extends PricingPlan {
@@ -9,11 +9,8 @@ interface ExtendedPricingPlan extends PricingPlan {
 
 interface PricingCardProps {
   plan: ExtendedPricingPlan;
-  /** Économie en F avec le paiement annuel (ex. 30 000) */
   annualSavings?: number;
-  /** Période affichée : mensuel ou annuel */
   billingPeriod?: 'monthly' | 'annual';
-  /** Prix mensuel de base (pour afficher "Soit X F/mois" en mode annuel) */
   monthlyPrice?: number;
 }
 
@@ -24,163 +21,154 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
   const formatAmount = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
   const saveLabel = t('saas.pricing.saveAnnualLabel').replace('{amount}', formatAmount(annualSavings ?? 0));
   const equivLabel = t('saas.pricing.equivalentPerMonth').replace('{amount}', formatAmount(monthlyPrice ?? 0));
+  const isPopular = plan.popular ?? false;
+
   return (
-    <div
-      className={`relative rounded-2xl border bg-white p-8 transition-all duration-300 hover:-translate-y-1 ${
-        plan.popular
-          ? 'ring-2 ring-brand-500 border-brand-300 shadow-card-hover'
-          : 'border-neutral-200 shadow-card hover:border-brand-300 hover:shadow-card-hover'
+    <article
+      className={`pricing-card relative flex flex-col rounded-2xl border bg-white overflow-hidden ${
+        isPopular
+          ? 'border-brand-300 shadow-pricing-popular ring-2 ring-brand-500/15 pricing-card-popular hover:border-brand-400'
+          : 'border-neutral-200 shadow-pricing hover:shadow-pricing-hover hover:border-brand-100'
       }`}
     >
-      {plan.popular && (
-        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-          <span 
-            className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold shadow-sm"
-            style={{ 
-              background: 'linear-gradient(to right, #f0f7ff, #e0efff)',
-              color: '#0066e6'
-            }}
-          >
-            <StarIcon className="h-3 w-3" />
+      {/* Bandeau populaire */}
+      {isPopular && (
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600" />
+      )}
+      {isPopular && (
+        <div className="absolute top-4 right-4 z-10">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-500/12 px-3 py-1.5 text-xs font-semibold text-brand-600 shadow-sm ring-1 ring-brand-500/25 backdrop-blur-sm">
+            <SparklesIcon className="h-3.5 w-3.5" />
             {t('pricing.popular')}
           </span>
         </div>
       )}
 
-      <div className="text-center mb-6">
-        <h3 className="font-display text-2xl font-semibold text-ink mb-2">
-          {plan.name}
-        </h3>
-        <p className="font-sans text-sm text-neutral-600">{plan.description}</p>
-      </div>
+      <div className="flex flex-1 flex-col p-8 pt-10">
+        {/* En-tête */}
+        <header className="text-center mb-6">
+          <h3 className="font-display text-2xl font-bold text-ink tracking-tight">
+            {plan.name}
+          </h3>
+          <p className="mt-2 font-sans text-sm text-neutral-600 leading-relaxed max-w-[240px] mx-auto">
+            {plan.description}
+          </p>
+        </header>
 
-      <div className="text-center mb-6">
-        {plan.price === 0 ? (
-          <div className="flex flex-col items-center">
-            <span className="font-display text-3xl font-semibold text-ink mb-2">
-              {plan.period === 'devis' 
-                ? (t('pricing.customQuote') || 'Devis sur mesure')
-                : plan.period}
-            </span>
-            {plan.priceRange && (
-              <div className="text-center mb-2">
-                <p className="font-display text-xl font-semibold text-ink">
-                  {formatXAF(plan.priceRange.min)} – {formatXAF(plan.priceRange.max)} F CFA
-                </p>
-                <p className="font-sans text-xs text-neutral-500 mt-1">
-                  {language === 'fr'
-                    ? `pour ${plan.priceRange.deliveryDays} jours de développement`
-                    : `for ${plan.priceRange.deliveryDays} days of development`}
-                </p>
-              </div>
-            )}
-            <p className="font-sans text-sm text-neutral-600">
-              {plan.period === 'devis'
-                ? plan.priceRange
-                  ? (language === 'fr' ? 'Fourchette indicative (XAF)' : 'Indicative range (XAF)')
-                  : (t('pricing.contactForQuote') || 'Contactez-nous pour un devis')
-                : ''}
-            </p>
-            {plan.period === 'devis' && (
-              <span className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {language === 'fr' ? 'Devis sous 48h' : 'Quote within 48h'}
+        {/* Bloc prix */}
+        <div className="mb-8">
+          {plan.price === 0 ? (
+            <div className="rounded-xl bg-neutral-50 px-6 py-5 text-center">
+              <span className="font-display text-2xl font-semibold text-ink">
+                {plan.period === 'devis'
+                  ? (t('pricing.customQuote') || 'Devis sur mesure')
+                  : plan.period}
               </span>
-            )}
-          </div>
-        ) : (
-          <>
-            <div className="flex items-baseline justify-center">
-              <span className="font-display text-5xl font-semibold text-ink">
-                {plan.price.toLocaleString('fr-FR')}
-              </span>
-              <span className="font-sans text-xl text-neutral-600 ml-2">
-                {plan.currency}
-              </span>
+              {plan.priceRange && (
+                <div className="mt-3">
+                  <p className="font-display text-lg font-semibold text-ink">
+                    {formatXAF(plan.priceRange.min)} – {formatXAF(plan.priceRange.max)} F CFA
+                  </p>
+                  <p className="font-sans text-xs text-neutral-500 mt-1">
+                    {language === 'fr'
+                      ? `pour ${plan.priceRange.deliveryDays} jours de développement`
+                      : `for ${plan.priceRange.deliveryDays} days of development`}
+                  </p>
+                </div>
+              )}
+              {plan.period === 'devis' && (
+                <span className="inline-flex items-center gap-1.5 mt-3 px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {language === 'fr' ? 'Devis sous 48h' : 'Quote within 48h'}
+                </span>
+              )}
             </div>
-            <p className="font-sans text-sm text-neutral-500 mt-2">/{plan.period}</p>
-            <p className="font-sans text-xs text-neutral-500 mt-1">({t('saas.pricing.exclTax')})</p>
-            {billingPeriod === 'annual' && monthlyPrice != null && (
-              <p className="font-sans text-sm text-brand-600 font-medium mt-2">{equivLabel}</p>
-            )}
-            {billingPeriod === 'monthly' && annualSavings != null && annualSavings > 0 && (
-              <p className="font-sans text-sm text-green-600 font-medium mt-2">{saveLabel}</p>
-            )}
-            {plan.originalPrice && !(billingPeriod === 'annual' && monthlyPrice != null) && (
-              <p className="font-sans text-xs text-neutral-400 mt-1 line-through">
-                {plan.originalPrice.toLocaleString('fr-FR')} {plan.currency} / {language === 'fr' ? 'mois' : 'month'}
+          ) : (
+            <div className="rounded-xl bg-gradient-to-b from-neutral-50 to-neutral-100/80 px-6 py-6 border border-neutral-200/60 shadow-inner">
+              <div className="flex items-baseline justify-center gap-1.5">
+                <span className="font-display text-4xl font-bold text-ink tracking-tight tabular-nums">
+                  {plan.price.toLocaleString('fr-FR')}
+                </span>
+                <span className="font-sans text-base font-medium text-neutral-500">
+                  {plan.currency}
+                </span>
+              </div>
+              <p className="text-center font-sans text-sm text-neutral-500 mt-1">
+                /{plan.period}
+                <span className="text-neutral-400"> · {t('saas.pricing.exclTax')}</span>
               </p>
-            )}
-          </>
-        )}
+              {billingPeriod === 'annual' && monthlyPrice != null && (
+                <p className="text-center font-sans text-sm font-semibold text-brand-600 mt-2">
+                  {equivLabel}
+                </p>
+              )}
+              {billingPeriod === 'monthly' && annualSavings != null && annualSavings > 0 && (
+                <p className="text-center font-sans text-sm font-semibold text-emerald-600 mt-2">
+                  {saveLabel}
+                </p>
+              )}
+              {plan.originalPrice && !(billingPeriod === 'annual' && monthlyPrice != null) && (
+                <p className="text-center font-sans text-xs text-neutral-400 mt-1 line-through">
+                  {plan.originalPrice.toLocaleString('fr-FR')} {plan.currency} / {language === 'fr' ? 'mois' : 'month'}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Liste des fonctionnalités */}
+        <ul className="flex-1 space-y-3.5 mb-8 border-t border-neutral-200/80 pt-6">
+          {plan.features.map((feature, index) => (
+            <li key={index} className="flex items-start gap-3">
+              {feature.included ? (
+                <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-600 mt-0.5">
+                  <CheckIconSolid className="h-3 w-3" />
+                </span>
+              ) : (
+                <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100 text-neutral-400 mt-0.5">
+                  <XMarkIcon className="h-3.5 w-3.5" />
+                </span>
+              )}
+              <span
+                className={`font-sans text-sm leading-snug ${
+                  feature.included ? 'text-neutral-700' : 'text-neutral-400 line-through'
+                }`}
+              >
+                {feature.name}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        <button
+          type="button"
+          onClick={() => {
+            if (!plan.ctaLink) return;
+            if (plan.ctaLink.startsWith('mailto:')) {
+              window.location.href = plan.ctaLink;
+              return;
+            }
+            const element = document.querySelector(plan.ctaLink);
+            if (element) {
+              const headerOffset = 80;
+              const elementPosition = element.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+          }}
+          className={`w-full inline-flex items-center justify-center gap-2 rounded-xl font-semibold py-3.5 px-6 text-sm transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 active:scale-[0.98] ${
+            isPopular
+              ? 'bg-brand-500 text-white shadow-md hover:bg-brand-600 hover:shadow-lg hover:-translate-y-0.5'
+              : 'bg-white text-neutral-700 border-2 border-neutral-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 hover:shadow-md hover:-translate-y-0.5'
+          }`}
+        >
+          {plan.ctaText}
+        </button>
       </div>
-
-      <ul className="space-y-4 mb-8">
-        {plan.features.map((feature, index) => (
-          <li key={index} className="flex items-start">
-            {feature.included ? (
-              <CheckIcon className="h-6 w-6 mr-3 flex-shrink-0" style={{ color: '#0a7aff' }} />
-            ) : (
-              <XMarkIcon className="h-6 w-6 text-neutral-300 mr-3 flex-shrink-0" />
-            )}
-            <span
-              className={`font-sans text-sm ${
-                feature.included
-                  ? 'text-neutral-700'
-                  : 'line-through text-neutral-400'
-              }`}
-            >
-              {feature.name}
-            </span>
-          </li>
-        ))}
-      </ul>
-
-      <button
-        className={`w-full inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 hover:-translate-y-0.5 py-3 px-6 ${
-          plan.popular
-            ? 'text-white shadow-md hover:shadow-lg'
-            : 'bg-white text-neutral-700 border border-neutral-200 shadow-subtle hover:shadow-md'
-        }`}
-        style={plan.popular ? { backgroundColor: '#0a7aff' } : {}}
-        onMouseEnter={(e) => {
-          if (plan.popular) {
-            e.currentTarget.style.backgroundColor = '#0066e6';
-          } else {
-            e.currentTarget.style.borderColor = '#7cc2ff';
-            e.currentTarget.style.backgroundColor = '#f0f7ff';
-            e.currentTarget.style.color = '#0066e6';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (plan.popular) {
-            e.currentTarget.style.backgroundColor = '#0a7aff';
-          } else {
-            e.currentTarget.style.borderColor = '#e8e8e8';
-            e.currentTarget.style.backgroundColor = '#ffffff';
-            e.currentTarget.style.color = '#404040';
-          }
-        }}
-        onClick={() => {
-          if (!plan.ctaLink) return;
-          if (plan.ctaLink.startsWith('mailto:')) {
-            window.location.href = plan.ctaLink;
-            return;
-          }
-          const element = document.querySelector(plan.ctaLink);
-          if (element) {
-            const headerOffset = 80;
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-          }
-        }}
-      >
-        {plan.ctaText}
-      </button>
-    </div>
+    </article>
   );
 };
 

@@ -90,56 +90,49 @@ const SaaS = () => {
       />
 
       {/* Pricing Section */}
-      <section id="forfaits" className="py-20 bg-gradient-to-b from-white to-brand-50/30">
+      <section id="forfaits" className="py-24 bg-gradient-to-b from-white via-neutral-50/50 to-brand-50/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold bg-brand-100 text-brand-600">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                {t('saas.pricing.badge')}
-              </span>
-            </div>
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
+          <header className="text-center mb-14">
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-100 px-4 py-2 text-sm font-semibold text-brand-600 ring-1 ring-brand-500/10 mb-6">
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {t('saas.pricing.badge')}
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">
               {t('saas.pricing.heading')}
             </h2>
-            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mb-6">
+            <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mb-8 leading-relaxed">
               {t('saas.pricing.description')}
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-2">
-              <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-brand-50 border border-brand-200">
-                <svg className="h-4 w-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded-lg bg-brand-50 border border-brand-200 px-4 py-2 text-sm font-medium text-brand-700">
+                <svg className="h-4 w-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                <span className="text-neutral-700">{t('saas.pricing.badge15days')}</span>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-green-50 border border-green-200 text-green-800">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {t('saas.pricing.badge15days')}
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-2 text-sm font-medium text-emerald-800">
+                <svg className="h-4 w-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
-                <span>{t('saas.pricing.badgeFast')}</span>
-              </div>
+                {t('saas.pricing.badgeFast')}
+              </span>
             </div>
-          </div>
+          </header>
 
-          {/* Billing Toggle - Accessible (ARIA) */}
-          <div className="flex justify-center mb-8" role="group" aria-label={language === 'fr' ? 'Période de facturation' : 'Billing period'}>
-            <div className="inline-flex items-center gap-3 p-1 rounded-full bg-white border border-neutral-200 shadow-subtle">
+          {/* Toggle Mensuel / Annuel */}
+          <div className="flex flex-col items-center gap-4 mb-12" role="group" aria-label={language === 'fr' ? 'Période de facturation' : 'Billing period'}>
+            <div className="inline-flex p-1.5 rounded-xl bg-white border border-neutral-200 shadow-sm ring-1 ring-neutral-900/5">
               <button
                 type="button"
                 onClick={() => setBillingPeriod('monthly')}
                 aria-pressed={billingPeriod === 'monthly'}
                 aria-label={language === 'fr' ? 'Facturation mensuelle' : 'Monthly billing'}
-                className={`px-6 py-2 rounded-full font-semibold text-sm transition-all ${
+                className={`relative rounded-lg px-6 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 ${
                   billingPeriod === 'monthly'
                     ? 'bg-brand-500 text-white shadow-md'
-                    : 'bg-transparent text-neutral-600 hover:text-neutral-900 hover:bg-brand-50'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
                 }`}
               >
                 {t('saas.pricing.monthly')}
@@ -148,54 +141,57 @@ const SaaS = () => {
                 type="button"
                 onClick={() => setBillingPeriod('annual')}
                 aria-pressed={billingPeriod === 'annual'}
-                aria-label={language === 'fr' ? 'Facturation annuelle (économisez 16 %)' : 'Annual billing (save 16%)'}
-                className={`px-6 py-2 rounded-full font-semibold text-sm transition-all relative ${
+                aria-label={language === 'fr' ? 'Facturation annuelle (économisez)' : 'Annual billing (save)'}
+                className={`relative rounded-lg px-6 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 ${
                   billingPeriod === 'annual'
                     ? 'bg-brand-500 text-white shadow-md'
-                    : 'bg-transparent text-neutral-600 hover:text-neutral-900 hover:bg-brand-50'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'
                 }`}
               >
                 {t('saas.pricing.annual')}
                 {billingPeriod === 'annual' && (
-                  <span className="absolute -top-2 -right-2 bg-accent-500 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span className="absolute -top-1.5 -right-1.5 rounded-full bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 shadow-sm">
                     {t('saas.pricing.discountBadge')}
                   </span>
                 )}
               </button>
             </div>
+            {billingPeriod === 'annual' && (
+              <p className="text-center text-sm font-semibold text-emerald-700">
+                {t('saas.pricing.savingsNote')}
+              </p>
+            )}
           </div>
-          {billingPeriod === 'annual' && (
-            <p className="text-center text-sm font-semibold text-green-700 mb-10">
-              {t('saas.pricing.savingsNote')}
-            </p>
-          )}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-            {plansWithDynamicPricing.map((plan) => (
-              <PricingCard
+          {/* Grille des forfaits */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            {plansWithDynamicPricing.map((plan, index) => (
+              <div
                 key={plan.id}
-                plan={plan}
-                billingPeriod={billingPeriod}
-                annualSavings={annualSavingsByPlan[plan.id as keyof typeof annualSavingsByPlan]}
-                monthlyPrice={saasPlans.find((p) => p.id === plan.id)?.price}
-              />
+                className="animate-fadeInUp"
+                style={{ animationDelay: `${index * 80}ms` }}
+              >
+                <PricingCard
+                  plan={plan}
+                  billingPeriod={billingPeriod}
+                  annualSavings={annualSavingsByPlan[plan.id as keyof typeof annualSavingsByPlan]}
+                  monthlyPrice={saasPlans.find((p) => p.id === plan.id)?.price}
+                />
+              </div>
             ))}
           </div>
 
-          <div className="mt-12 text-center">
-            <div className="inline-flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-neutral-200 shadow-subtle max-w-2xl mx-auto">
-              <div className="flex items-center gap-2">
-                <svg className="h-5 w-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p className="font-sans text-sm font-semibold text-neutral-700">
-                  {t('saas.pricing.pricesHT')}
-                </p>
-              </div>
-              <p className="font-sans text-sm text-neutral-600">
-                {t('saas.pricing.economyNote')}
-              </p>
-            </div>
+          {/* Note HT */}
+          <div className="mt-14 flex flex-col items-center justify-center gap-2 rounded-2xl bg-white/90 backdrop-blur-sm border border-neutral-200 px-6 py-5 shadow-pricing max-w-2xl mx-auto">
+            <p className="font-sans text-sm font-semibold text-neutral-700 flex items-center gap-2">
+              <svg className="h-5 w-5 text-brand-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {t('saas.pricing.pricesHT')}
+            </p>
+            <p className="font-sans text-sm text-neutral-600 text-center">
+              {t('saas.pricing.economyNote')}
+            </p>
           </div>
         </div>
       </section>
