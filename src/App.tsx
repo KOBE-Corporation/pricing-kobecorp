@@ -5,6 +5,7 @@ import SaaS from './pages/SaaS';
 import FullControl from './pages/FullControl';
 import Hosting from './pages/Hosting';
 import Applications from './pages/Applications';
+import Contact from './pages/Contact';
 
 const AppContent = () => {
   return (
@@ -16,6 +17,7 @@ const AppContent = () => {
           <Route path="/saas" element={<SaaS />} />
           <Route path="/full-control" element={<FullControl />} />
           <Route path="/hebergement" element={<Hosting />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/applications" element={<Applications />} />
         </Routes>
       </main>

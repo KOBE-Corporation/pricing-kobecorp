@@ -113,12 +113,12 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a
-                  href="mailto:contact@kobecorporation.com"
+                <Link
+                  to="/contact"
                   className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

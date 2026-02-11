@@ -10,7 +10,6 @@ const SAAS_SECTIONS = [
   { id: 'forfaits', label: 'Programmes' },
   { id: 'missions', label: 'Missions' },
   { id: 'processus', label: 'Processus' },
-  { id: 'contact', label: 'Contact' },
 ] as const;
 
 const Header = () => {
@@ -159,12 +158,14 @@ const Header = () => {
             >
               Hébergement
             </button>
-            <a
-              href="mailto:contact@kobecorporation.com"
-              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+            <Link
+              to="/contact"
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute(['/contact']) ? 'bg-neutral-900 text-white' : 'text-neutral-700 hover:bg-neutral-50'
+              }`}
             >
               Contact
-            </a>
+            </Link>
           </nav>
         </div>
 
@@ -248,12 +249,16 @@ const Header = () => {
             >
               Hébergement
             </button>
-            <a
-              href="mailto:contact@kobecorporation.com"
+            <button
+              type="button"
+              onClick={() => {
+                navigate('/contact');
+                setIsMenuOpen(false);
+              }}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
             >
               Contact
-            </a>
+            </button>
 
             <a
               href="https://ben-djibril.kobecorporation.com"

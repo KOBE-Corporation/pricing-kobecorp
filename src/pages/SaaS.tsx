@@ -6,7 +6,6 @@ import PricingCard from '../components/PricingCard';
 import ComparisonSection from '../components/ComparisonSection';
 import { saasPlans } from '../data/saasPlans';
 import IncludedFeaturesSection from '../components/IncludedFeaturesSection';
-import ContactCTA from '../components/ContactCTA';
 import PageHero from '../components/PageHero';
 import SectionFeatures from '../components/SectionFeatures';
 
@@ -252,15 +251,6 @@ const SaaS = () => {
       <section id="processus">
         <ComparisonSection />
       </section>
-
-      <ContactCTA
-        id="contact"
-        titleFr={tLang('contact.title', 'fr')}
-        titleEn={tLang('contact.title', 'en')}
-        subtitleFr={tLang('contact.subtitle', 'fr')}
-        subtitleEn={tLang('contact.subtitle', 'en')}
-        mailSubjectSuffix="SaaS – Tarification"
-      />
 
       {/* Modal détails forfait */}
       {selectedPlan && (
