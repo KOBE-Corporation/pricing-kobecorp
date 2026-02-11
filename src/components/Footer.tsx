@@ -33,7 +33,7 @@ const Footer = () => {
   return (
     <footer className="bg-neutral-50 border-t border-neutral-200 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 items-start">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 items-start">
           {/* À propos */}
           <div>
             <Link to="/" className="inline-flex items-center gap-3 mb-3">
@@ -82,30 +82,6 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/#services"
-                  className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/#forfaits"
-                  className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
-                >
-                  Programmes
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/#missions"
-                  className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
-                >
-                  À propos
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/full-control"
                   className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
                 >
@@ -127,27 +103,6 @@ const Footer = () => {
                 >
                   Contact
                 </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Programmes */}
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-ink mb-4">
-              {language === 'fr' ? 'Programmes' : 'Programs'}
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <span className="text-sm text-neutral-600">Freelances</span>
-              </li>
-              <li>
-                <span className="text-sm text-neutral-600">Étudiants</span>
-              </li>
-              <li>
-                <span className="text-sm text-neutral-600">Open Source</span>
-              </li>
-              <li>
-                <span className="text-sm text-neutral-600">Networking</span>
               </li>
             </ul>
           </div>
@@ -249,9 +204,14 @@ const Footer = () => {
         {/* Copyright */}
         <div className="border-t border-neutral-200 pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm font-medium text-neutral-700">
+            <a
+              href="https://www.kobecorporation.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-neutral-700 hover:text-brand-600 transition-colors"
+            >
               {t('footer.copyright')}
-            </p>
+            </a>
             <div className="flex gap-2">
               <a
                 href="/privacy"
