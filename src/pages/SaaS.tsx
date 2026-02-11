@@ -235,15 +235,7 @@ const SaaS = () => {
         <ComparisonSection />
       </section>
 
-      {/* Contact */}
-      <ContactCTA
-        id="contact"
-        titleFr={tLang('saas.cta.title', 'fr')}
-        titleEn={tLang('saas.cta.title', 'en')}
-        subtitleFr={tLang('saas.cta.subtitle', 'fr')}
-        subtitleEn={tLang('saas.cta.subtitle', 'en')}
-        mailSubjectSuffix="Projet SaaS"
-      />
+      {/* Contact CTA supprimé sur cette page pour rester aligné avec le site principal */}
 
       {/* Modal détails forfait */}
       {selectedPlan && (

@@ -6,10 +6,9 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
-  const [activeItem, setActiveItem] = useState<'hero' | 'services' | 'programmes' | 'missions' | 'processus' | 'contact'>('hero');
 
   const toggleLanguage = () => {
     setLanguage(language === 'fr' ? 'en' : 'fr');
@@ -25,35 +24,28 @@ const Header = () => {
     }
   };
 
-  const goToSection = (sectionId?: 'hero' | 'services' | 'programmes' | 'missions' | 'processus' | 'contact') => {
-    const anchor = sectionId && sectionId !== 'hero' ? `#${sectionId}` : '#hero';
-
-    const performScroll = () => {
-      scrollToSection(anchor);
-    };
-
-    // Si on n'est pas sur la page SaaS, on y navigue puis on scrolle
+  const goToSaasHero = () => {
+    const performScroll = () => scrollToSection('#hero');
     if (location.pathname !== '/' && location.pathname !== '/saas') {
       navigate('/saas');
-      // Attendre le rendu de la page avant de scroller
       setTimeout(performScroll, 150);
     } else {
       performScroll();
     }
   };
 
-  const handleNavClick = (sectionId?: 'hero' | 'services' | 'programmes' | 'missions' | 'processus' | 'contact') => {
-    setActiveItem(sectionId ?? 'hero');
-    goToSection(sectionId);
-  };
+  const isActiveRoute = (paths: string[]) => paths.includes(location.pathname);
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/80 backdrop-blur-md shadow-subtle">
       <div className="mx-auto flex h-auto min-h-16 max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-8 lg:py-0 lg:h-16">
         {/* Logo */}
         <Link
-          to="/"
-          onClick={() => handleNavClick('hero')}
+          to="/saas"
+          onClick={(e) => {
+            e.preventDefault();
+            goToSaasHero();
+          }}
           className="flex items-center gap-3 hover:scale-105 transition-transform duration-200"
         >
           <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl overflow-hidden bg-black flex items-center justify-center ring-1 ring-neutral-800/40 shadow-subtle">
@@ -73,74 +65,47 @@ const Header = () => {
           </div>
         </Link>
 
-        {/* Navigation Desktop - identique au site principal, mais ciblant les sections de la page */}
+        {/* Navigation Desktop - onglets principaux */}
         <nav className="hidden md:flex items-center gap-1">
           <button
             type="button"
-            onClick={() => handleNavClick('hero')}
+            onClick={goToSaasHero}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              activeItem === 'hero'
+              isActiveRoute(['/', '/saas'])
                 ? 'bg-neutral-900 text-white'
                 : 'text-neutral-700 hover:bg-neutral-50'
             }`}
           >
-            Accueil
+            SaaS
           </button>
           <button
             type="button"
-            onClick={() => handleNavClick('services')}
+            onClick={() => navigate('/full-control')}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              activeItem === 'services'
+              isActiveRoute(['/full-control'])
                 ? 'bg-neutral-900 text-white'
                 : 'text-neutral-700 hover:bg-neutral-50'
             }`}
           >
-            Services
+            Full-Control
           </button>
           <button
             type="button"
-            onClick={() => handleNavClick('forfaits' as never)}
+            onClick={() => navigate('/hebergement')}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              activeItem === 'programmes'
+              isActiveRoute(['/hebergement'])
                 ? 'bg-neutral-900 text-white'
                 : 'text-neutral-700 hover:bg-neutral-50'
             }`}
           >
-            Programmes
+            Hébergement
           </button>
-          <button
-            type="button"
-            onClick={() => handleNavClick('missions')}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              activeItem === 'missions'
-                ? 'bg-neutral-900 text-white'
-                : 'text-neutral-700 hover:bg-neutral-50'
-            }`}
-          >
-            Missions
-          </button>
-          <button
-            type="button"
-            onClick={() => handleNavClick('processus')}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              activeItem === 'processus'
-                ? 'bg-neutral-900 text-white'
-                : 'text-neutral-700 hover:bg-neutral-50'
-            }`}
-          >
-            Processus
-          </button>
-          <button
-            type="button"
-            onClick={() => handleNavClick('contact')}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              activeItem === 'contact'
-                ? 'bg-neutral-900 text-white'
-                : 'text-neutral-700 hover:bg-neutral-50'
-            }`}
+          <a
+            href="mailto:contact@kobecorporation.com"
+            className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
           >
             Contact
-          </button>
+          </a>
         </nav>
 
         {/* Right side - Language + CTA Desktop */}
@@ -196,63 +161,39 @@ const Header = () => {
             <button
               type="button"
               onClick={() => {
-                handleNavClick('hero');
+                goToSaasHero();
                 setIsMenuOpen(false);
               }}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
             >
-              Accueil
+              SaaS
             </button>
             <button
               type="button"
               onClick={() => {
-                handleNavClick('services');
+                navigate('/full-control');
                 setIsMenuOpen(false);
               }}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
             >
-              Services
+              Full-Control
             </button>
             <button
               type="button"
               onClick={() => {
-                handleNavClick('programmes');
+                navigate('/hebergement');
                 setIsMenuOpen(false);
               }}
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
             >
-              Programmes
+              Hébergement
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                handleNavClick('missions');
-                setIsMenuOpen(false);
-              }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
-            >
-              Missions
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                handleNavClick('processus');
-                setIsMenuOpen(false);
-              }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
-            >
-              Processus
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                handleNavClick('contact');
-                setIsMenuOpen(false);
-              }}
+            <a
+              href="mailto:contact@kobecorporation.com"
               className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
             >
               Contact
-            </button>
+            </a>
 
             <a
               href="https://ben-djibril.kobecorporation.com"

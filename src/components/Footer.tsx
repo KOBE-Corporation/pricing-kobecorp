@@ -33,9 +33,9 @@ const Footer = () => {
   return (
     <footer className="bg-neutral-50 border-t border-neutral-200 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-6">
-          {/* À propos - col-span-2 */}
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 items-start">
+          {/* À propos */}
+          <div>
             <Link to="/" className="inline-flex items-center gap-3 mb-3">
               <div className="h-9 w-9 rounded-xl overflow-hidden bg-black flex items-center justify-center ring-1 ring-neutral-800/40 shadow-subtle">
                 <img
@@ -55,85 +55,91 @@ const Footer = () => {
             </Link>
             <p className="text-sm text-neutral-600 mb-4">
               {language === 'fr'
-                ? 'Votre partenaire technologique pour construire votre propre héritage numérique.'
-                : 'Your technology partner to build your own digital legacy.'}
+                ? 'KOBE Corporation – Votre partenaire technologique pour transformer vos idées en solutions logicielles innovantes.'
+                : 'KOBE Corporation – Your technology partner to turn ideas into software solutions.'}
             </p>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-ink mb-4">
-              {language === 'fr' ? 'Services' : 'Services'}
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/saas"
-                  className="text-sm text-neutral-600 transition-colors"
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
-                >
-                  {t('nav.saas')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/full-control"
-                  className="text-sm text-neutral-600 transition-colors"
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
-                >
-                  {t('nav.fullControl')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/hebergement"
-                  className="text-sm text-neutral-600 transition-colors"
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
-                >
-                  {t('nav.hosting')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/applications"
-                  className="text-sm text-neutral-600 transition-colors"
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
-                >
-                  {t('nav.applications')}
-                </Link>
-              </li>
-            </ul>
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 transition-all"
+            >
+              {language.toUpperCase()}
+            </button>
           </div>
 
           {/* Liens rapides */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wide text-ink mb-4">
-              {t('footer.quickLinks')}
+              {language === 'fr' ? 'Liens rapides' : 'Quick links'}
             </h3>
             <ul className="space-y-2">
               <li>
                 <Link
-                  to="/#forfaits"
-                  className="text-sm text-neutral-600 transition-colors"
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
+                  to="/saas"
+                  className="text-sm text-neutral-700 transition-colors hover:text-brand-600"
                 >
-                  {t('nav.pricing')}
+                  Accueil
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/#contact"
-                  className="text-sm text-neutral-600 transition-colors"
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#0a7aff'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#525252'}
+                  to="/#services"
+                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
                 >
-                  {t('nav.contact')}
+                  Services
                 </Link>
+              </li>
+              <li>
+                <Link
+                  to="/#forfaits"
+                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                >
+                  Programmes
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/#missions"
+                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                >
+                  À propos
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/full-control"
+                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                >
+                  Portfolio
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="mailto:contact@kobecorporation.com"
+                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                >
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Programmes */}
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-ink mb-4">
+              {language === 'fr' ? 'Programmes' : 'Programs'}
+            </h3>
+            <ul className="space-y-2">
+              <li>
+                <span className="text-sm text-neutral-600">Freelances</span>
+              </li>
+              <li>
+                <span className="text-sm text-neutral-600">Étudiants</span>
+              </li>
+              <li>
+                <span className="text-sm text-neutral-600">Open Source</span>
+              </li>
+              <li>
+                <span className="text-sm text-neutral-600">Networking</span>
               </li>
             </ul>
           </div>
