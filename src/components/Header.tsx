@@ -17,7 +17,6 @@ const FULL_CONTROL_SECTIONS = SAAS_SECTIONS;
 const HOSTING_SECTIONS = [
   { id: 'hero', label: 'Accueil' },
   { id: 'services', label: 'Services' },
-  { id: 'contact', label: 'Contact' },
 ] as const;
 
 const Header = () => {

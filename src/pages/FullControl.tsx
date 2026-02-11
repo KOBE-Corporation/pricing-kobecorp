@@ -15,7 +15,6 @@ import PricingCard from '../components/PricingCard';
 import ComparisonSection from '../components/ComparisonSection';
 import { fullControlPlans } from '../data/fullControlPlans';
 import IncludedFeaturesSection from '../components/IncludedFeaturesSection';
-import ContactCTA from '../components/ContactCTA';
 import PageHero from '../components/PageHero';
 import SectionFeatures from '../components/SectionFeatures';
 
@@ -23,7 +22,7 @@ const FullControl = () => {
   const { t, tLang, language } = useLanguage();
   const location = useLocation();
 
-  // Scroll vers la section correspondant au hash (#hero, #forfaits, #missions, #processus, #contact)
+  // Scroll vers la section correspondant au hash (#hero, #forfaits, #missions, #processus)
   useEffect(() => {
     const hash = location.hash?.replace('#', '');
     if (!hash) return;
@@ -72,11 +71,11 @@ const FullControl = () => {
             href: '#forfaits',
             variant: 'primary',
           }}
-          secondaryCta={{
-            label: t('fullControl.hero.secondaryCta'),
-            href: '#contact',
-            variant: 'outline',
-          }}
+secondaryCta={{
+          label: t('fullControl.hero.secondaryCta'),
+          href: '/contact',
+          variant: 'outline',
+        }}
         />
       </section>
 
@@ -211,16 +210,6 @@ const FullControl = () => {
       <section>
         <ComparisonSection />
       </section>
-
-      {/* CTA Section commune */}
-      <ContactCTA
-        id="contact"
-        titleFr={tLang('fullControl.cta.title', 'fr')}
-        titleEn={tLang('fullControl.cta.title', 'en')}
-        subtitleFr={tLang('fullControl.cta.subtitle', 'fr')}
-        subtitleEn={tLang('fullControl.cta.subtitle', 'en')}
-        mailSubjectSuffix="Projet Full-Control"
-      />
     </div>
   );
 };

@@ -80,7 +80,7 @@ const Applications = () => {
   const filteredServices = getServicesByCategory(selectedCategory);
   const appTypesServices = getServicesByCategory('apps');
 
-  // SEO : titre et meta description
+  // SEO : titre, meta description et canonical
   useEffect(() => {
     document.title = t('applications.meta.title');
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
@@ -90,7 +90,11 @@ const Applications = () => {
       document.head.appendChild(meta);
     }
     meta.setAttribute('content', t('applications.meta.description'));
-  }, [language]);
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', `${window.location.origin}/applications`);
+    }
+  }, [language, t]);
 
   return (
     <div className="min-h-screen bg-white">

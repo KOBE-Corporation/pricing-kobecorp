@@ -8,7 +8,6 @@ import {
   ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import PageHero from '../components/PageHero';
-import ContactCTA from '../components/ContactCTA';
 import SectionFeatures from '../components/SectionFeatures';
 
 const Hosting = () => {
@@ -31,7 +30,7 @@ const Hosting = () => {
     }
   }, [language, t]);
 
-  // Scroll vers la section correspondant au hash (#hero, #services, #contact)
+  // Scroll vers la section correspondant au hash (#hero, #services)
   useEffect(() => {
     const hash = location.hash?.replace('#', '');
     if (!hash) return;
@@ -90,7 +89,7 @@ const Hosting = () => {
           }
           primaryCta={{
             label: language === 'fr' ? 'Démarrer un projet' : 'Start a Project',
-            href: '#contact',
+            href: '/contact',
             variant: 'primary',
           }}
           secondaryCta={{
@@ -110,16 +109,6 @@ const Hosting = () => {
           items={hostingTypes}
         />
       </section>
-
-      {/* CTA Section commune */}
-      <ContactCTA
-        id="contact"
-        titleFr="Besoin d'hébergement ?"
-        titleEn="Need hosting?"
-        subtitleFr="Contactez-nous pour trouver la solution d'hébergement idéale."
-        subtitleEn="Contact us to find the ideal hosting solution."
-        mailSubjectSuffix="Projet Hébergement"
-      />
     </div>
   );
 };
