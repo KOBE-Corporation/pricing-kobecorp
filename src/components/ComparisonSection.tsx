@@ -76,7 +76,7 @@ const ComparisonSection = () => {
             </svg>
             {language === 'fr' ? 'Processus' : 'Process'}
           </span>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-600 tracking-tight mb-4">
             {language === 'fr'
               ? 'SaaS vs Full-Control : quelle solution choisir ?'
               : 'SaaS vs Full-Control: which solution to choose?'}

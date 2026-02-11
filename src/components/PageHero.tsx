@@ -37,7 +37,7 @@ const PageHero = ({
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-ink tracking-tight mb-6 animate-fadeInUp leading-[1.15]">
+        <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-brand-600 tracking-tight mb-6 animate-fadeInUp leading-[1.15]">
           {title}
         </h1>
         <p className="font-sans text-lg md:text-xl text-neutral-600 max-w-3xl mx-auto mb-5 animate-fadeInUp leading-relaxed" style={{ animationDelay: '80ms' }}>

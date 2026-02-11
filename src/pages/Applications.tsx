@@ -135,7 +135,7 @@ const Applications = () => {
       <section id="services" className="py-20 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
+            <h2 className="font-display text-3xl md:text-4xl font-semibold text-brand-600 mb-4">
               {t('applications.servicesSection.title')}
             </h2>
             <p className="font-sans text-lg text-neutral-600 max-w-3xl mx-auto mb-8">
