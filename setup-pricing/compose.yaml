@@ -3,15 +3,22 @@ services:
     build:
       context: ..
       dockerfile: setup-pricing/Dockerfile
-    image: pricing-kobecorp:latest
+      args:
+        VITE_EMAILJS_PUBLIC_KEY: ${VITE_EMAILJS_PUBLIC_KEY}
+        VITE_EMAILJS_SERVICE_ID: ${VITE_EMAILJS_SERVICE_ID}
+        VITE_EMAILJS_CONTACT_TEMPLATE_ID: ${VITE_EMAILJS_CONTACT_TEMPLATE_ID}
+        VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID: ${VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID}
+    image: ${DOCKER_IMAGE_NAME:-pricing-kobecorp}:${DOCKER_IMAGE_TAG:-latest}
     container_name: pricing-kobecorp
     restart: unless-stopped
     # Ne pas exposer de port directement sur l'hôte.
     # Le reverse proxy (externe) prend en charge les ports 80/443.
     expose:
       - "80"
+    env_file:
+      - .env
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV:-production}
     networks:
       - kobecorp-network
     healthcheck:
