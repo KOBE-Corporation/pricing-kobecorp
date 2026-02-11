@@ -107,9 +107,8 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
                     <p className="font-display font-semibold leading-[1.15] tracking-tight tabular-nums text-[clamp(1.3rem,3.7vw,2rem)]">
                       {plan.price.toLocaleString('fr-FR')}
                       <span className="ml-1 text-[clamp(0.82rem,1.8vw,1.05rem)] align-top">f</span>
-                      <span className="ml-1.5 font-display text-[clamp(0.8rem,1.9vw,1.05rem)]">/{plan.period}</span>
-                      <span className="ml-1 font-sans text-[clamp(0.64rem,1.45vw,0.8rem)] font-semibold opacity-95">
-                        ({language === 'fr' ? 'Hors Taxes' : 'Excl. tax'})
+                      <span className="ml-1.5 font-display text-[clamp(0.8rem,1.9vw,1.05rem)]">
+                        /{plan.period} (HT)
                       </span>
                     </p>
                   </div>

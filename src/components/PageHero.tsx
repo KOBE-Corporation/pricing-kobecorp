@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ClockIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
+import { CalendarDaysIcon, ClockIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 import Button from './Button';
 
 type HeroCta = {
@@ -83,9 +83,15 @@ const PageHero = ({
       setCountdown(null);
       return;
     }
-    setCountdown(getCountdownParts(targetTimestamp));
+    const tick = () => {
+      const next = getCountdownParts(targetTimestamp);
+      setCountdown(next);
+      return next.finished;
+    };
+    tick();
     const timer = window.setInterval(() => {
-      setCountdown(getCountdownParts(targetTimestamp));
+      const finished = tick();
+      if (finished) window.clearInterval(timer);
     }, 1000);
     return () => window.clearInterval(timer);
   }, [targetTimestamp]);
@@ -104,42 +110,41 @@ const PageHero = ({
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {countdown && (
-          <div className="mb-7 w-full max-w-2xl mx-auto rounded-2xl border border-brand-200/90 bg-white/90 px-4 py-4 shadow-soft backdrop-blur-sm animate-fadeInUp">
-            <div className="flex items-center justify-center gap-2 text-brand-600 mb-2">
+        {countdown && !countdown.finished && (
+          <div className="mb-7 w-full max-w-2xl mx-auto rounded-2xl border border-brand-200 bg-gradient-to-b from-white to-brand-50/30 px-4 py-4 shadow-soft backdrop-blur-sm animate-fadeInUp">
+            <div className="flex items-center justify-center gap-2 text-brand-600 mb-3">
               <ClockIcon className="h-4 w-4 animate-pulse" />
-              <p className="text-xs font-semibold uppercase tracking-wide">
-                {countdown.finished
-                  ? (countdownFinishedLabel ?? 'Lancement officiel en cours')
-                  : (countdownLabel ?? 'Compte à rebours du lancement officiel')}
+              <p className="text-xs font-semibold uppercase tracking-wider">
+                {countdownLabel ?? 'Compte à rebours du lancement officiel'}
               </p>
               <RocketLaunchIcon className="h-4 w-4" />
             </div>
-            {!countdown.finished && (
-              <div className="flex items-center justify-center gap-1.5 sm:gap-2.5">
-                {[
-                  { key: 'days', value: countdown.days, label: 'JJ' },
-                  { key: 'hours', value: countdown.hours, label: 'HH' },
-                  { key: 'minutes', value: countdown.minutes, label: 'MM' },
-                  { key: 'seconds', value: countdown.seconds, label: 'SS' },
-                ].map((part, idx) => (
-                  <div key={part.key} className="flex items-center gap-1.5 sm:gap-2.5">
-                    <div className="min-w-[56px] sm:min-w-[68px] rounded-xl border border-brand-100 bg-gradient-to-b from-white to-brand-50/40 px-2 py-2 sm:px-3">
-                      <p className="font-display text-lg sm:text-2xl leading-none font-semibold text-ink tabular-nums">
-                        {part.value}
-                      </p>
-                      <p className="mt-1 text-[10px] sm:text-xs font-semibold text-brand-600 uppercase tracking-wide">
-                        {part.label}
-                      </p>
-                    </div>
-                    {idx < 3 && <span className="font-display text-lg sm:text-2xl text-brand-500/80 pb-4">:</span>}
+
+            <div className="flex items-stretch justify-center gap-1.5 sm:gap-2.5">
+              {[
+                { key: 'days', value: countdown.days, label: 'JJ' },
+                { key: 'hours', value: countdown.hours, label: 'HH' },
+                { key: 'minutes', value: countdown.minutes, label: 'MM' },
+                { key: 'seconds', value: countdown.seconds, label: 'SS' },
+              ].map((part, idx) => (
+                <div key={part.key} className="flex items-center gap-1.5 sm:gap-2.5">
+                  <div className={`min-w-[60px] sm:min-w-[74px] rounded-xl border border-brand-100 bg-white px-2 py-2 sm:px-3 ${part.key === 'seconds' ? 'ring-1 ring-brand-200/70' : ''}`}>
+                    <p className="font-display text-xl sm:text-2xl leading-none font-semibold text-ink tabular-nums">
+                      {part.value}
+                    </p>
+                    <p className="mt-1 text-[10px] sm:text-xs font-semibold text-brand-600 uppercase tracking-wide">
+                      {part.label}
+                    </p>
                   </div>
-                ))}
-              </div>
-            )}
-            <p className="mt-3 text-xs sm:text-sm text-neutral-600 font-medium">
+                  {idx < 3 && <span className="font-display text-xl sm:text-2xl text-brand-500/70 pb-4">:</span>}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-brand-100 bg-white px-3 py-1.5 text-xs sm:text-sm text-neutral-600 font-medium">
+              <CalendarDaysIcon className="h-4 w-4 text-brand-600" />
               {countdownDateLabel ?? 'Date de lancement : 30/03/2026 à 00:00'}
-            </p>
+            </div>
           </div>
         )}
         <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink leading-[1.1] tracking-tight mb-6 animate-fadeInUp">
