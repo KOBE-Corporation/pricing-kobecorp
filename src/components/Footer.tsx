@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
-import { MapPinIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import { MapPinIcon, PhoneIcon, EnvelopeIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 import { companyInfo } from '../data/companyInfo';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Footer = () => {
-  const { language, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'fr' ? 'en' : 'fr');
+  };
 
   const contactInfo = [
     {
@@ -60,8 +64,10 @@ const Footer = () => {
             </p>
             <button
               type="button"
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 transition-all"
+              onClick={toggleLanguage}
+              className="rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md transition-all flex items-center gap-1.5"
             >
+              <GlobeAltIcon className="h-4 w-4" />
               {language.toUpperCase()}
             </button>
           </div>
