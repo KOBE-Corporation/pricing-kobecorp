@@ -20,7 +20,6 @@ const formatXAF = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigi
 const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPrice, onSelect }: PricingCardProps) => {
   const { t, language } = useLanguage();
   const formatAmount = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
-  const saveLabel = t('saas.pricing.saveAnnualLabel').replace('{amount}', formatAmount(annualSavings ?? 0));
   const equivLabel = t('saas.pricing.equivalentPerMonth').replace('{amount}', formatAmount(monthlyPrice ?? 0));
   const isPopular = plan.popular ?? false;
   const previewLimit = 6;
@@ -31,30 +30,29 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
     <article
       className={`pricing-card relative flex flex-col rounded-3xl border bg-white overflow-hidden ${
         isPopular
-          ? 'border-brand-300 shadow-pricing-popular ring-2 ring-brand-500/15 pricing-card-popular hover:border-brand-400'
-          : 'border-neutral-200 shadow-pricing hover:shadow-pricing-hover hover:border-brand-200'
+          ? 'border-brand-400 shadow-pricing-popular ring-1 ring-brand-300/70 pricing-card-popular hover:border-brand-500'
+          : 'border-neutral-300 shadow-pricing hover:shadow-pricing-hover hover:border-brand-300'
       }`}
     >
       {/* Bandeau populaire */}
       {isPopular && (
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600" />
       )}
-      {isPopular && (
-        <div className="absolute top-4 right-4 z-10">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-500/12 px-3 py-1.5 text-xs font-semibold text-brand-600 shadow-sm ring-1 ring-brand-500/25 backdrop-blur-sm">
-            <SparklesIcon className="h-3.5 w-3.5" />
-            {t('pricing.popular')}
-          </span>
-        </div>
-      )}
-
-      <div className="flex flex-1 flex-col p-6 sm:p-7 pt-9">
+      <div className="flex flex-1 flex-col p-6 sm:p-7 pt-8">
         {/* En-tête */}
-        <header className="text-center mb-5">
-          <h3 className="font-display text-[1.65rem] font-semibold text-ink tracking-tight leading-tight">
-            {plan.name}
-          </h3>
-          <p className="mt-2 font-sans text-sm text-neutral-600 leading-relaxed max-w-[260px] mx-auto">
+        <header className="mb-5">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="font-display text-[2rem] font-semibold text-ink tracking-tight leading-none">
+              # {plan.name}
+            </h3>
+            {isPopular && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-brand-500 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
+                <SparklesIcon className="h-3.5 w-3.5" />
+                {language === 'fr' ? 'Bon plan' : t('pricing.popular')}
+              </span>
+            )}
+          </div>
+          <p className="mt-3 font-sans text-[1.03rem] text-neutral-700 leading-relaxed max-w-[300px]">
             {plan.description}
           </p>
         </header>
@@ -90,27 +88,31 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
               )}
             </div>
           ) : (
-            <div className="rounded-2xl bg-gradient-to-b from-neutral-50 to-neutral-100/80 px-5 py-5 border border-neutral-200/60 shadow-inner">
-              <div className="flex items-baseline justify-center gap-1.5">
-                <span className="font-display text-[2.15rem] font-semibold text-ink tracking-tight tabular-nums">
-                  {plan.price.toLocaleString('fr-FR')}
-                </span>
-                <span className="font-sans text-base font-medium text-neutral-500">
-                  {plan.currency}
-                </span>
+            <div className="space-y-2">
+              {billingPeriod === 'monthly' && annualSavings != null && annualSavings > 0 && (
+                <p className="font-sans text-sm text-neutral-500 line-through">
+                  {formatAmount(annualSavings)} F {language === 'fr' ? 'Paiement Annuel' : 'Annual payment'}
+                </p>
+              )}
+              <div className="rounded-2xl bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 px-4 py-4 text-white shadow-md">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="font-display text-[2.75rem] leading-[0.9] font-semibold tracking-tight tabular-nums">
+                    {plan.price.toLocaleString('fr-FR')}
+                    <span className="block text-[2.25rem]">f</span>
+                  </p>
+                  <div className="pt-1 text-left">
+                    <p className="font-display text-[1.9rem] leading-none font-semibold">
+                      /{plan.period}
+                    </p>
+                    <p className="font-sans text-[1.05rem] font-semibold leading-tight opacity-95 mt-1">
+                      ({language === 'fr' ? 'Hors Taxes' : 'Excl. tax'})
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p className="text-center font-sans text-sm text-neutral-500 mt-1">
-                /{plan.period}
-                <span className="text-neutral-400"> · {t('saas.pricing.exclTax')}</span>
-              </p>
               {billingPeriod === 'annual' && monthlyPrice != null && (
                 <p className="text-center font-sans text-sm font-semibold text-brand-600 mt-2">
                   {equivLabel}
-                </p>
-              )}
-              {billingPeriod === 'monthly' && annualSavings != null && annualSavings > 0 && (
-                <p className="text-center font-sans text-sm font-semibold text-emerald-600 mt-2">
-                  {saveLabel}
                 </p>
               )}
               {plan.originalPrice && !(billingPeriod === 'annual' && monthlyPrice != null) && (
