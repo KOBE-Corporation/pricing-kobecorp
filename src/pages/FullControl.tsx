@@ -106,7 +106,7 @@ secondaryCta={{
                 {t('fullControl.pricing.badge')}
               </span>
             </div>
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-brand-600 mb-4">
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink leading-[1.1] tracking-tight mb-4">
               {t('fullControl.pricing.heading')}
             </h2>
             <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto mb-6">
@@ -180,7 +180,7 @@ secondaryCta={{
       <section id="processus" className="py-20 bg-gradient-to-b from-brand-50/30 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-brand-600 mb-4">
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink leading-[1.1] tracking-tight mb-4">
               {t('fullControl.stack.title')}
             </h2>
             <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto">

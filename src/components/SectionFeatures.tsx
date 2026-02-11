@@ -47,7 +47,7 @@ const SectionFeatures = ({
               {language === 'fr' ? badgeLabelFr ?? badgeLabelEn : badgeLabelEn ?? badgeLabelFr}
             </span>
           ) : null}
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-600 tracking-tight mb-4">
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink leading-[1.1] tracking-tight mb-4">
             {language === 'fr' ? titleFr : titleEn}
           </h2>
           <p className="font-sans text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
