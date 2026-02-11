@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSEO } from '../hooks/useSEO';
 import {
   DevicePhoneMobileIcon,
   ComputerDesktopIcon,
@@ -80,21 +81,11 @@ const Applications = () => {
   const filteredServices = getServicesByCategory(selectedCategory);
   const appTypesServices = getServicesByCategory('apps');
 
-  // SEO : titre, meta description et canonical
-  useEffect(() => {
-    document.title = t('applications.meta.title');
-    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.setAttribute('name', 'description');
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute('content', t('applications.meta.description'));
-    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (canonical) {
-      canonical.setAttribute('href', `${window.location.origin}/applications`);
-    }
-  }, [language, t]);
+  useSEO({
+    title: t('applications.meta.title'),
+    description: t('applications.meta.description'),
+    path: '/applications',
+  });
 
   return (
     <div className="min-h-screen bg-white">

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSEO } from '../hooks/useSEO';
 import { companyInfo } from '../data/companyInfo';
 import FAQ from '../components/FAQ';
 import {
@@ -53,13 +54,11 @@ const Contact = () => {
     consent: false,
   });
 
-  useEffect(() => {
-    document.title = t('contact.meta.title');
-    const meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (meta) meta.setAttribute('content', t('contact.meta.description'));
-    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', `${window.location.origin}/contact`);
-  }, [language, t]);
+  useSEO({
+    title: t('contact.meta.title'),
+    description: t('contact.meta.description'),
+    path: '/contact',
+  });
 
   useEffect(() => {
     const t = setTimeout(() => setHeroVisible(true), 100);

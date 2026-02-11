@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSEO } from '../hooks/useSEO';
 import {
   CodeBracketIcon,
   ServerIcon,
@@ -43,21 +44,11 @@ const SaaS = () => {
     }
   }, [location.pathname, location.hash]);
 
-  // SEO : titre, meta description et canonical
-  useEffect(() => {
-    document.title = t('saas.meta.title');
-    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.setAttribute('name', 'description');
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute('content', t('saas.meta.description'));
-    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (canonical) {
-      canonical.setAttribute('href', `${window.location.origin}${location.pathname}`);
-    }
-  }, [language, t, location.pathname]);
+  useSEO({
+    title: t('saas.meta.title'),
+    description: t('saas.meta.description'),
+    path: location.pathname || '/',
+  });
 
   // Prix annuels (économies : Good Deal -30 000 F, Pro -50 000 F, Ultra -60 000 F)
   const annualPrices = {

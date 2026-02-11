@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSEO } from '../hooks/useSEO';
 import {
   BoltIcon,
   Cog6ToothIcon,
@@ -47,21 +48,11 @@ const FullControl = () => {
     }
   }, [location.pathname, location.hash]);
 
-  // SEO : titre, meta description et canonical
-  useEffect(() => {
-    document.title = t('fullControl.meta.title');
-    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.setAttribute('name', 'description');
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute('content', t('fullControl.meta.description'));
-    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (canonical) {
-      canonical.setAttribute('href', `${window.location.origin}/full-control`);
-    }
-  }, [language, t]);
+  useSEO({
+    title: t('fullControl.meta.title'),
+    description: t('fullControl.meta.description'),
+    path: '/full-control',
+  });
 
   const featureIcons = [Cog6ToothIcon, LockClosedIcon, CommandLineIcon, ServerStackIcon];
   const features = [0, 1, 2, 3].map((i) => ({
