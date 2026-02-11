@@ -108,7 +108,7 @@ const FAQ = () => {
     <section id="faq" className="py-20 bg-gradient-to-b from-white to-brand-50/30">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
+          <h2 className="mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl">
             {language === 'fr' ? 'Questions Fréquentes' : 'Frequently Asked Questions'}
           </h2>
           <p className="font-sans text-lg text-neutral-600">

@@ -56,7 +56,7 @@ const PageHero = ({
             />
           </div>
         )}
-        <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink leading-[1.1] tracking-tight mb-6 animate-fadeInUp">
+        <h1 className="mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl animate-fadeInUp">
           {title}
         </h1>
         <p className="font-sans text-lg md:text-xl text-neutral-600 max-w-3xl mx-auto mb-5 animate-fadeInUp leading-relaxed" style={{ animationDelay: '80ms' }}>

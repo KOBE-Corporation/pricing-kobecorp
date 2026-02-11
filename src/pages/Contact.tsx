@@ -150,7 +150,7 @@ const Contact = () => {
           {/* Carte formulaire lg:col-span-2 */}
           <div className="lg:col-span-2">
             <div className="group relative rounded-2xl border border-neutral-200 bg-white p-8 md:p-10 shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
-              <h2 className="mb-6 font-display text-2xl text-ink md:text-3xl">
+              <h2 className="mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl">
                 {language === 'fr' ? 'Envoyez-nous un message' : 'Send us a message'}
               </h2>
 
@@ -333,7 +333,7 @@ const Contact = () => {
 
           {/* Colonne droite : Informations de contact */}
           <div className="space-y-6">
-            <h2 className="mb-6 font-display text-2xl text-ink md:text-3xl">
+            <h2 className="mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl">
               {language === 'fr' ? 'Informations de Contact' : 'Contact Information'}
             </h2>
             <div className="space-y-4">

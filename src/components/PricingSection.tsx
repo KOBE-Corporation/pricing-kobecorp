@@ -47,7 +47,7 @@ const PricingSection = ({ plans }: PricingSectionProps) => {
       {/* Contenu */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="font-display text-4xl md:text-5xl font-semibold text-ink mb-4">
+          <h2 className="mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl">
             {t('pricing.title')}
           </h2>
           <p className="font-sans text-xl text-neutral-600 max-w-2xl mx-auto">

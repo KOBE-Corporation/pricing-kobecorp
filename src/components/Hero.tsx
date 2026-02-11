@@ -69,7 +69,7 @@ const Hero = () => {
           </div>
 
           {/* Titre */}
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-ink mb-6">
+          <h1 className="mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl">
             {t('hero.title')}
           </h1>
 

@@ -35,7 +35,7 @@ const ContactCTA = ({
         <div className="relative rounded-3xl border-2 border-brand-200/80 bg-white/90 backdrop-blur-sm shadow-pricing overflow-hidden text-center">
           <div className="absolute inset-0 bg-gradient-to-br from-brand-50/50 to-transparent pointer-events-none" />
           <div className="relative z-10 px-8 py-14 md:px-12 md:py-16">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">
+            <h2 className="mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl">
               {language === 'fr' ? titleFr : titleEn}
             </h2>
             <p className="font-sans text-lg text-neutral-600 mb-10 max-w-xl mx-auto leading-relaxed">
