@@ -75,12 +75,12 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
               {plan.priceRange && (
                 <div className="mt-3">
                   <p className="font-display text-lg font-semibold text-ink">
-                    {formatXAF(plan.priceRange.min)} – {formatXAF(plan.priceRange.max)} F CFA
+                    {language === 'fr' ? 'Prix discutable' : 'Negotiable price'}
                   </p>
                   <p className="font-sans text-xs text-neutral-500 mt-1">
                     {language === 'fr'
-                      ? `pour ${plan.priceRange.deliveryDays} jours de développement`
-                      : `for ${plan.priceRange.deliveryDays} days of development`}
+                      ? `selon le périmètre (${plan.priceRange.deliveryDays} jours estimés)`
+                      : `depending on scope (${plan.priceRange.deliveryDays} estimated days)`}
                   </p>
                 </div>
               )}
@@ -104,11 +104,11 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
               <div className="rounded-2xl border border-brand-100 bg-white px-4 py-4 shadow-sm">
                 <div className="rounded-2xl bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 px-3 sm:px-4 py-3.5 sm:py-4 text-white shadow-md border border-brand-400/30">
                   <div className="w-full text-center whitespace-nowrap">
-                    <p className="font-display font-semibold leading-[1.15] tracking-tight tabular-nums text-[clamp(1.3rem,3.7vw,2rem)]">
+                  <p className="font-display font-semibold leading-[1.15] tracking-tight tabular-nums text-[clamp(1.18rem,3.2vw,1.72rem)]">
                       {plan.price.toLocaleString('fr-FR')}
-                      <span className="ml-1 text-[clamp(0.82rem,1.8vw,1.05rem)] align-top">f</span>
-                      <span className="ml-1.5 font-display text-[clamp(0.8rem,1.9vw,1.05rem)]">
-                        /{plan.period} (HT)
+                      <span className="ml-1 text-[clamp(0.82rem,1.8vw,1.05rem)] align-top"> f</span>
+                    <span className="ml-1 font-display text-[clamp(0.66rem,1.45vw,0.84rem)] align-middle">
+                        / {plan.period} (HT)
                       </span>
                     </p>
                   </div>

@@ -239,7 +239,7 @@ const SaaS = () => {
           subtitle={t('saas.hero.subtitle')}
           highlightLine={t('saas.hero.highlightLine')}
           countdownTargetDate="2026-03-30T00:00:00"
-          countdownLabel={language === 'fr' ? 'Lancement officiel SaaS (JJ:HH:MM:SS)' : 'Official SaaS launch (DD:HH:MM:SS)'}
+          countdownLabel={language === 'fr' ? 'Lancement Officel des Forfait SaaS' : 'Official SaaS plans launch'}
           countdownFinishedLabel={language === 'fr' ? 'Lancement officiel en cours' : 'Official launch is live'}
           countdownDateLabel={language === 'fr' ? 'Date officielle : 30/03/2026 à 00:00' : 'Official date: 30/03/2026 at 00:00'}
           primaryCta={{
@@ -367,18 +367,6 @@ const SaaS = () => {
             ))}
           </div>
 
-          {/* Note HT */}
-          <div className="mt-14 flex flex-col items-center justify-center gap-2 rounded-2xl bg-white/90 backdrop-blur-sm border border-neutral-200 px-6 py-5 shadow-pricing max-w-2xl mx-auto">
-            <p className="font-sans text-sm font-semibold text-neutral-700 flex items-center gap-2">
-              <svg className="h-5 w-5 text-brand-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {t('saas.pricing.pricesHT')}
-            </p>
-            <p className="font-sans text-sm text-neutral-600 text-center">
-              {t('saas.pricing.economyNote')}
-            </p>
-          </div>
         </div>
       </section>
 
