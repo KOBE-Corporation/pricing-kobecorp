@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
@@ -18,9 +18,12 @@ import IncludedFeaturesSection from '../components/IncludedFeaturesSection';
 import PageHero from '../components/PageHero';
 import SectionFeatures from '../components/SectionFeatures';
 
+type DynamicFullControlPlan = (typeof fullControlPlans)[number];
+
 const FullControl = () => {
   const { t, tLang, language } = useLanguage();
   const location = useLocation();
+  const [selectedPlan, setSelectedPlan] = useState<DynamicFullControlPlan | null>(null);
 
   // Scroll vers la section correspondant au hash (#hero, #forfaits, #missions, #processus)
   useEffect(() => {
@@ -132,7 +135,11 @@ secondaryCta={{
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {fullControlPlans.map((plan) => (
-              <PricingCard key={plan.id} plan={plan} />
+              <PricingCard
+                key={plan.id}
+                plan={plan}
+                onSelect={(p) => setSelectedPlan(p as DynamicFullControlPlan)}
+              />
             ))}
           </div>
 
@@ -166,7 +173,6 @@ secondaryCta={{
             { icon: ServerStackIcon, titleFr: tLang('fullControl.included.items.1.title', 'fr'), titleEn: tLang('fullControl.included.items.1.title', 'en'), descFr: tLang('fullControl.included.items.1.desc', 'fr'), descEn: tLang('fullControl.included.items.1.desc', 'en') },
             { icon: CommandLineIcon, titleFr: tLang('fullControl.included.items.2.title', 'fr'), titleEn: tLang('fullControl.included.items.2.title', 'en'), descFr: tLang('fullControl.included.items.2.desc', 'fr'), descEn: tLang('fullControl.included.items.2.desc', 'en') },
             { icon: DocumentTextIcon, titleFr: tLang('fullControl.included.items.3.title', 'fr'), titleEn: tLang('fullControl.included.items.3.title', 'en'), descFr: tLang('fullControl.included.items.3.desc', 'fr'), descEn: tLang('fullControl.included.items.3.desc', 'en') },
-            { icon: ServerStackIcon, titleFr: tLang('fullControl.included.items.4.title', 'fr'), titleEn: tLang('fullControl.included.items.4.title', 'en'), descFr: tLang('fullControl.included.items.4.desc', 'fr'), descEn: tLang('fullControl.included.items.4.desc', 'en') },
             { icon: ShieldCheckIcon, titleFr: tLang('fullControl.included.items.5.title', 'fr'), titleEn: tLang('fullControl.included.items.5.title', 'en'), descFr: tLang('fullControl.included.items.5.desc', 'fr'), descEn: tLang('fullControl.included.items.5.desc', 'en') },
             { icon: LockClosedIcon, titleFr: tLang('fullControl.included.items.6.title', 'fr'), titleEn: tLang('fullControl.included.items.6.title', 'en'), descFr: tLang('fullControl.included.items.6.desc', 'fr'), descEn: tLang('fullControl.included.items.6.desc', 'en') },
             { icon: AcademicCapIcon, titleFr: tLang('fullControl.included.items.7.title', 'fr'), titleEn: tLang('fullControl.included.items.7.title', 'en'), descFr: tLang('fullControl.included.items.7.desc', 'fr'), descEn: tLang('fullControl.included.items.7.desc', 'en') },
@@ -210,6 +216,99 @@ secondaryCta={{
       <section>
         <ComparisonSection />
       </section>
+
+      {/* Modal détails forfait Full-Control */}
+      {selectedPlan && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={language === 'fr' ? `Détails du forfait ${selectedPlan.name}` : `Plan details ${selectedPlan.name}`}
+        >
+          <div className="relative w-full max-w-2xl max-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white shadow-2xl border border-neutral-200">
+            <button
+              type="button"
+              onClick={() => setSelectedPlan(null)}
+              className="absolute right-4 top-4 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+            >
+              <span className="sr-only">{language === 'fr' ? 'Fermer la fenêtre' : 'Close dialog'}</span>
+              ×
+            </button>
+
+            <div className="space-y-6 overflow-y-auto px-6 md:px-8 py-5 md:py-6 max-h-[calc(100vh-2rem-3rem)]">
+              <header className="pr-10">
+                <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 ring-1 ring-brand-200">
+                  {language === 'fr' ? 'Détail du forfait Full-Control' : 'Full-Control plan details'}
+                </span>
+                <h3 className="mt-3 font-display text-3xl font-semibold text-ink leading-tight">
+                  {selectedPlan.name}
+                </h3>
+                <p className="mt-2 text-sm text-neutral-600">
+                  {selectedPlan.description}
+                </p>
+              </header>
+
+              {selectedPlan.priceRange && (
+                <div className="rounded-2xl bg-neutral-50 border border-neutral-200 px-5 py-4">
+                  <p className="text-sm font-medium text-neutral-700">
+                    {language === 'fr' ? 'Mode de tarification' : 'Pricing mode'}
+                  </p>
+                  <p className="mt-1 text-sm text-neutral-700">
+                    {language === 'fr'
+                      ? 'Prix discutable selon le périmètre et la complexité du projet.'
+                      : 'Negotiable price depending on scope and project complexity.'}
+                  </p>
+                  <p className="mt-1 text-xs text-neutral-500">
+                    {language === 'fr'
+                      ? `Durée estimée : ${selectedPlan.priceRange.deliveryDays} jours de développement.`
+                      : `Estimated duration: ${selectedPlan.priceRange.deliveryDays} development days.`}
+                  </p>
+                </div>
+              )}
+
+              <div>
+                <p className="text-sm font-semibold text-neutral-700 mb-3">
+                  {language === 'fr' ? 'Ce qui est inclus :' : 'What is included:'}
+                </p>
+                <ul className="space-y-2 rounded-xl border border-neutral-200 bg-neutral-50/60 p-4">
+                  {selectedPlan.features.map((feature) => (
+                    <li key={feature.name} className="text-sm flex items-start gap-3">
+                      {feature.included ? (
+                        <span className="mt-0.5 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                          ✓
+                        </span>
+                      ) : (
+                        <span className="mt-0.5 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-neutral-200 text-neutral-500">
+                          ×
+                        </span>
+                      )}
+                      <span className={feature.included ? 'text-neutral-700' : 'text-neutral-500 line-through'}>
+                        {feature.name}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="pt-1 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSelectedPlan(null)}
+                  className="inline-flex items-center justify-center rounded-xl border border-neutral-200 px-4 py-2.5 text-sm font-semibold text-neutral-700 hover:bg-neutral-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                >
+                  {language === 'fr' ? 'Fermer' : 'Close'}
+                </button>
+                <a
+                  href={selectedPlan.ctaLink}
+                  className="inline-flex items-center justify-center rounded-xl bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                >
+                  {selectedPlan.ctaText || (language === 'fr' ? 'Demander un devis' : 'Request a quote')}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
