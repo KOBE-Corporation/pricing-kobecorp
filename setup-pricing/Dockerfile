@@ -1,3 +1,29 @@
+ARG NODE_VERSION=22.13.1
+
+FROM node:${NODE_VERSION}-alpine
+
+# Environnement de production
+ENV NODE_ENV=production
+
+WORKDIR /usr/src/app
+
+# Copie des fichiers de configuration npm
+COPY package*.json ./
+
+# Installation des dépendances (inclut dev pour build + preview Vite)
+RUN npm ci
+
+# Copie du reste de l'application
+COPY . .
+
+# Build de l'application pour la production
+RUN npm run build
+
+# L'application sera servie via `vite preview` sur le port 80
+EXPOSE 80
+
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "80"]
+
 # syntax=docker/dockerfile:1
 
 # Comments are provided throughout this file to help you get started.
