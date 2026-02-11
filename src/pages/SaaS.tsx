@@ -1,7 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
-import { CodeBracketIcon, ServerIcon, ChartBarIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
+import {
+  CodeBracketIcon,
+  ServerIcon,
+  ChartBarIcon,
+  ShieldCheckIcon,
+  UserGroupIcon,
+  ClipboardDocumentCheckIcon,
+  WrenchScrewdriverIcon,
+  StopCircleIcon,
+  InformationCircleIcon,
+  KeyIcon,
+} from '@heroicons/react/24/outline';
 import PricingCard from '../components/PricingCard';
 import ComparisonSection from '../components/ComparisonSection';
 import { saasPlans } from '../data/saasPlans';
@@ -99,6 +110,48 @@ const SaaS = () => {
       window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
   };
+
+  const modelDetailCards = [
+    {
+      title: language === 'fr' ? 'Pour qui est ce modèle ?' : 'Who is this model for?',
+      description:
+        language === 'fr'
+          ? 'Idéal pour les entrepreneurs et entreprises qui veulent lancer rapidement, avec un coût mensuel maîtrisé.'
+          : 'Ideal for entrepreneurs and companies who want to launch fast with controlled monthly costs.',
+      icon: UserGroupIcon,
+      tone: 'rose',
+    },
+    {
+      title:
+        language === 'fr'
+          ? 'Propriété intellectuelle & droits'
+          : 'Intellectual property & rights',
+      description:
+        language === 'fr'
+          ? "L'application est opérée en mode SaaS : vous utilisez le logiciel, mais le code source et la propriété intellectuelle restent chez Kobe Corporation."
+          : 'The application is operated in SaaS mode: you use the software, but source code and intellectual property remain with Kobe Corporation.',
+      icon: KeyIcon,
+      tone: 'slate',
+    },
+    {
+      title: language === 'fr' ? 'Vos responsabilités' : 'Your responsibilities',
+      description:
+        language === 'fr'
+          ? "Définir vos besoins métier, valider les grands choix fonctionnels et respecter les conditions d'utilisation."
+          : 'Define your business needs, validate major functional choices, and follow usage conditions.',
+      icon: ClipboardDocumentCheckIcon,
+      tone: 'slate',
+    },
+    {
+      title: language === 'fr' ? 'Mes responsabilités' : 'My responsibilities',
+      description:
+        language === 'fr'
+          ? "Héberger et maintenir l'application, assurer les mises à jour, la sécurité et les corrections prévues dans le forfait."
+          : 'Host and maintain the app, ensure updates, security, and fixes included in the plan.',
+      icon: WrenchScrewdriverIcon,
+      tone: 'indigo',
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-white antialiased">
@@ -316,6 +369,11 @@ const SaaS = () => {
                 <p className="text-sm font-semibold text-neutral-700 mb-3">
                   {language === 'fr' ? 'Ce qui est inclus :' : 'What is included:'}
                 </p>
+                <p className="mb-3 text-xs font-medium text-red-600">
+                  {language === 'fr'
+                    ? 'Les éléments marqués × sont inclus mais considérés comme indésirables dans ce forfait.'
+                    : 'Items marked with × are included but considered undesirable in this plan.'}
+                </p>
                 <ul className="space-y-2 rounded-xl border border-neutral-200 bg-neutral-50/60 p-4">
                   {selectedPlan.features.map((feature) => (
                     <li key={feature.name} className="text-sm flex items-start gap-3">
@@ -324,17 +382,82 @@ const SaaS = () => {
                           ✓
                         </span>
                       ) : (
-                        <span className="mt-0.5 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-neutral-200 text-neutral-500">
+                        <span className="mt-0.5 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600">
                           ×
                         </span>
                       )}
-                      <span className={feature.included ? 'text-neutral-700' : 'text-neutral-500 line-through'}>
+                      <span className={feature.included ? 'text-neutral-700' : 'text-red-600 font-medium'}>
                         {feature.name}
                       </span>
                     </li>
                   ))}
                 </ul>
               </div>
+
+              <section className="space-y-3 pt-1">
+                <h4 className="text-sm font-semibold text-neutral-800">
+                  {language === 'fr' ? 'Cadre du modèle SaaS' : 'SaaS model framework'}
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {modelDetailCards.map((card) => {
+                    const Icon = card.icon;
+                    const toneClass =
+                      card.tone === 'rose'
+                        ? 'border-rose-200 bg-rose-50/40'
+                        : card.tone === 'indigo'
+                          ? 'border-indigo-200 bg-indigo-50/40'
+                          : 'border-neutral-200 bg-white';
+                    const iconToneClass =
+                      card.tone === 'rose'
+                        ? 'bg-rose-100 text-rose-600'
+                        : card.tone === 'indigo'
+                          ? 'bg-indigo-100 text-indigo-600'
+                          : 'bg-neutral-100 text-neutral-600';
+                    return (
+                      <article key={card.title} className={`rounded-2xl border p-4 ${toneClass}`}>
+                        <div className="flex items-start gap-3">
+                          <span className={`inline-flex h-8 w-8 items-center justify-center rounded-lg ${iconToneClass}`}>
+                            <Icon className="h-4.5 w-4.5" />
+                          </span>
+                          <div>
+                            <h5 className="text-sm font-semibold text-neutral-900">{card.title}</h5>
+                            <p className="mt-1 text-sm text-neutral-600 leading-relaxed">{card.description}</p>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+                <article className="rounded-2xl border border-neutral-200 bg-white p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600">
+                      <StopCircleIcon className="h-4.5 w-4.5" />
+                    </span>
+                    <div>
+                      <h5 className="text-sm font-semibold text-neutral-900">
+                        {language === 'fr' ? "Si vous arrêtez l'abonnement" : 'If you stop the subscription'}
+                      </h5>
+                      <p className="mt-1 text-sm text-neutral-600 leading-relaxed">
+                        {language === 'fr'
+                          ? "L'accès à l'application est suspendu après le préavis prévu. Une sauvegarde des données peut être fournie selon le contrat."
+                          : 'Access to the application is suspended after the required notice period. A data backup may be provided according to the contract.'}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+                <article className="rounded-2xl border border-blue-100 bg-blue-50/40 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+                      <InformationCircleIcon className="h-4.5 w-4.5" />
+                    </span>
+                    <p className="text-sm text-neutral-700 leading-relaxed">
+                      {language === 'fr'
+                        ? "Cette fiche n'est pas un contrat juridique, mais une explication claire du modèle. Les détails définitifs sont validés ensemble."
+                        : 'This sheet is not a legal contract, but a clear explanation of the model. Final details are validated together.'}
+                    </p>
+                  </div>
+                </article>
+              </section>
 
               <div className="pt-1 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
                 <button
