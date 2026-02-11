@@ -240,31 +240,28 @@ secondaryCta={{
           aria-label={language === 'fr' ? `Détails du forfait ${selectedPlan.name}` : `Plan details ${selectedPlan.name}`}
         >
           <div className="relative w-full max-w-2xl max-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white shadow-2xl border border-neutral-200">
-            <header className="sticky top-0 z-10 border-b border-neutral-100 bg-white/95 backdrop-blur px-6 md:px-8 pt-6 md:pt-7 pb-4 pr-14">
-              <div className="flex items-start justify-between gap-3">
-                <div className="pr-2">
-                  <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 ring-1 ring-brand-200">
-                    {language === 'fr' ? 'Détail du forfait Full-Control' : 'Full-Control plan details'}
-                  </span>
-                  <h3 className="mt-3 font-display text-3xl font-semibold text-ink leading-tight">
-                    {selectedPlan.name}
-                  </h3>
-                  <p className="mt-2 text-sm text-neutral-600">
-                    {selectedPlan.description}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setSelectedPlan(null)}
-                  className="mt-1 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
-                >
-                  <span className="sr-only">{language === 'fr' ? 'Fermer la fenêtre' : 'Close dialog'}</span>
-                  ×
-                </button>
-              </div>
-            </header>
+            <button
+              type="button"
+              onClick={() => setSelectedPlan(null)}
+              className="absolute right-4 top-4 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+            >
+              <span className="sr-only">{language === 'fr' ? 'Fermer la fenêtre' : 'Close dialog'}</span>
+              ×
+            </button>
 
-            <div className="space-y-6 overflow-y-auto px-6 md:px-8 py-5 md:py-6 max-h-[calc(100vh-2rem-8rem)]">
+            <div className="space-y-6 overflow-y-auto px-6 md:px-8 pb-5 md:pb-6 pt-24 max-h-[calc(100vh-2rem-3rem)]">
+              <header className="sticky top-0 z-10 border-b border-neutral-100 bg-white/95 backdrop-blur pb-4 pr-8">
+                <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 ring-1 ring-brand-200">
+                  {language === 'fr' ? 'Détail du forfait Full-Control' : 'Full-Control plan details'}
+                </span>
+                <h3 className="mt-3 font-display text-3xl font-semibold text-ink leading-tight">
+                  {selectedPlan.name}
+                </h3>
+                <p className="mt-2 text-sm text-neutral-600">
+                  {selectedPlan.description}
+                </p>
+              </header>
+
               <section className="space-y-3 pt-1">
                 <h4 className="text-sm font-semibold text-neutral-800">
                   {language === 'fr' ? 'Détails du forfait' : 'Plan details'}

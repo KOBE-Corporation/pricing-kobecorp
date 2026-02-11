@@ -59,7 +59,6 @@ export const fullControlPlans: PricingPlan[] = [
       { name: 'VPS : 4 vCPU, 8GB RAM, 160GB SSD (Année 1 offerte)', included: true },
       { name: 'Domaine personnalisé (1 an inclus)', included: true },
       { name: 'SSL Premium avec renouvellement automatique', included: true },
-      { name: '5 emails professionnels (10 GB chacun)', included: true },
       { name: 'CDN Cloudflare Pro (Année 1 incluse)', included: true },
       { name: 'Sauvegardes quotidiennes (30 jours) + backup externe', included: true },
       { name: 'Cache Redis inclus', included: true },
