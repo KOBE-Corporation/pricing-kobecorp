@@ -31,7 +31,7 @@ const SaaS = () => {
     }
   }, [location.pathname, location.hash]);
 
-  // SEO : titre et meta description par page
+  // SEO : titre, meta description et canonical
   useEffect(() => {
     document.title = t('saas.meta.title');
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
@@ -41,7 +41,11 @@ const SaaS = () => {
       document.head.appendChild(meta);
     }
     meta.setAttribute('content', t('saas.meta.description'));
-  }, [language]);
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', `${window.location.origin}${location.pathname}`);
+    }
+  }, [language, t, location.pathname]);
 
   // Prix annuels (économies : Good Deal -30 000 F, Pro -50 000 F, Ultra -60 000 F)
   const annualPrices = {

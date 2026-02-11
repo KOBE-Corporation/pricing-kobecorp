@@ -35,7 +35,7 @@ const FullControl = () => {
     }
   }, [location.pathname, location.hash]);
 
-  // SEO : titre et meta description par page
+  // SEO : titre, meta description et canonical
   useEffect(() => {
     document.title = t('fullControl.meta.title');
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
@@ -45,7 +45,11 @@ const FullControl = () => {
       document.head.appendChild(meta);
     }
     meta.setAttribute('content', t('fullControl.meta.description'));
-  }, [language]);
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', `${window.location.origin}/full-control`);
+    }
+  }, [language, t]);
 
   const featureIcons = [Cog6ToothIcon, LockClosedIcon, CommandLineIcon, ServerStackIcon];
   const features = [0, 1, 2, 3].map((i) => ({

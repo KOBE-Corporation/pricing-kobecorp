@@ -15,6 +15,22 @@ const Hosting = () => {
   const { t, language } = useLanguage();
   const location = useLocation();
 
+  // SEO : titre, meta description et canonical
+  useEffect(() => {
+    document.title = t('hosting.meta.title');
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'description');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', t('hosting.meta.description'));
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', `${window.location.origin}/hebergement`);
+    }
+  }, [language, t]);
+
   // Scroll vers la section correspondant au hash (#hero, #services, #contact)
   useEffect(() => {
     const hash = location.hash?.replace('#', '');

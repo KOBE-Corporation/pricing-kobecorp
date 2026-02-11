@@ -94,6 +94,10 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
           email: 'Email',
           availability: 'Disponible 24/7',
         },
+        meta: {
+          title: 'Contact – KOBE Corporation',
+          description: 'Contactez KOBE Corporation pour vos projets, devis ou questions. Équipe disponible pour vous accompagner. Yaoundé, Cameroun.',
+        },
       },
       hero: {
         badge: 'Nos Offres',
@@ -256,6 +260,12 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
         saasPlanLabel: 'SaaS\u00A0:',
         fullControlPlanLabel: 'Full-Control\u00A0:',
       },
+      hosting: {
+        meta: {
+          title: 'Hébergement – KOBE Corporation',
+          description: 'Solutions d\'hébergement performantes et sécurisées : Cloud, VPS, serveurs dédiés. SSL, sauvegardes et monitoring 24/7. Yaoundé, Cameroun.',
+        },
+      },
     },
     en: {
       nav: {
@@ -307,6 +317,10 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
           phone: 'Phone',
           email: 'Email',
           availability: 'Available 24/7',
+        },
+        meta: {
+          title: 'Contact – KOBE Corporation',
+          description: 'Contact KOBE Corporation for your projects, quotes or questions. Team available to support you. Yaoundé, Cameroon.',
         },
       },
       hero: {
@@ -469,6 +483,12 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
         featuresLabel: 'Possible features',
         saasPlanLabel: 'SaaS:',
         fullControlPlanLabel: 'Full-Control:',
+      },
+      hosting: {
+        meta: {
+          title: 'Hosting – KOBE Corporation',
+          description: 'Performant and secure hosting solutions: Cloud, VPS, dedicated servers. SSL, backups and 24/7 monitoring. Yaoundé, Cameroon.',
+        },
       },
     },
   };

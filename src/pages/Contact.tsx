@@ -16,17 +16,19 @@ const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
 
   useEffect(() => {
-    document.title = language === 'fr' ? 'Contact – KOBE Corporation' : 'Contact – KOBE Corporation';
-    const meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (meta) {
-      meta.setAttribute(
-        'content',
-        language === 'fr'
-          ? 'Contactez KOBE Corporation pour vos projets, devis ou questions. Équipe disponible pour vous accompagner.'
-          : 'Contact KOBE Corporation for your projects, quotes or questions. Team available to support you.'
-      );
+    document.title = t('contact.meta.title');
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'description');
+      document.head.appendChild(meta);
     }
-  }, [language]);
+    meta.setAttribute('content', t('contact.meta.description'));
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', `${window.location.origin}/contact`);
+    }
+  }, [language, t]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
