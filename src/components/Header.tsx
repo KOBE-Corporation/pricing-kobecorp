@@ -4,8 +4,12 @@ import { Bars3Icon, XMarkIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 import { companyInfo } from '../data/companyInfo';
 import { useLanguage } from '../contexts/LanguageContext';
 
+type SectionId = 'hero' | 'services' | 'forfaits' | 'missions' | 'processus' | 'contact';
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSectionMenuOpen, setIsSectionMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<SectionId>('hero');
   const { language, setLanguage } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,6 +39,21 @@ const Header = () => {
   };
 
   const isActiveRoute = (paths: string[]) => paths.includes(location.pathname);
+
+  const handleSectionSelect = (section: SectionId) => {
+    setActiveSection(section);
+    setIsSectionMenuOpen(false);
+
+    const anchor = section === 'hero' ? '#hero' : `#${section}`;
+
+    const performScroll = () => scrollToSection(anchor);
+    if (location.pathname !== '/' && location.pathname !== '/saas') {
+      navigate('/saas');
+      setTimeout(performScroll, 150);
+    } else {
+      performScroll();
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/80 backdrop-blur-md shadow-subtle">
@@ -66,47 +85,145 @@ const Header = () => {
         </Link>
 
         {/* Navigation Desktop - onglets principaux */}
-        <nav className="hidden md:flex items-center gap-1">
-          <button
-            type="button"
-            onClick={goToSaasHero}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              isActiveRoute(['/', '/saas'])
-                ? 'bg-neutral-900 text-white'
-                : 'text-neutral-700 hover:bg-neutral-50'
-            }`}
-          >
-            SaaS
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate('/full-control')}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              isActiveRoute(['/full-control'])
-                ? 'bg-neutral-900 text-white'
-                : 'text-neutral-700 hover:bg-neutral-50'
-            }`}
-          >
-            Full-Control
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate('/hebergement')}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              isActiveRoute(['/hebergement'])
-                ? 'bg-neutral-900 text-white'
-                : 'text-neutral-700 hover:bg-neutral-50'
-            }`}
-          >
-            Hébergement
-          </button>
-          <a
-            href="mailto:contact@kobecorporation.com"
-            className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
-          >
-            Contact
-          </a>
-        </nav>
+        <div className="hidden md:flex items-center gap-4">
+          <nav className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={goToSaasHero}
+              className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+                isActiveRoute(['/', '/saas'])
+                  ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 px-1'
+                  : 'text-neutral-700 hover:text-neutral-900'
+              }`}
+            >
+              SaaS
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/full-control')}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute(['/full-control'])
+                  ? 'bg-neutral-900 text-white'
+                  : 'text-neutral-700 hover:bg-neutral-50'
+              }`}
+            >
+              Full-Control
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/hebergement')}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                isActiveRoute(['/hebergement'])
+                  ? 'bg-neutral-900 text-white'
+                  : 'text-neutral-700 hover:bg-neutral-50'
+              }`}
+            >
+              Hébergement
+            </button>
+            <a
+              href="mailto:contact@kobecorporation.com"
+              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+            >
+              Contact
+            </a>
+          </nav>
+
+          {/* Sélecteur de section (uniquement sur la page SaaS) */}
+          {isActiveRoute(['/', '/saas']) && (
+            <div className="relative">
+              <button
+                type="button"
+                className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 px-1 transition-colors"
+                onClick={() => setIsSectionMenuOpen((open) => !open)}
+                aria-haspopup="listbox"
+                aria-expanded={isSectionMenuOpen}
+              >
+                {activeSection === 'hero'
+                  ? 'Accueil'
+                  : activeSection === 'services'
+                    ? 'Services'
+                    : activeSection === 'forfaits'
+                      ? 'Programmes'
+                      : activeSection === 'missions'
+                        ? 'Missions'
+                        : activeSection === 'processus'
+                          ? 'Processus'
+                          : 'Contact'}
+                <span className="text-xs">▾</span>
+              </button>
+              {isSectionMenuOpen && (
+                <div className="absolute left-0 mt-2 w-44 rounded-2xl bg-white shadow-lg border border-neutral-200 py-2 z-50">
+                  <button
+                    type="button"
+                    className={`block w-full text-left px-4 py-2 text-sm ${
+                      activeSection === 'hero'
+                        ? 'text-brand-600 font-semibold'
+                        : 'text-neutral-700 hover:bg-neutral-50'
+                    }`}
+                    onClick={() => handleSectionSelect('hero')}
+                  >
+                    Accueil
+                  </button>
+                  <button
+                    type="button"
+                    className={`block w-full text-left px-4 py-2 text-sm ${
+                      activeSection === 'services'
+                        ? 'text-brand-600 font-semibold'
+                        : 'text-neutral-700 hover:bg-neutral-50'
+                    }`}
+                    onClick={() => handleSectionSelect('services')}
+                  >
+                    Services
+                  </button>
+                  <button
+                    type="button"
+                    className={`block w-full text-left px-4 py-2 text-sm ${
+                      activeSection === 'forfaits'
+                        ? 'text-brand-600 font-semibold'
+                        : 'text-neutral-700 hover:bg-neutral-50'
+                    }`}
+                    onClick={() => handleSectionSelect('forfaits')}
+                  >
+                    Programmes
+                  </button>
+                  <button
+                    type="button"
+                    className={`block w-full text-left px-4 py-2 text-sm ${
+                      activeSection === 'missions'
+                        ? 'text-brand-600 font-semibold'
+                        : 'text-neutral-700 hover:bg-neutral-50'
+                    }`}
+                    onClick={() => handleSectionSelect('missions')}
+                  >
+                    Missions
+                  </button>
+                  <button
+                    type="button"
+                    className={`block w-full text-left px-4 py-2 text-sm ${
+                      activeSection === 'processus'
+                        ? 'text-brand-600 font-semibold'
+                        : 'text-neutral-700 hover:bg-neutral-50'
+                    }`}
+                    onClick={() => handleSectionSelect('processus')}
+                  >
+                    Processus
+                  </button>
+                  <button
+                    type="button"
+                    className={`block w-full text-left px-4 py-2 text-sm ${
+                      activeSection === 'contact'
+                        ? 'text-brand-600 font-semibold'
+                        : 'text-neutral-700 hover:bg-neutral-50'
+                    }`}
+                    onClick={() => handleSectionSelect('contact')}
+                  >
+                    Contact
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Right side - Language + CTA Desktop */}
         <div className="hidden md:flex items-center gap-3">
