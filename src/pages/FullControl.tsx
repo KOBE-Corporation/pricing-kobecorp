@@ -19,7 +19,6 @@ import {
   CheckBadgeIcon,
   ArrowRightOnRectangleIcon,
   CurrencyDollarIcon,
-  ListBulletIcon,
 } from '@heroicons/react/24/outline';
 import ModalInfoCard from '../components/ModalInfoCard';
 import PricingCard from '../components/PricingCard';
@@ -241,28 +240,31 @@ secondaryCta={{
           aria-label={language === 'fr' ? `Détails du forfait ${selectedPlan.name}` : `Plan details ${selectedPlan.name}`}
         >
           <div className="relative w-full max-w-2xl max-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white shadow-2xl border border-neutral-200">
-            <button
-              type="button"
-              onClick={() => setSelectedPlan(null)}
-              className="absolute right-4 top-4 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
-            >
-              <span className="sr-only">{language === 'fr' ? 'Fermer la fenêtre' : 'Close dialog'}</span>
-              ×
-            </button>
+            <header className="sticky top-0 z-10 border-b border-neutral-100 bg-white/95 backdrop-blur px-6 md:px-8 pt-6 md:pt-7 pb-4 pr-14">
+              <div className="flex items-start justify-between gap-3">
+                <div className="pr-2">
+                  <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 ring-1 ring-brand-200">
+                    {language === 'fr' ? 'Détail du forfait Full-Control' : 'Full-Control plan details'}
+                  </span>
+                  <h3 className="mt-3 font-display text-3xl font-semibold text-ink leading-tight">
+                    {selectedPlan.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-neutral-600">
+                    {selectedPlan.description}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedPlan(null)}
+                  className="mt-1 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                >
+                  <span className="sr-only">{language === 'fr' ? 'Fermer la fenêtre' : 'Close dialog'}</span>
+                  ×
+                </button>
+              </div>
+            </header>
 
-            <div className="space-y-6 overflow-y-auto px-6 md:px-8 py-5 md:py-6 max-h-[calc(100vh-2rem-3rem)]">
-              <header className="pr-10">
-                <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 ring-1 ring-brand-200">
-                  {language === 'fr' ? 'Détail du forfait Full-Control' : 'Full-Control plan details'}
-                </span>
-                <h3 className="mt-3 font-display text-3xl font-semibold text-ink leading-tight">
-                  {selectedPlan.name}
-                </h3>
-                <p className="mt-2 text-sm text-neutral-600">
-                  {selectedPlan.description}
-                </p>
-              </header>
-
+            <div className="space-y-6 overflow-y-auto px-6 md:px-8 py-5 md:py-6 max-h-[calc(100vh-2rem-8rem)]">
               <section className="space-y-3 pt-1">
                 <h4 className="text-sm font-semibold text-neutral-800">
                   {language === 'fr' ? 'Détails du forfait' : 'Plan details'}
@@ -407,96 +409,6 @@ secondaryCta={{
                 />
               </div>
 
-              {/* Formation incluse */}
-              <section className="rounded-2xl border border-neutral-200 bg-neutral-50 px-5 py-4 space-y-2">
-                <h4 className="font-display text-sm font-semibold text-ink">
-                  {language === 'fr'
-                    ? 'Formation incluse'
-                    : 'Training included'}
-                </h4>
-                {isUltra && (
-                  <p className="text-sm text-neutral-700 leading-relaxed">
-                    {language === 'fr'
-                      ? '2 sessions (4h total) : utilisation de l’application (2h) + administration & technique (2h). Format visioconférence (enregistrée et fournie), jusqu’à 3–10 participants selon le forfait.'
-                      : '2 sessions (4h total): application usage (2h) + administration & technical aspects (2h). Online sessions (recorded and delivered), up to 3–10 participants depending on the plan.'}
-                  </p>
-                )}
-                {isSpeed && (
-                  <p className="text-sm text-neutral-700 leading-relaxed">
-                    {language === 'fr'
-                      ? "3 sessions (7h total) : Utilisation & métier (3h) + Administration (2h) + Technique & maintenance (2h). Format visioconférence (enregistrée), jusqu’à 3–10 participants selon le forfait."
-                      : '3 sessions (7h total): Business & usage (3h) + Administration (2h) + Technical & maintenance (2h). Online sessions (recorded), up to 3–10 participants depending on the plan.'}
-                  </p>
-                )}
-                {isNormal && (
-                  <p className="text-sm text-neutral-700 leading-relaxed">
-                    {language === 'fr'
-                      ? '4 sessions (12h total) : utilisateurs finaux (4h) + gestionnaires métier (3h) + administrateurs (3h) + développeurs (2h). Format visioconférence (enregistrée), jusqu’à 3–10 participants selon le forfait.'
-                      : '4 sessions (12h total): end users (4h) + business managers (3h) + administrators (3h) + developers (2h). Online sessions (recorded), up to 3–10 participants depending on the plan.'}
-                  </p>
-                )}
-              </section>
-
-              {/* Support post‑livraison */}
-              <section className="rounded-2xl border border-neutral-200 bg-white px-5 py-4 space-y-2">
-                <h4 className="font-display text-sm font-semibold text-ink">
-                  {language === 'fr'
-                    ? 'Support post‑livraison'
-                    : 'Post‑delivery support'}
-                </h4>
-                {isUltra && (
-                  <p className="text-sm text-neutral-700 leading-relaxed">
-                    {language === 'fr'
-                      ? "1 mois : email (réponse en 24h), WhatsApp (urgences uniquement, 12h), 1 session visio (30 min) si nécessaire. Corrections de bugs : critiques (24–48h), majeurs (3–5 jours), mineurs (7 jours si temps disponible)."
-                      : '1 month: email (24h response), WhatsApp (emergencies only, 12h), 1 video call (30 min) if needed. Bug fixes: critical (24–48h), major (3–5 days), minor (within 7 days when time allows).'}
-                  </p>
-                )}
-                {isSpeed && (
-                  <p className="text-sm text-neutral-700 leading-relaxed">
-                    {language === 'fr'
-                      ? "3 mois : email (24h), WhatsApp Business (9h–18h jours ouvrés), 2 appels/mois (30 min), 1 session visio/mois. Corrections bugs : critiques (24h), majeurs (48–72h), mineurs (7 jours), cosmétiques (en fin de mois)."
-                      : '3 months: email (24h), WhatsApp Business (9am–6pm business days), 2 calls per month (30 min), 1 video session per month. Bug fixes: critical (24h), major (48–72h), minor (7 days), cosmetic (end of month).'}
-                  </p>
-                )}
-                {isNormal && (
-                  <p className="text-sm text-neutral-700 leading-relaxed">
-                    {language === 'fr'
-                      ? "6 mois : email prioritaire (12h, 7j/7), WhatsApp VIP (8h–20h quotidien), appels illimités, canal Slack/Discord privé. Corrections bugs : critiques (12h même week‑ends), majeurs (24–48h), mineurs (3–5 jours), cosmétiques (en fin de mois)."
-                      : '6 months: priority email (12h, 7 days a week), VIP WhatsApp (8am–8pm daily), unlimited calls, private Slack/Discord channel. Bug fixes: critical (12h even on weekends), major (24–48h), minor (3–5 days), cosmetic (end of month).'}
-                  </p>
-                )}
-              </section>
-
-              {/* Garantie & Assurances */}
-              <section className="rounded-2xl border border-neutral-200 bg-neutral-50 px-5 py-4 space-y-2">
-                <h4 className="font-display text-sm font-semibold text-ink">
-                  {language === 'fr'
-                    ? 'Garantie & assurances'
-                    : 'Warranty & guarantees'}
-                </h4>
-                {isUltra && (
-                  <p className="text-sm text-neutral-700 leading-relaxed">
-                    {language === 'fr'
-                      ? 'Garantie 1 mois : bugs critiques corrigés en 24–48h, bugs majeurs en 3–5 jours.'
-                      : '1‑month warranty: critical bugs fixed within 24–48h, major bugs within 3–5 days.'}
-                  </p>
-                )}
-                {isSpeed && (
-                  <p className="text-sm text-neutral-700 leading-relaxed">
-                    {language === 'fr'
-                      ? 'Garantie 3 mois : bugs critiques corrigés en 24h, bugs majeurs en 48–72h, bugs mineurs en 7 jours.'
-                      : '3‑month warranty: critical bugs fixed within 24h, major bugs within 48–72h, minor bugs within 7 days.'}
-                  </p>
-                )}
-                {isNormal && (
-                  <p className="text-sm text-neutral-700 leading-relaxed">
-                    {language === 'fr'
-                      ? 'Garantie 6 mois : garantie zéro bug critique, corrections de bugs critiques illimitées jusqu’à résolution complète.'
-                      : '6‑month warranty: zero‑critical‑bug guarantee, unlimited critical bug fixes until complete resolution.'}
-                  </p>
-                )}
-              </section>
-
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                 <ModalInfoCard
                   icon={UserGroupIcon}
@@ -559,40 +471,27 @@ secondaryCta={{
                 />
               </div>
 
-              <section className="rounded-2xl border border-neutral-200 bg-white px-5 py-4 space-y-3 hidden">
-                <h4 className="font-display text-sm font-semibold text-ink">
-                  {language === 'fr'
-                    ? 'Si vous arrêtez la collaboration'
-                    : 'If you stop the collaboration'}
-                </h4>
-                <p className="text-sm text-neutral-700 leading-relaxed">
-                  {language === 'fr'
-                    ? "Vous conservez tout le code livré et la documentation, conformément au contrat signé. Vous pouvez continuer avec votre équipe interne ou un autre prestataire : le code source reste 100% votre propriété. Vous pouvez migrer vos données vers une autre solution. Un support à la migration est disponible (optionnel, facturé séparément)."
-                    : 'You keep all delivered code and documentation according to the signed contract. You can continue with your internal team or another provider: the source code remains 100% your property. You can migrate your data to another solution. Migration support is available as an optional, billed service.'}
-                </p>
-                <p className="text-xs text-neutral-500 leading-relaxed">
-                  {language === 'fr'
-                    ? "Cette fiche n’est pas un contrat juridique, mais une explication claire de la façon dont le modèle fonctionne. Le contrat final est validé ensemble lors de la discussion sur votre projet."
-                    : 'This sheet is not a legal contract but a clear explanation of how the model works. The final contract is validated together when we discuss your project.'}
-                </p>
-              </section>
 
               {selectedPlan.priceRange && (
-                <div className="rounded-2xl bg-neutral-50 border border-neutral-200 px-5 py-4">
-                  <p className="text-sm font-medium text-neutral-700">
-                    {language === 'fr' ? 'Mode de tarification' : 'Pricing mode'}
-                  </p>
-                  <p className="mt-1 text-sm text-neutral-700">
-                    {language === 'fr'
-                      ? 'Prix discutable selon le périmètre et la complexité du projet.'
-                      : 'Negotiable price depending on scope and project complexity.'}
-                  </p>
-                  <p className="mt-1 text-xs text-neutral-500">
-                    {language === 'fr'
-                      ? `Durée estimée : ${selectedPlan.priceRange.deliveryDays} jours de développement.`
-                      : `Estimated duration: ${selectedPlan.priceRange.deliveryDays} development days.`}
-                  </p>
-                </div>
+                <ModalInfoCard
+                  icon={CurrencyDollarIcon}
+                  title={language === 'fr' ? 'Mode de tarification' : 'Pricing mode'}
+                  description={
+                    <>
+                      <span>
+                        {language === 'fr'
+                          ? 'Prix discutable selon le périmètre et la complexité du projet.'
+                          : 'Negotiable price depending on scope and project complexity.'}
+                      </span>
+                      <span className="mt-1 block text-xs text-neutral-500">
+                        {language === 'fr'
+                          ? `Durée estimée : ${selectedPlan.priceRange.deliveryDays} jours de développement.`
+                          : `Estimated duration: ${selectedPlan.priceRange.deliveryDays} development days.`}
+                      </span>
+                    </>
+                  }
+                  tone="amber"
+                />
               )}
 
               <div>
