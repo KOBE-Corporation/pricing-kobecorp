@@ -23,13 +23,16 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
   const saveLabel = t('saas.pricing.saveAnnualLabel').replace('{amount}', formatAmount(annualSavings ?? 0));
   const equivLabel = t('saas.pricing.equivalentPerMonth').replace('{amount}', formatAmount(monthlyPrice ?? 0));
   const isPopular = plan.popular ?? false;
+  const previewLimit = 6;
+  const visibleFeatures = plan.features.slice(0, previewLimit);
+  const remainingFeaturesCount = Math.max(plan.features.length - previewLimit, 0);
 
   return (
     <article
-      className={`pricing-card relative flex flex-col rounded-2xl border bg-white overflow-hidden ${
+      className={`pricing-card relative flex flex-col rounded-3xl border bg-white overflow-hidden ${
         isPopular
           ? 'border-brand-300 shadow-pricing-popular ring-2 ring-brand-500/15 pricing-card-popular hover:border-brand-400'
-          : 'border-neutral-200 shadow-pricing hover:shadow-pricing-hover hover:border-brand-100'
+          : 'border-neutral-200 shadow-pricing hover:shadow-pricing-hover hover:border-brand-200'
       }`}
     >
       {/* Bandeau populaire */}
@@ -45,19 +48,19 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
         </div>
       )}
 
-      <div className="flex flex-1 flex-col p-8 pt-10">
+      <div className="flex flex-1 flex-col p-6 sm:p-7 pt-9">
         {/* En-tête */}
-        <header className="text-center mb-6">
-          <h3 className="font-display text-2xl font-bold text-ink tracking-tight">
+        <header className="text-center mb-5">
+          <h3 className="font-display text-[1.65rem] font-semibold text-ink tracking-tight leading-tight">
             {plan.name}
           </h3>
-          <p className="mt-2 font-sans text-sm text-neutral-600 leading-relaxed max-w-[240px] mx-auto">
+          <p className="mt-2 font-sans text-sm text-neutral-600 leading-relaxed max-w-[260px] mx-auto">
             {plan.description}
           </p>
         </header>
 
         {/* Bloc prix */}
-        <div className="mb-8">
+        <div className="mb-6">
           {plan.price === 0 ? (
             <div className="rounded-xl bg-neutral-50 px-6 py-5 text-center">
               <span className="font-display text-2xl font-semibold text-ink">
@@ -87,9 +90,9 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
               )}
             </div>
           ) : (
-            <div className="rounded-xl bg-gradient-to-b from-neutral-50 to-neutral-100/80 px-6 py-6 border border-neutral-200/60 shadow-inner">
+            <div className="rounded-2xl bg-gradient-to-b from-neutral-50 to-neutral-100/80 px-5 py-5 border border-neutral-200/60 shadow-inner">
               <div className="flex items-baseline justify-center gap-1.5">
-                <span className="font-display text-4xl font-bold text-ink tracking-tight tabular-nums">
+                <span className="font-display text-[2.15rem] font-semibold text-ink tracking-tight tabular-nums">
                   {plan.price.toLocaleString('fr-FR')}
                 </span>
                 <span className="font-sans text-base font-medium text-neutral-500">
@@ -120,8 +123,8 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
         </div>
 
         {/* Liste des fonctionnalités */}
-        <ul className="flex-1 space-y-3.5 mb-8 border-t border-neutral-200/80 pt-6">
-          {plan.features.map((feature, index) => (
+        <ul className="flex-1 space-y-2.5 mb-7 border-t border-neutral-200/80 pt-5">
+          {visibleFeatures.map((feature, index) => (
             <li key={index} className="flex items-start gap-3">
               {feature.included ? (
                 <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-600 mt-0.5">
@@ -141,6 +144,13 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
               </span>
             </li>
           ))}
+          {remainingFeaturesCount > 0 && (
+            <li className="pt-1">
+              <span className="inline-flex items-center rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-600">
+                +{remainingFeaturesCount} {language === 'fr' ? 'autres fonctionnalités' : 'more features'}
+              </span>
+            </li>
+          )}
         </ul>
 
         {/* CTA */}
@@ -164,7 +174,7 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
               window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             }
           }}
-          className={`w-full inline-flex items-center justify-center gap-2 rounded-xl font-semibold py-3.5 px-6 text-sm transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 active:scale-[0.98] ${
+          className={`w-full inline-flex items-center justify-center gap-2 rounded-xl font-semibold py-3 px-6 text-sm transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 active:scale-[0.98] ${
             isPopular
               ? 'bg-brand-500 text-white shadow-md hover:bg-brand-600 hover:shadow-lg hover:-translate-y-0.5'
               : 'bg-white text-neutral-700 border-2 border-neutral-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 hover:shadow-md hover:-translate-y-0.5'

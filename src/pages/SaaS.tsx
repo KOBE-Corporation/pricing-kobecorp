@@ -85,6 +85,21 @@ const SaaS = () => {
     descriptionEn: tLang(`saas.sectionFeatures.features.${i}.description`, 'en'),
   }));
 
+  const handleSelectedPlanAction = () => {
+    if (!selectedPlan?.ctaLink) return;
+    if (selectedPlan.ctaLink.startsWith('mailto:')) {
+      window.location.href = selectedPlan.ctaLink;
+      return;
+    }
+    const element = document.querySelector(selectedPlan.ctaLink);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white antialiased">
       <section id="hero">
@@ -264,59 +279,77 @@ const SaaS = () => {
           aria-modal="true"
           aria-label={language === 'fr' ? `Détails du forfait ${selectedPlan.name}` : `Plan details ${selectedPlan.name}`}
         >
-          <div className="relative w-full max-w-xl rounded-2xl bg-white shadow-2xl border border-neutral-200 p-6 md:p-8">
+          <div className="relative w-full max-w-2xl max-h-[calc(100vh-2rem)] overflow-y-auto rounded-3xl bg-white shadow-2xl border border-neutral-200 p-6 md:p-8">
             <button
               type="button"
               onClick={() => setSelectedPlan(null)}
-              className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+              className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
             >
               <span className="sr-only">{language === 'fr' ? 'Fermer la fenêtre' : 'Close dialog'}</span>
               ×
             </button>
 
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-display text-2xl font-semibold text-ink">
+            <div className="space-y-6">
+              <header className="pr-10">
+                <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 ring-1 ring-brand-200">
+                  {language === 'fr' ? 'Détail du forfait' : 'Plan details'}
+                </span>
+                <h3 className="mt-3 font-display text-3xl font-semibold text-ink leading-tight">
                   {selectedPlan.name}
                 </h3>
-                <p className="mt-1 text-sm text-neutral-600">
+                <p className="mt-2 text-sm text-neutral-600">
                   {selectedPlan.description}
                 </p>
-              </div>
+              </header>
 
-              <div className="rounded-xl bg-neutral-50 border border-neutral-200 px-4 py-3">
-                <p className="text-sm font-medium text-neutral-700">
+              <div className="rounded-2xl bg-gradient-to-r from-brand-50/80 to-white border border-brand-100 px-5 py-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-brand-600">
                   {language === 'fr' ? 'Tarif du forfait' : 'Plan price'}
                 </p>
-                <p className="mt-1 text-lg font-semibold text-ink">
-                  {selectedPlan.price.toLocaleString('fr-FR')} {selectedPlan.currency} / {selectedPlan.period}
+                <p className="mt-1 text-2xl font-display font-semibold text-ink">
+                  {selectedPlan.price.toLocaleString('fr-FR')} {selectedPlan.currency}
+                  <span className="text-base font-sans text-neutral-500"> / {selectedPlan.period}</span>
                 </p>
               </div>
 
               <div>
-                <p className="text-sm font-semibold text-neutral-700 mb-2">
+                <p className="text-sm font-semibold text-neutral-700 mb-3">
                   {language === 'fr' ? 'Ce qui est inclus :' : 'What is included:'}
                 </p>
-                <ul className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
+                <ul className="space-y-2 rounded-xl border border-neutral-200 bg-neutral-50/60 p-4">
                   {selectedPlan.features.map((feature) => (
-                    <li
-                      key={feature.name}
-                      className="text-sm text-neutral-700 flex gap-2"
-                    >
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-brand-500 flex-shrink-0" />
-                      <span>{feature.name}</span>
+                    <li key={feature.name} className="text-sm flex items-start gap-3">
+                      {feature.included ? (
+                        <span className="mt-0.5 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                          ✓
+                        </span>
+                      ) : (
+                        <span className="mt-0.5 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-neutral-200 text-neutral-500">
+                          ×
+                        </span>
+                      )}
+                      <span className={feature.included ? 'text-neutral-700' : 'text-neutral-500 line-through'}>
+                        {feature.name}
+                      </span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="pt-2 flex justify-end gap-3">
+              <div className="pt-1 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setSelectedPlan(null)}
-                  className="inline-flex items-center justify-center rounded-lg border border-neutral-200 px-4 py-2.5 text-sm font-semibold text-neutral-700 hover:bg-neutral-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                  className="inline-flex items-center justify-center rounded-xl border border-neutral-200 px-4 py-2.5 text-sm font-semibold text-neutral-700 hover:bg-neutral-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
                 >
                   {language === 'fr' ? 'Fermer' : 'Close'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSelectedPlanAction}
+                  className="inline-flex items-center justify-center rounded-xl bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                >
+                  {selectedPlan.ctaText || (language === 'fr' ? 'Choisir ce forfait' : 'Choose this plan')}
                 </button>
               </div>
             </div>
