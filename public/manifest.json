@@ -1,0 +1,23 @@
+{
+  "name": "KOBE Corporation Pricing",
+  "short_name": "KOBE Pricing",
+  "description": "Page de tarification SaaS de KOBE Corporation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0a7aff",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+

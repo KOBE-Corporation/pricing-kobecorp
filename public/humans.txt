@@ -1,0 +1,15 @@
+/* TEAM */
+Site: KOBE Corporation Pricing
+URL: https://pricing.kobecorporation.com
+Author: Ben Djibril
+Company: KOBE Corporation
+Contact: contact@kobecorporation.com
+Address: Carrefour Belle Mère, Yaoundé, Cameroun
+
+/* TECHNOLOGY */
+Stack: React, TypeScript, Vite, Tailwind CSS
+Hosting: Docker + Nginx
+
+/* THANKS */
+We build custom SaaS and web solutions from Yaoundé, Cameroon.
+
