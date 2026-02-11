@@ -24,7 +24,7 @@ type DynamicSaasPlan = (typeof saasPlans)[number] & {
   originalPrice?: number;
 };
 
-type InfoCardTone = 'rose' | 'indigo' | 'neutral' | 'amber' | 'blue';
+type InfoCardTone = 'rose' | 'indigo' | 'neutral' | 'amber' | 'blue' | 'slate';
 
 type ModalInfoCardProps = {
   icon: ComponentType<{ className?: string }>;
@@ -44,6 +44,10 @@ const toneClasses: Record<InfoCardTone, { card: string; icon: string }> = {
     icon: 'bg-indigo-100 text-indigo-600',
   },
   neutral: {
+    card: 'border-neutral-200 bg-white',
+    icon: 'bg-neutral-100 text-neutral-600',
+  },
+  slate: {
     card: 'border-neutral-200 bg-white',
     icon: 'bg-neutral-100 text-neutral-600',
   },
@@ -234,6 +238,10 @@ const SaaS = () => {
           title={t('saas.hero.title')}
           subtitle={t('saas.hero.subtitle')}
           highlightLine={t('saas.hero.highlightLine')}
+          countdownTargetDate="2026-03-30T00:00:00"
+          countdownLabel={language === 'fr' ? 'Lancement officiel SaaS (JJ:HH:MM:SS)' : 'Official SaaS launch (DD:HH:MM:SS)'}
+          countdownFinishedLabel={language === 'fr' ? 'Lancement officiel en cours' : 'Official launch is live'}
+          countdownDateLabel={language === 'fr' ? 'Date officielle : 30/03/2026 à 00:00' : 'Official date: 30/03/2026 at 00:00'}
           primaryCta={{
             label: t('saas.hero.primaryCta'),
             href: '#forfaits',

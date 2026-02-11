@@ -102,13 +102,17 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
               )}
 
               <div className="rounded-2xl border border-brand-100 bg-white px-4 py-4 shadow-sm">
-                <div className="flex items-end justify-between gap-2">
-                  <p className="font-display font-semibold leading-[0.95] tracking-tight tabular-nums text-[clamp(2rem,6.2vw,3.6rem)] bg-gradient-to-r from-indigo-500 via-violet-500 to-pink-500 bg-clip-text text-transparent whitespace-nowrap">
-                    {plan.price.toLocaleString('fr-FR')}
-                  </p>
-                  <p className="font-sans text-[clamp(0.72rem,1.9vw,0.95rem)] text-neutral-600 font-semibold text-right leading-tight whitespace-nowrap">
-                    f ({language === 'fr' ? 'HT' : 'excl. tax'})/ {plan.period}
-                  </p>
+                <div className="rounded-2xl bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 px-3 sm:px-4 py-3.5 sm:py-4 text-white shadow-md border border-brand-400/30">
+                  <div className="w-full text-center whitespace-nowrap">
+                    <p className="font-display font-semibold leading-[1.15] tracking-tight tabular-nums text-[clamp(1.3rem,3.7vw,2rem)]">
+                      {plan.price.toLocaleString('fr-FR')}
+                      <span className="ml-1 text-[clamp(0.82rem,1.8vw,1.05rem)] align-top">f</span>
+                      <span className="ml-1.5 font-display text-[clamp(0.8rem,1.9vw,1.05rem)]">/{plan.period}</span>
+                      <span className="ml-1 font-sans text-[clamp(0.64rem,1.45vw,0.8rem)] font-semibold opacity-95">
+                        ({language === 'fr' ? 'Hors Taxes' : 'Excl. tax'})
+                      </span>
+                    </p>
+                  </div>
                 </div>
 
                 {billingPeriod === 'monthly' && monthlyPrice != null && annualSavings != null && annualSavings > 0 && (
