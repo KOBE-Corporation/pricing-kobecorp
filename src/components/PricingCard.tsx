@@ -12,11 +12,12 @@ interface PricingCardProps {
   annualSavings?: number;
   billingPeriod?: 'monthly' | 'annual';
   monthlyPrice?: number;
+  onSelect?: (plan: ExtendedPricingPlan) => void;
 }
 
 const formatXAF = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
 
-const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPrice }: PricingCardProps) => {
+const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPrice, onSelect }: PricingCardProps) => {
   const { t, language } = useLanguage();
   const formatAmount = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
   const saveLabel = t('saas.pricing.saveAnnualLabel').replace('{amount}', formatAmount(annualSavings ?? 0));
@@ -146,6 +147,10 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
         <button
           type="button"
           onClick={() => {
+            if (onSelect) {
+              onSelect(plan);
+              return;
+            }
             if (!plan.ctaLink) return;
             if (plan.ctaLink.startsWith('mailto:')) {
               window.location.href = plan.ctaLink;

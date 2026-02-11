@@ -9,9 +9,14 @@ import ContactCTA from '../components/ContactCTA';
 import PageHero from '../components/PageHero';
 import SectionFeatures from '../components/SectionFeatures';
 
+type DynamicSaasPlan = (typeof saasPlans)[number] & {
+  originalPrice?: number;
+};
+
 const SaaS = () => {
   const { language, t, tLang } = useLanguage();
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
+  const [selectedPlan, setSelectedPlan] = useState<DynamicSaasPlan | null>(null);
 
   // SEO : titre et meta description par page
   useEffect(() => {
@@ -39,7 +44,7 @@ const SaaS = () => {
   };
 
   // Créer les plans avec prix dynamiques
-  const plansWithDynamicPricing = saasPlans.map((plan) => {
+  const plansWithDynamicPricing: DynamicSaasPlan[] = saasPlans.map((plan) => {
     if (billingPeriod === 'annual') {
       return {
         ...plan,
@@ -178,6 +183,7 @@ const SaaS = () => {
                   billingPeriod={billingPeriod}
                   annualSavings={annualSavingsByPlan[plan.id as keyof typeof annualSavingsByPlan]}
                   monthlyPrice={saasPlans.find((p) => p.id === plan.id)?.price}
+                  onSelect={(p) => setSelectedPlan(p as DynamicSaasPlan)}
                 />
               </div>
             ))}
@@ -225,6 +231,74 @@ const SaaS = () => {
         subtitleEn={tLang('saas.cta.subtitle', 'en')}
         mailSubjectSuffix="Projet SaaS"
       />
+
+      {/* Modal détails forfait */}
+      {selectedPlan && (
+        <div
+          className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={language === 'fr' ? `Détails du forfait ${selectedPlan.name}` : `Plan details ${selectedPlan.name}`}
+        >
+          <div className="relative w-full max-w-xl rounded-2xl bg-white shadow-2xl border border-neutral-200 p-6 md:p-8">
+            <button
+              type="button"
+              onClick={() => setSelectedPlan(null)}
+              className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+            >
+              <span className="sr-only">{language === 'fr' ? 'Fermer la fenêtre' : 'Close dialog'}</span>
+              ×
+            </button>
+
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-display text-2xl font-semibold text-ink">
+                  {selectedPlan.name}
+                </h3>
+                <p className="mt-1 text-sm text-neutral-600">
+                  {selectedPlan.description}
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-neutral-50 border border-neutral-200 px-4 py-3">
+                <p className="text-sm font-medium text-neutral-700">
+                  {language === 'fr' ? 'Tarif du forfait' : 'Plan price'}
+                </p>
+                <p className="mt-1 text-lg font-semibold text-ink">
+                  {selectedPlan.price.toLocaleString('fr-FR')} {selectedPlan.currency} / {selectedPlan.period}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-sm font-semibold text-neutral-700 mb-2">
+                  {language === 'fr' ? 'Ce qui est inclus :' : 'What is included:'}
+                </p>
+                <ul className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
+                  {selectedPlan.features.map((feature) => (
+                    <li
+                      key={feature.name}
+                      className="text-sm text-neutral-700 flex gap-2"
+                    >
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-brand-500 flex-shrink-0" />
+                      <span>{feature.name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="pt-2 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSelectedPlan(null)}
+                  className="inline-flex items-center justify-center rounded-lg border border-neutral-200 px-4 py-2.5 text-sm font-semibold text-neutral-700 hover:bg-neutral-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                >
+                  {language === 'fr' ? 'Fermer' : 'Close'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
