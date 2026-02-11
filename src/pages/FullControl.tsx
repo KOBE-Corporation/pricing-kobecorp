@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
   Cog6ToothIcon,
@@ -20,6 +21,19 @@ import SectionFeatures from '../components/SectionFeatures';
 
 const FullControl = () => {
   const { t, tLang, language } = useLanguage();
+  const location = useLocation();
+
+  // Scroll vers la section correspondant au hash (#hero, #forfaits, #missions, #processus, #contact)
+  useEffect(() => {
+    const hash = location.hash?.replace('#', '');
+    if (!hash) return;
+    const el = document.getElementById(hash);
+    if (el) {
+      const headerOffset = 80;
+      const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }, [location.pathname, location.hash]);
 
   // SEO : titre et meta description par page
   useEffect(() => {
@@ -44,29 +58,33 @@ const FullControl = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <PageHero
-        title={t('fullControl.hero.title')}
-        subtitle={t('fullControl.hero.subtitle')}
-        highlightLine={language === 'en' ? t('fullControl.hero.highlightLineEn') : undefined}
-        primaryCta={{
-          label: t('fullControl.hero.primaryCta'),
-          href: '#forfaits',
-          variant: 'primary',
-        }}
-        secondaryCta={{
-          label: t('fullControl.hero.secondaryCta'),
-          href: '#contact',
-          variant: 'outline',
-        }}
-      />
+      <section id="hero">
+        <PageHero
+          title={t('fullControl.hero.title')}
+          subtitle={t('fullControl.hero.subtitle')}
+          highlightLine={language === 'en' ? t('fullControl.hero.highlightLineEn') : undefined}
+          primaryCta={{
+            label: t('fullControl.hero.primaryCta'),
+            href: '#forfaits',
+            variant: 'primary',
+          }}
+          secondaryCta={{
+            label: t('fullControl.hero.secondaryCta'),
+            href: '#contact',
+            variant: 'outline',
+          }}
+        />
+      </section>
 
-      <SectionFeatures
-        titleFr={tLang('fullControl.sectionFeatures.title', 'fr')}
-        titleEn={tLang('fullControl.sectionFeatures.title', 'en')}
-        subtitleFr={tLang('fullControl.sectionFeatures.subtitle', 'fr')}
-        subtitleEn={tLang('fullControl.sectionFeatures.subtitle', 'en')}
-        items={features}
-      />
+      <section id="services">
+        <SectionFeatures
+          titleFr={tLang('fullControl.sectionFeatures.title', 'fr')}
+          titleEn={tLang('fullControl.sectionFeatures.title', 'en')}
+          subtitleFr={tLang('fullControl.sectionFeatures.subtitle', 'fr')}
+          subtitleEn={tLang('fullControl.sectionFeatures.subtitle', 'en')}
+          items={features}
+        />
+      </section>
 
       {/* Pricing Section */}
       <section id="forfaits" className="py-20 bg-gradient-to-b from-white to-brand-50/30">
@@ -133,28 +151,30 @@ const FullControl = () => {
         </div>
       </section>
 
-      {/* Common Features Section - KeyIcon pour propriété du code */}
-      <IncludedFeaturesSection
-        titleFr={tLang('fullControl.included.title', 'fr')}
-        titleEn={tLang('fullControl.included.title', 'en')}
-        subtitleFr={tLang('fullControl.included.subtitle', 'fr')}
-        subtitleEn={tLang('fullControl.included.subtitle', 'en')}
-        items={[
-          { icon: KeyIcon, titleFr: tLang('fullControl.included.items.0.title', 'fr'), titleEn: tLang('fullControl.included.items.0.title', 'en'), descFr: tLang('fullControl.included.items.0.desc', 'fr'), descEn: tLang('fullControl.included.items.0.desc', 'en') },
-          { icon: ServerStackIcon, titleFr: tLang('fullControl.included.items.1.title', 'fr'), titleEn: tLang('fullControl.included.items.1.title', 'en'), descFr: tLang('fullControl.included.items.1.desc', 'fr'), descEn: tLang('fullControl.included.items.1.desc', 'en') },
-          { icon: CommandLineIcon, titleFr: tLang('fullControl.included.items.2.title', 'fr'), titleEn: tLang('fullControl.included.items.2.title', 'en'), descFr: tLang('fullControl.included.items.2.desc', 'fr'), descEn: tLang('fullControl.included.items.2.desc', 'en') },
-          { icon: DocumentTextIcon, titleFr: tLang('fullControl.included.items.3.title', 'fr'), titleEn: tLang('fullControl.included.items.3.title', 'en'), descFr: tLang('fullControl.included.items.3.desc', 'fr'), descEn: tLang('fullControl.included.items.3.desc', 'en') },
-          { icon: ServerStackIcon, titleFr: tLang('fullControl.included.items.4.title', 'fr'), titleEn: tLang('fullControl.included.items.4.title', 'en'), descFr: tLang('fullControl.included.items.4.desc', 'fr'), descEn: tLang('fullControl.included.items.4.desc', 'en') },
-          { icon: ShieldCheckIcon, titleFr: tLang('fullControl.included.items.5.title', 'fr'), titleEn: tLang('fullControl.included.items.5.title', 'en'), descFr: tLang('fullControl.included.items.5.desc', 'fr'), descEn: tLang('fullControl.included.items.5.desc', 'en') },
-          { icon: LockClosedIcon, titleFr: tLang('fullControl.included.items.6.title', 'fr'), titleEn: tLang('fullControl.included.items.6.title', 'en'), descFr: tLang('fullControl.included.items.6.desc', 'fr'), descEn: tLang('fullControl.included.items.6.desc', 'en') },
-          { icon: AcademicCapIcon, titleFr: tLang('fullControl.included.items.7.title', 'fr'), titleEn: tLang('fullControl.included.items.7.title', 'en'), descFr: tLang('fullControl.included.items.7.desc', 'fr'), descEn: tLang('fullControl.included.items.7.desc', 'en') },
-          { icon: Cog6ToothIcon, titleFr: tLang('fullControl.included.items.8.title', 'fr'), titleEn: tLang('fullControl.included.items.8.title', 'en'), descFr: tLang('fullControl.included.items.8.desc', 'fr'), descEn: tLang('fullControl.included.items.8.desc', 'en') },
-        ]}
-        cols={{ md: 2, lg: 3 }}
-      />
+      {/* Common Features Section - Missions */}
+      <section id="missions">
+        <IncludedFeaturesSection
+          titleFr={tLang('fullControl.included.title', 'fr')}
+          titleEn={tLang('fullControl.included.title', 'en')}
+          subtitleFr={tLang('fullControl.included.subtitle', 'fr')}
+          subtitleEn={tLang('fullControl.included.subtitle', 'en')}
+          items={[
+            { icon: KeyIcon, titleFr: tLang('fullControl.included.items.0.title', 'fr'), titleEn: tLang('fullControl.included.items.0.title', 'en'), descFr: tLang('fullControl.included.items.0.desc', 'fr'), descEn: tLang('fullControl.included.items.0.desc', 'en') },
+            { icon: ServerStackIcon, titleFr: tLang('fullControl.included.items.1.title', 'fr'), titleEn: tLang('fullControl.included.items.1.title', 'en'), descFr: tLang('fullControl.included.items.1.desc', 'fr'), descEn: tLang('fullControl.included.items.1.desc', 'en') },
+            { icon: CommandLineIcon, titleFr: tLang('fullControl.included.items.2.title', 'fr'), titleEn: tLang('fullControl.included.items.2.title', 'en'), descFr: tLang('fullControl.included.items.2.desc', 'fr'), descEn: tLang('fullControl.included.items.2.desc', 'en') },
+            { icon: DocumentTextIcon, titleFr: tLang('fullControl.included.items.3.title', 'fr'), titleEn: tLang('fullControl.included.items.3.title', 'en'), descFr: tLang('fullControl.included.items.3.desc', 'fr'), descEn: tLang('fullControl.included.items.3.desc', 'en') },
+            { icon: ServerStackIcon, titleFr: tLang('fullControl.included.items.4.title', 'fr'), titleEn: tLang('fullControl.included.items.4.title', 'en'), descFr: tLang('fullControl.included.items.4.desc', 'fr'), descEn: tLang('fullControl.included.items.4.desc', 'en') },
+            { icon: ShieldCheckIcon, titleFr: tLang('fullControl.included.items.5.title', 'fr'), titleEn: tLang('fullControl.included.items.5.title', 'en'), descFr: tLang('fullControl.included.items.5.desc', 'fr'), descEn: tLang('fullControl.included.items.5.desc', 'en') },
+            { icon: LockClosedIcon, titleFr: tLang('fullControl.included.items.6.title', 'fr'), titleEn: tLang('fullControl.included.items.6.title', 'en'), descFr: tLang('fullControl.included.items.6.desc', 'fr'), descEn: tLang('fullControl.included.items.6.desc', 'en') },
+            { icon: AcademicCapIcon, titleFr: tLang('fullControl.included.items.7.title', 'fr'), titleEn: tLang('fullControl.included.items.7.title', 'en'), descFr: tLang('fullControl.included.items.7.desc', 'fr'), descEn: tLang('fullControl.included.items.7.desc', 'en') },
+            { icon: Cog6ToothIcon, titleFr: tLang('fullControl.included.items.8.title', 'fr'), titleEn: tLang('fullControl.included.items.8.title', 'en'), descFr: tLang('fullControl.included.items.8.desc', 'fr'), descEn: tLang('fullControl.included.items.8.desc', 'en') },
+          ]}
+          cols={{ md: 2, lg: 3 }}
+        />
+      </section>
 
       {/* Stack Technique Section */}
-      <section className="py-20 bg-gradient-to-b from-brand-50/30 to-white">
+      <section id="processus" className="py-20 bg-gradient-to-b from-brand-50/30 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink mb-4">
@@ -184,7 +204,9 @@ const FullControl = () => {
       </section>
 
       {/* Comparison Section */}
-      <ComparisonSection />
+      <section>
+        <ComparisonSection />
+      </section>
 
       {/* CTA Section commune */}
       <ContactCTA

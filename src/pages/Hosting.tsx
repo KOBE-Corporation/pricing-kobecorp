@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
   CloudIcon,
@@ -11,6 +13,19 @@ import SectionFeatures from '../components/SectionFeatures';
 
 const Hosting = () => {
   const { t, language } = useLanguage();
+  const location = useLocation();
+
+  // Scroll vers la section correspondant au hash (#hero, #services, #contact)
+  useEffect(() => {
+    const hash = location.hash?.replace('#', '');
+    if (!hash) return;
+    const el = document.getElementById(hash);
+    if (el) {
+      const headerOffset = 80;
+      const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }, [location.pathname, location.hash]);
 
   const hostingTypes = [
     {
@@ -49,32 +64,36 @@ const Hosting = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <PageHero
-        title={language === 'fr' ? 'Hébergement' : 'Hosting'}
-        subtitle={
-          language === 'fr'
-            ? 'Solutions d\'hébergement performantes et sécurisées pour vos applications web et mobiles.'
-            : 'Performant and secure hosting solutions for your web and mobile applications.'
-        }
-        primaryCta={{
-          label: language === 'fr' ? 'Démarrer un projet' : 'Start a Project',
-          href: '#contact',
-          variant: 'primary',
-        }}
-        secondaryCta={{
-          label: t('nav.pricing'),
-          href: '/#forfaits',
-          variant: 'outline',
-        }}
-      />
+      <section id="hero">
+        <PageHero
+          title={language === 'fr' ? 'Hébergement' : 'Hosting'}
+          subtitle={
+            language === 'fr'
+              ? 'Solutions d\'hébergement performantes et sécurisées pour vos applications web et mobiles.'
+              : 'Performant and secure hosting solutions for your web and mobile applications.'
+          }
+          primaryCta={{
+            label: language === 'fr' ? 'Démarrer un projet' : 'Start a Project',
+            href: '#contact',
+            variant: 'primary',
+          }}
+          secondaryCta={{
+            label: t('nav.pricing'),
+            href: '/#forfaits',
+            variant: 'outline',
+          }}
+        />
+      </section>
 
-      <SectionFeatures
-        titleFr="Types d'Hébergement"
-        titleEn="Hosting Types"
-        subtitleFr="Choisissez la solution d'hébergement adaptée à vos besoins."
-        subtitleEn="Choose the hosting solution that fits your needs."
-        items={hostingTypes}
-      />
+      <section id="services">
+        <SectionFeatures
+          titleFr="Types d'Hébergement"
+          titleEn="Hosting Types"
+          subtitleFr="Choisissez la solution d'hébergement adaptée à vos besoins."
+          subtitleEn="Choose the hosting solution that fits your needs."
+          items={hostingTypes}
+        />
+      </section>
 
       {/* CTA Section commune */}
       <ContactCTA

@@ -71,11 +71,11 @@ const Footer = () => {
             <h3 className="text-sm font-semibold uppercase tracking-wide text-ink mb-4">
               {language === 'fr' ? 'Liens rapides' : 'Quick links'}
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               <li>
                 <Link
                   to="/saas"
-                  className="text-sm text-neutral-700 transition-colors hover:text-brand-600"
+                  className="inline-block text-sm text-neutral-700 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
                 >
                   Accueil
                 </Link>
@@ -83,7 +83,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/#services"
-                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                  className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
                 >
                   Services
                 </Link>
@@ -91,7 +91,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/#forfaits"
-                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                  className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
                 >
                   Programmes
                 </Link>
@@ -99,7 +99,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/#missions"
-                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                  className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
                 >
                   À propos
                 </Link>
@@ -107,15 +107,23 @@ const Footer = () => {
               <li>
                 <Link
                   to="/full-control"
-                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                  className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
                 >
-                  Portfolio
+                  Full-Control
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/hebergement"
+                  className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
+                >
+                  Hébergement
                 </Link>
               </li>
               <li>
                 <Link
                   to="/contact"
-                  className="text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                  className="inline-block text-sm text-neutral-600 rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
                 >
                   Contact
                 </Link>
@@ -164,7 +172,7 @@ const Footer = () => {
                     {info.link ? (
                       <a
                         href={info.link}
-                        className="hover:text-brand-500 transition-colors"
+                        className="inline-block rounded-lg px-2 py-1 -mx-2 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
                       >
                         {content}
                       </a>
@@ -244,16 +252,16 @@ const Footer = () => {
             <p className="text-sm font-medium text-neutral-700">
               {t('footer.copyright')}
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-2">
               <a
                 href="/privacy"
-                className="text-sm text-neutral-600 hover:text-brand-500 transition-colors"
+                className="text-sm text-neutral-600 rounded-lg px-2 py-1 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
               >
                 {language === 'fr' ? 'Mentions légales' : 'Privacy'}
               </a>
               <a
                 href="/legal"
-                className="text-sm text-neutral-600 hover:text-brand-500 transition-colors"
+                className="text-sm text-neutral-600 rounded-lg px-2 py-1 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
               >
                 {language === 'fr' ? 'Politique de confidentialité' : 'Terms'}
               </a>

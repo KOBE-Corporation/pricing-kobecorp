@@ -12,9 +12,19 @@ const SAAS_SECTIONS = [
   { id: 'processus', label: 'Processus' },
 ] as const;
 
+const FULL_CONTROL_SECTIONS = SAAS_SECTIONS;
+
+const HOSTING_SECTIONS = [
+  { id: 'hero', label: 'Accueil' },
+  { id: 'services', label: 'Services' },
+  { id: 'contact', label: 'Contact' },
+] as const;
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSectionMenuOpen, setIsSectionMenuOpen] = useState(false);
+  const [isFullControlMenuOpen, setIsFullControlMenuOpen] = useState(false);
+  const [isHostingMenuOpen, setIsHostingMenuOpen] = useState(false);
   const { language, setLanguage } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
@@ -56,6 +66,40 @@ const Header = () => {
 
     // Si on est déjà sur SaaS, le bouton sert de déclencheur du menu de sections
     setIsSectionMenuOpen((open) => !open);
+    if (!isSectionMenuOpen) {
+      setIsFullControlMenuOpen(false);
+      setIsHostingMenuOpen(false);
+    }
+  };
+
+  const handleFullControlClick = () => {
+    if (!isActiveRoute(['/full-control'])) {
+      navigate('/full-control');
+      setIsFullControlMenuOpen(false);
+      setIsSectionMenuOpen(false);
+      setIsHostingMenuOpen(false);
+      return;
+    }
+    setIsFullControlMenuOpen((open) => !open);
+    if (!isFullControlMenuOpen) {
+      setIsSectionMenuOpen(false);
+      setIsHostingMenuOpen(false);
+    }
+  };
+
+  const handleHostingClick = () => {
+    if (!isActiveRoute(['/hebergement'])) {
+      navigate('/hebergement');
+      setIsHostingMenuOpen(false);
+      setIsSectionMenuOpen(false);
+      setIsFullControlMenuOpen(false);
+      return;
+    }
+    setIsHostingMenuOpen((open) => !open);
+    if (!isHostingMenuOpen) {
+      setIsSectionMenuOpen(false);
+      setIsFullControlMenuOpen(false);
+    }
   };
 
   return (
@@ -88,27 +132,27 @@ const Header = () => {
         </Link>
 
         {/* Navigation Desktop - onglets principaux */}
-        <div className="hidden md:flex items-center gap-4">
-          <nav className="flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-6">
+          <nav className="flex items-center gap-4">
             <div className="relative">
               <button
                 type="button"
                 onClick={handleSaasClick}
-                className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+                className={`inline-flex items-center gap-1 text-sm font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 ${
                   isActiveRoute(['/', '/saas'])
-                    ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 px-1'
-                    : 'text-neutral-700 hover:text-neutral-900'
+                    ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 hover:bg-brand-50/80'
+                    : 'text-neutral-700 hover:text-brand-600 hover:bg-brand-50'
                 }`}
                 aria-haspopup="listbox"
                 aria-expanded={isActiveRoute(['/', '/saas']) && isSectionMenuOpen}
               >
                 SaaS
-                {isActiveRoute(['/', '/saas']) && (
-                  <ChevronDownIcon
-                    className={`h-4 w-4 shrink-0 transition-transform duration-200 ${isSectionMenuOpen ? 'rotate-180' : ''}`}
-                    aria-hidden
-                  />
-                )}
+                <ChevronDownIcon
+                  className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
+                    isActiveRoute(['/', '/saas']) && isSectionMenuOpen ? 'rotate-180' : ''
+                  }`}
+                  aria-hidden
+                />
               </button>
 
               {isActiveRoute(['/', '/saas']) && (
@@ -136,32 +180,105 @@ const Header = () => {
                 </div>
               )}
             </div>
-            <button
-              type="button"
-              onClick={() => navigate('/full-control')}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute(['/full-control'])
-                  ? 'bg-neutral-900 text-white'
-                  : 'text-neutral-700 hover:bg-neutral-50'
-              }`}
-            >
-              Full-Control
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('/hebergement')}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute(['/hebergement'])
-                  ? 'bg-neutral-900 text-white'
-                  : 'text-neutral-700 hover:bg-neutral-50'
-              }`}
-            >
-              Hébergement
-            </button>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={handleFullControlClick}
+                className={`inline-flex items-center gap-1 text-sm font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 ${
+                  isActiveRoute(['/full-control'])
+                    ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 hover:bg-brand-50/80'
+                    : 'text-neutral-700 hover:text-brand-600 hover:bg-brand-50'
+                }`}
+                aria-haspopup="listbox"
+                aria-expanded={isActiveRoute(['/full-control']) && isFullControlMenuOpen}
+              >
+                Full-Control
+                <ChevronDownIcon
+                  className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
+                    isActiveRoute(['/full-control']) && isFullControlMenuOpen ? 'rotate-180' : ''
+                  }`}
+                  aria-hidden
+                />
+              </button>
+
+              {isActiveRoute(['/full-control']) && (
+                <div
+                  className={`absolute left-0 mt-2 w-44 origin-top rounded-2xl bg-white shadow-lg border border-neutral-200 py-2 z-50 transition-all duration-200 ease-out ${
+                    isFullControlMenuOpen
+                      ? 'visible scale-100 opacity-100'
+                      : 'invisible scale-95 opacity-0 pointer-events-none'
+                  }`}
+                  role="listbox"
+                  aria-hidden={!isFullControlMenuOpen}
+                >
+                  {FULL_CONTROL_SECTIONS.map(({ id, label }) => (
+                    <Link
+                      key={id}
+                      to={`/full-control#${id}`}
+                      onClick={() => setIsFullControlMenuOpen(false)}
+                      className={`block w-full text-left px-4 py-2 text-sm ${
+                        currentHash === `#${id}` ? 'text-brand-600 font-semibold' : 'text-neutral-700 hover:bg-neutral-50'
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="relative">
+              <button
+                type="button"
+                onClick={handleHostingClick}
+                className={`inline-flex items-center gap-1 text-sm font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 ${
+                  isActiveRoute(['/hebergement'])
+                    ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 hover:bg-brand-50/80'
+                    : 'text-neutral-700 hover:text-brand-600 hover:bg-brand-50'
+                }`}
+                aria-haspopup="listbox"
+                aria-expanded={isActiveRoute(['/hebergement']) && isHostingMenuOpen}
+              >
+                Hébergement
+                <ChevronDownIcon
+                  className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
+                    isActiveRoute(['/hebergement']) && isHostingMenuOpen ? 'rotate-180' : ''
+                  }`}
+                  aria-hidden
+                />
+              </button>
+
+              {isActiveRoute(['/hebergement']) && (
+                <div
+                  className={`absolute left-0 mt-2 w-44 origin-top rounded-2xl bg-white shadow-lg border border-neutral-200 py-2 z-50 transition-all duration-200 ease-out ${
+                    isHostingMenuOpen
+                      ? 'visible scale-100 opacity-100'
+                      : 'invisible scale-95 opacity-0 pointer-events-none'
+                  }`}
+                  role="listbox"
+                  aria-hidden={!isHostingMenuOpen}
+                >
+                  {HOSTING_SECTIONS.map(({ id, label }) => (
+                    <Link
+                      key={id}
+                      to={`/hebergement#${id}`}
+                      onClick={() => setIsHostingMenuOpen(false)}
+                      className={`block w-full text-left px-4 py-2 text-sm ${
+                        currentHash === `#${id}` ? 'text-brand-600 font-semibold' : 'text-neutral-700 hover:bg-neutral-50'
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             <Link
               to="/contact"
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                isActiveRoute(['/contact']) ? 'bg-neutral-900 text-white' : 'text-neutral-700 hover:bg-neutral-50'
+              className={`inline-flex items-center text-sm font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 ${
+                isActiveRoute(['/contact'])
+                  ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 hover:bg-brand-50/80'
+                  : 'text-neutral-700 hover:text-brand-600 hover:bg-brand-50'
               }`}
             >
               Contact
