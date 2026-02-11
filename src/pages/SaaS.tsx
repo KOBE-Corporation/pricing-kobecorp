@@ -235,7 +235,7 @@ const SaaS = () => {
       {/* Modal détails forfait */}
       {selectedPlan && (
         <div
-          className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 px-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
           role="dialog"
           aria-modal="true"
           aria-label={language === 'fr' ? `Détails du forfait ${selectedPlan.name}` : `Plan details ${selectedPlan.name}`}
