@@ -9,46 +9,90 @@ interface FAQItem {
   answerEn: string;
 }
 
+// 10 questions : 7 SaaS (70%), 2 Full Control (20%), 1 Hébergement (10%)
 const faqData: FAQItem[] = [
+  // ——— SaaS (7) ———
   {
-    questionFr: 'Puis-je changer de forfait à tout moment ?',
-    questionEn: 'Can I change my plan at any time?',
+    questionFr: 'Qu’est-ce qu’un forfait SaaS ?',
+    questionEn: 'What is a SaaS plan?',
     answerFr:
-      'Oui, vous pouvez mettre à niveau ou rétrograder votre forfait à tout moment. Les changements prennent effet immédiatement.',
+      'Un forfait SaaS (Software as a Service) vous donne accès à notre logiciel en ligne, sans installation. Vous payez un abonnement et nous gérons les mises à jour et l’hébergement.',
     answerEn:
-      'Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.',
+      'A SaaS (Software as a Service) plan gives you access to our software online, with no installation. You pay a subscription and we handle updates and hosting.',
   },
   {
-    questionFr: 'Y a-t-il un engagement minimum ?',
-    questionEn: 'Is there a minimum commitment?',
+    questionFr: 'Puis-je changer de forfait SaaS à tout moment ?',
+    questionEn: 'Can I change my SaaS plan at any time?',
     answerFr:
-      'Non, tous nos forfaits sont sans engagement. Vous pouvez annuler à tout moment sans frais.',
+      'Oui. Vous pouvez passer à un forfait supérieur ou inférieur à tout moment. Le changement est pris en compte dès la prochaine facturation.',
     answerEn:
-      'No, all our plans are commitment-free. You can cancel at any time without fees.',
+      'Yes. You can switch to a higher or lower plan at any time. The change applies at your next billing cycle.',
   },
   {
-    questionFr: 'Quels moyens de paiement acceptez-vous ?',
-    questionEn: 'What payment methods do you accept?',
+    questionFr: 'Les mises à jour sont-elles incluses dans le forfait SaaS ?',
+    questionEn: 'Are updates included in the SaaS plan?',
     answerFr:
-      'Nous acceptons les cartes bancaires, virements bancaires et paiements mobiles.',
+      'Oui. Toutes les mises à jour et correctifs de sécurité sont inclus dans votre abonnement SaaS. Vous avez toujours la dernière version.',
     answerEn:
-      'We accept credit cards, bank transfers, and mobile payments.',
+      'Yes. All updates and security patches are included in your SaaS subscription. You always have the latest version.',
   },
   {
-    questionFr: 'Le support est-il disponible 24/7 ?',
-    questionEn: 'Is support available 24/7?',
+    questionFr: 'Mes données sont-elles sécurisées avec le forfait SaaS ?',
+    questionEn: 'Is my data secure with the SaaS plan?',
     answerFr:
-      'Oui, notre équipe de support est disponible 24/7 pour tous nos clients, quel que soit le forfait.',
+      'Oui. Vos données sont hébergées sur des serveurs sécurisés, avec sauvegardes régulières et chiffrement. Nous respectons les bonnes pratiques de confidentialité.',
     answerEn:
-      'Yes, our support team is available 24/7 for all our clients, regardless of the plan.',
+      'Yes. Your data is hosted on secure servers, with regular backups and encryption. We follow privacy best practices.',
   },
   {
-    questionFr: 'Puis-je essayer avant d\'acheter ?',
-    questionEn: 'Can I try before buying?',
+    questionFr: 'Puis-je essayer le forfait SaaS avant de m’engager ?',
+    questionEn: 'Can I try the SaaS plan before committing?',
     answerFr:
-      'Oui, nous offrons une période d\'essai de 14 jours pour tous nos forfaits. Aucune carte bancaire requise.',
+      'Oui. Nous proposons une période d’essai gratuite pour découvrir le forfait SaaS. Aucune carte bancaire n’est demandée pour commencer.',
     answerEn:
-      'Yes, we offer a 14-day trial period for all our plans. No credit card required.',
+      'Yes. We offer a free trial to discover the SaaS plan. No credit card is required to get started.',
+  },
+  {
+    questionFr: 'Quel support est fourni avec le forfait SaaS ?',
+    questionEn: 'What support is provided with the SaaS plan?',
+    answerFr:
+      'Le forfait SaaS inclut un support par email et chat. Selon la formule, un support prioritaire ou dédié peut être disponible.',
+    answerEn:
+      'The SaaS plan includes email and chat support. Depending on the tier, priority or dedicated support may be available.',
+  },
+  {
+    questionFr: 'Comment fonctionne la facturation du forfait SaaS ?',
+    questionEn: 'How does SaaS plan billing work?',
+    answerFr:
+      'La facturation est mensuelle ou annuelle selon votre choix. Vous payez un abonnement fixe ; pas de frais cachés pour l’usage standard inclus.',
+    answerEn:
+      'Billing is monthly or yearly, depending on your choice. You pay a fixed subscription; no hidden fees for standard included usage.',
+  },
+  // ——— Full Control (2) ———
+  {
+    questionFr: 'Qu’est-ce que le forfait Full Control ?',
+    questionEn: 'What is the Full Control plan?',
+    answerFr:
+      'Le forfait Full Control vous donne un accès complet au code et à l’infrastructure. Vous hébergez et gérez tout vous-même, avec notre assistance technique si besoin.',
+    answerEn:
+      'The Full Control plan gives you full access to the code and infrastructure. You host and manage everything yourself, with our technical support if needed.',
+  },
+  {
+    questionFr: 'Quelle est la différence entre SaaS et Full Control ?',
+    questionEn: 'What is the difference between SaaS and Full Control?',
+    answerFr:
+      'Avec le SaaS, nous hébergeons et maintenons tout pour vous. Avec Full Control, vous recevez le code et la solution pour les déployer sur vos propres serveurs. Idéal si vous voulez un contrôle total.',
+    answerEn:
+      'With SaaS, we host and maintain everything for you. With Full Control, you receive the code and solution to deploy on your own servers. Ideal if you want full control.',
+  },
+  // ——— Hébergement (1) ———
+  {
+    questionFr: 'Qu’est-ce qui est inclus dans l’hébergement ?',
+    questionEn: 'What is included in hosting?',
+    answerFr:
+      'L’hébergement inclut l’espace serveur, la bande passante, les sauvegardes et la surveillance. Nous assurons la disponibilité et la sécurité de votre site ou application.',
+    answerEn:
+      'Hosting includes server space, bandwidth, backups, and monitoring. We ensure the availability and security of your site or application.',
   },
 ];
 
