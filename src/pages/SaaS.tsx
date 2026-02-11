@@ -267,7 +267,7 @@ const SaaS = () => {
           </div>
 
           {/* Grille des forfaits */}
-          <div className="flex gap-4 overflow-x-auto px-1 pb-2 snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 lg:gap-8 md:items-stretch md:overflow-visible md:px-0 md:pb-0">
+          <div className="flex gap-4 overflow-x-auto px-1 pb-2 snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-6 lg:gap-8 md:items-stretch md:overflow-visible md:px-0 md:pb-0">
             {plansWithDynamicPricing.map((plan, index) => (
               <div
                 key={plan.id}

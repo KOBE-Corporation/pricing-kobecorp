@@ -95,14 +95,12 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
                 </p>
               )}
               <div className="rounded-2xl bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 px-3 sm:px-4 py-3.5 sm:py-4 text-white shadow-md border border-brand-400/30">
-                <div className="flex items-end justify-between gap-2 sm:gap-3 whitespace-nowrap">
-                  <p className="font-display text-[clamp(1.85rem,5.2vw,2.6rem)] leading-[0.9] font-semibold tracking-tight tabular-nums">
+                <div className="w-full text-center whitespace-nowrap overflow-hidden">
+                  <p className="font-display font-semibold leading-tight tracking-tight tabular-nums text-[clamp(1.45rem,4.2vw,2.2rem)]">
                     {plan.price.toLocaleString('fr-FR')}
-                    <span className="ml-1 text-[clamp(0.95rem,2.2vw,1.25rem)] align-top">f</span>
-                  </p>
-                  <p className="font-display text-[clamp(1rem,2.7vw,1.4rem)] leading-none font-semibold text-right">
-                    /{plan.period}
-                    <span className="ml-1 font-sans text-[clamp(0.72rem,1.9vw,0.95rem)] font-semibold opacity-95">
+                    <span className="ml-1 text-[clamp(0.9rem,2.1vw,1.2rem)] align-top">f</span>
+                    <span className="ml-2 font-display text-[clamp(0.9rem,2.2vw,1.2rem)]">/{plan.period}</span>
+                    <span className="ml-1 font-sans text-[clamp(0.68rem,1.6vw,0.86rem)] font-semibold opacity-95">
                       ({language === 'fr' ? 'Hors Taxes' : 'Excl. tax'})
                     </span>
                   </p>
