@@ -15,6 +15,8 @@ type SectionFeaturesProps = {
   subtitleFr: string;
   subtitleEn: string;
   items: FeatureItem[];
+  badgeLabelFr?: string;
+  badgeLabelEn?: string;
 };
 
 const SectionFeatures = ({
@@ -23,6 +25,8 @@ const SectionFeatures = ({
   subtitleFr,
   subtitleEn,
   items,
+  badgeLabelFr,
+  badgeLabelEn,
 }: SectionFeaturesProps) => {
   const { language } = useLanguage();
 
@@ -30,6 +34,19 @@ const SectionFeatures = ({
     <section className="py-24 bg-neutral-50/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <header className="text-center mb-16">
+          {badgeLabelFr || badgeLabelEn ? (
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-100 px-4 py-2 text-sm font-semibold text-brand-600 ring-1 ring-brand-500/10 mb-4">
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+              {language === 'fr' ? badgeLabelFr ?? badgeLabelEn : badgeLabelEn ?? badgeLabelFr}
+            </span>
+          ) : null}
           <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">
             {language === 'fr' ? titleFr : titleEn}
           </h2>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { CodeBracketIcon, ServerIcon, ChartBarIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import PricingCard from '../components/PricingCard';
@@ -15,8 +16,21 @@ type DynamicSaasPlan = (typeof saasPlans)[number] & {
 
 const SaaS = () => {
   const { language, t, tLang } = useLanguage();
+  const location = useLocation();
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
   const [selectedPlan, setSelectedPlan] = useState<DynamicSaasPlan | null>(null);
+
+  // Scroll vers la section correspondant au hash (#hero, #services, #forfaits, etc.)
+  useEffect(() => {
+    const hash = location.hash?.replace('#', '');
+    if (!hash) return;
+    const el = document.getElementById(hash);
+    if (el) {
+      const headerOffset = 80;
+      const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }, [location.pathname, location.hash]);
 
   // SEO : titre et meta description par page
   useEffect(() => {
@@ -98,6 +112,8 @@ const SaaS = () => {
           subtitleFr={tLang('saas.sectionFeatures.subtitle', 'fr')}
           subtitleEn={tLang('saas.sectionFeatures.subtitle', 'en')}
           items={features}
+          badgeLabelFr="Services"
+          badgeLabelEn="Services"
         />
       </section>
 
@@ -227,6 +243,8 @@ const SaaS = () => {
             descEn: tLang(`saas.included.items.${i}.desc`, 'en'),
           }))}
           cols={{ md: 2, lg: 2 }}
+          badgeLabelFr="Missions"
+          badgeLabelEn="Missions"
         />
       </section>
 
@@ -235,7 +253,14 @@ const SaaS = () => {
         <ComparisonSection />
       </section>
 
-      {/* Contact CTA supprimé sur cette page pour rester aligné avec le site principal */}
+      <ContactCTA
+        id="contact"
+        titleFr={tLang('contact.title', 'fr')}
+        titleEn={tLang('contact.title', 'en')}
+        subtitleFr={tLang('contact.subtitle', 'fr')}
+        subtitleEn={tLang('contact.subtitle', 'en')}
+        mailSubjectSuffix="SaaS – Tarification"
+      />
 
       {/* Modal détails forfait */}
       {selectedPlan && (

@@ -1,15 +1,21 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Bars3Icon, XMarkIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, GlobeAltIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { companyInfo } from '../data/companyInfo';
 import { useLanguage } from '../contexts/LanguageContext';
 
-type SectionId = 'hero' | 'services' | 'forfaits' | 'missions' | 'processus' | 'contact';
+const SAAS_SECTIONS = [
+  { id: 'hero', label: 'Accueil' },
+  { id: 'services', label: 'Services' },
+  { id: 'forfaits', label: 'Programmes' },
+  { id: 'missions', label: 'Missions' },
+  { id: 'processus', label: 'Processus' },
+  { id: 'contact', label: 'Contact' },
+] as const;
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSectionMenuOpen, setIsSectionMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<SectionId>('hero');
   const { language, setLanguage } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
@@ -39,20 +45,18 @@ const Header = () => {
   };
 
   const isActiveRoute = (paths: string[]) => paths.includes(location.pathname);
+  const currentHash = location.hash || '#hero';
 
-  const handleSectionSelect = (section: SectionId) => {
-    setActiveSection(section);
-    setIsSectionMenuOpen(false);
-
-    const anchor = section === 'hero' ? '#hero' : `#${section}`;
-
-    const performScroll = () => scrollToSection(anchor);
-    if (location.pathname !== '/' && location.pathname !== '/saas') {
-      navigate('/saas');
-      setTimeout(performScroll, 150);
-    } else {
-      performScroll();
+  const handleSaasClick = () => {
+    // Si on n'est pas encore sur la page SaaS, on y va et on scroll sur le hero
+    if (!isActiveRoute(['/', '/saas'])) {
+      goToSaasHero();
+      setIsSectionMenuOpen(false);
+      return;
     }
+
+    // Si on est déjà sur SaaS, le bouton sert de déclencheur du menu de sections
+    setIsSectionMenuOpen((open) => !open);
   };
 
   return (
@@ -87,17 +91,52 @@ const Header = () => {
         {/* Navigation Desktop - onglets principaux */}
         <div className="hidden md:flex items-center gap-4">
           <nav className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={goToSaasHero}
-              className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
-                isActiveRoute(['/', '/saas'])
-                  ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 px-1'
-                  : 'text-neutral-700 hover:text-neutral-900'
-              }`}
-            >
-              SaaS
-            </button>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={handleSaasClick}
+                className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+                  isActiveRoute(['/', '/saas'])
+                    ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 px-1'
+                    : 'text-neutral-700 hover:text-neutral-900'
+                }`}
+                aria-haspopup="listbox"
+                aria-expanded={isActiveRoute(['/', '/saas']) && isSectionMenuOpen}
+              >
+                SaaS
+                {isActiveRoute(['/', '/saas']) && (
+                  <ChevronDownIcon
+                    className={`h-4 w-4 shrink-0 transition-transform duration-200 ${isSectionMenuOpen ? 'rotate-180' : ''}`}
+                    aria-hidden
+                  />
+                )}
+              </button>
+
+              {isActiveRoute(['/', '/saas']) && (
+                <div
+                  className={`absolute left-0 mt-2 w-44 origin-top rounded-2xl bg-white shadow-lg border border-neutral-200 py-2 z-50 transition-all duration-200 ease-out ${
+                    isSectionMenuOpen
+                      ? 'visible scale-100 opacity-100'
+                      : 'invisible scale-95 opacity-0 pointer-events-none'
+                  }`}
+                  role="listbox"
+                  aria-hidden={!isSectionMenuOpen}
+                >
+                  {SAAS_SECTIONS.map(({ id, label }) => (
+                    <Link
+                      key={id}
+                      to={`/saas#${id}`}
+                      onClick={() => setIsSectionMenuOpen(false)}
+                      className={`block w-full text-left px-4 py-2 text-sm ${
+                        currentHash === `#${id}` ? 'text-brand-600 font-semibold' : 'text-neutral-700 hover:bg-neutral-50'
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             <button
               type="button"
               onClick={() => navigate('/full-control')}
@@ -127,102 +166,6 @@ const Header = () => {
               Contact
             </a>
           </nav>
-
-          {/* Sélecteur de section (uniquement sur la page SaaS) */}
-          {isActiveRoute(['/', '/saas']) && (
-            <div className="relative">
-              <button
-                type="button"
-                className="inline-flex items-center gap-1 text-sm font-medium text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 px-1 transition-colors"
-                onClick={() => setIsSectionMenuOpen((open) => !open)}
-                aria-haspopup="listbox"
-                aria-expanded={isSectionMenuOpen}
-              >
-                {activeSection === 'hero'
-                  ? 'Accueil'
-                  : activeSection === 'services'
-                    ? 'Services'
-                    : activeSection === 'forfaits'
-                      ? 'Programmes'
-                      : activeSection === 'missions'
-                        ? 'Missions'
-                        : activeSection === 'processus'
-                          ? 'Processus'
-                          : 'Contact'}
-                <span className="text-xs">▾</span>
-              </button>
-              {isSectionMenuOpen && (
-                <div className="absolute left-0 mt-2 w-44 rounded-2xl bg-white shadow-lg border border-neutral-200 py-2 z-50">
-                  <button
-                    type="button"
-                    className={`block w-full text-left px-4 py-2 text-sm ${
-                      activeSection === 'hero'
-                        ? 'text-brand-600 font-semibold'
-                        : 'text-neutral-700 hover:bg-neutral-50'
-                    }`}
-                    onClick={() => handleSectionSelect('hero')}
-                  >
-                    Accueil
-                  </button>
-                  <button
-                    type="button"
-                    className={`block w-full text-left px-4 py-2 text-sm ${
-                      activeSection === 'services'
-                        ? 'text-brand-600 font-semibold'
-                        : 'text-neutral-700 hover:bg-neutral-50'
-                    }`}
-                    onClick={() => handleSectionSelect('services')}
-                  >
-                    Services
-                  </button>
-                  <button
-                    type="button"
-                    className={`block w-full text-left px-4 py-2 text-sm ${
-                      activeSection === 'forfaits'
-                        ? 'text-brand-600 font-semibold'
-                        : 'text-neutral-700 hover:bg-neutral-50'
-                    }`}
-                    onClick={() => handleSectionSelect('forfaits')}
-                  >
-                    Programmes
-                  </button>
-                  <button
-                    type="button"
-                    className={`block w-full text-left px-4 py-2 text-sm ${
-                      activeSection === 'missions'
-                        ? 'text-brand-600 font-semibold'
-                        : 'text-neutral-700 hover:bg-neutral-50'
-                    }`}
-                    onClick={() => handleSectionSelect('missions')}
-                  >
-                    Missions
-                  </button>
-                  <button
-                    type="button"
-                    className={`block w-full text-left px-4 py-2 text-sm ${
-                      activeSection === 'processus'
-                        ? 'text-brand-600 font-semibold'
-                        : 'text-neutral-700 hover:bg-neutral-50'
-                    }`}
-                    onClick={() => handleSectionSelect('processus')}
-                  >
-                    Processus
-                  </button>
-                  <button
-                    type="button"
-                    className={`block w-full text-left px-4 py-2 text-sm ${
-                      activeSection === 'contact'
-                        ? 'text-brand-600 font-semibold'
-                        : 'text-neutral-700 hover:bg-neutral-50'
-                    }`}
-                    onClick={() => handleSectionSelect('contact')}
-                  >
-                    Contact
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Right side - Language + CTA Desktop */}
