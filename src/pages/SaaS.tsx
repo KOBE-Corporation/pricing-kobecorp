@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ComponentType, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
@@ -22,6 +22,62 @@ import SectionFeatures from '../components/SectionFeatures';
 
 type DynamicSaasPlan = (typeof saasPlans)[number] & {
   originalPrice?: number;
+};
+
+type InfoCardTone = 'rose' | 'indigo' | 'neutral' | 'amber' | 'blue';
+
+type ModalInfoCardProps = {
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  description: ReactNode;
+  tone?: InfoCardTone;
+  className?: string;
+};
+
+const toneClasses: Record<InfoCardTone, { card: string; icon: string }> = {
+  rose: {
+    card: 'border-rose-200 bg-rose-50/40',
+    icon: 'bg-rose-100 text-rose-600',
+  },
+  indigo: {
+    card: 'border-indigo-200 bg-indigo-50/40',
+    icon: 'bg-indigo-100 text-indigo-600',
+  },
+  neutral: {
+    card: 'border-neutral-200 bg-white',
+    icon: 'bg-neutral-100 text-neutral-600',
+  },
+  amber: {
+    card: 'border-amber-200 bg-amber-50/50',
+    icon: 'bg-amber-100 text-amber-700',
+  },
+  blue: {
+    card: 'border-blue-100 bg-blue-50/40',
+    icon: 'bg-blue-100 text-blue-600',
+  },
+};
+
+const ModalInfoCard = ({
+  icon: Icon,
+  title,
+  description,
+  tone = 'neutral',
+  className = '',
+}: ModalInfoCardProps) => {
+  const toneStyle = toneClasses[tone];
+  return (
+    <article className={`rounded-2xl border p-4 sm:p-5 ${toneStyle.card} ${className}`.trim()}>
+      <div className="flex items-start gap-3">
+        <span className={`inline-flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg ${toneStyle.icon}`}>
+          <Icon className="h-5 w-5" />
+        </span>
+        <div>
+          <h5 className="text-base font-semibold text-neutral-900 leading-tight">{title}</h5>
+          <p className="mt-1 text-sm text-neutral-600 leading-relaxed">{description}</p>
+        </div>
+      </div>
+    </article>
+  );
 };
 
 const SaaS = () => {
@@ -143,13 +199,31 @@ const SaaS = () => {
       tone: 'slate',
     },
     {
-      title: language === 'fr' ? 'Mes responsabilités' : 'My responsibilities',
+      title: language === 'fr' ? 'Nos responsabilités' : 'Our responsibilities',
       description:
         language === 'fr'
           ? "Héberger et maintenir l'application, assurer les mises à jour, la sécurité et les corrections prévues dans le forfait."
           : 'Host and maintain the app, ensure updates, security, and fixes included in the plan.',
       icon: WrenchScrewdriverIcon,
       tone: 'indigo',
+    },
+    {
+      title: language === 'fr' ? 'Sécurité & sauvegardes' : 'Security & backups',
+      description:
+        language === 'fr'
+          ? 'Chiffrement, certificat SSL, sauvegardes et bonnes pratiques de sécurité sont inclus selon le forfait.'
+          : 'Encryption, SSL certificate, backups and security best practices are included according to your plan.',
+      icon: ShieldCheckIcon,
+      tone: 'indigo',
+    },
+    {
+      title: language === 'fr' ? 'Disponibilité & support' : 'Availability & support',
+      description:
+        language === 'fr'
+          ? "L'application reste accessible 24/7 avec support et interventions dans le cadre des engagements du forfait."
+          : 'The application remains available 24/7 with support and interventions covered by your plan commitments.',
+      icon: ServerIcon,
+      tone: 'slate',
     },
   ];
 
@@ -401,64 +475,58 @@ const SaaS = () => {
                   {language === 'fr' ? 'Cadre du modèle SaaS' : 'SaaS model framework'}
                 </h4>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                  {modelDetailCards.map((card) => {
-                    const Icon = card.icon;
-                    const toneClass =
-                      card.tone === 'rose'
-                        ? 'border-rose-200 bg-rose-50/40'
-                        : card.tone === 'indigo'
-                          ? 'border-indigo-200 bg-indigo-50/40'
-                          : 'border-neutral-200 bg-white';
-                    const iconToneClass =
-                      card.tone === 'rose'
-                        ? 'bg-rose-100 text-rose-600'
-                        : card.tone === 'indigo'
-                          ? 'bg-indigo-100 text-indigo-600'
-                          : 'bg-neutral-100 text-neutral-600';
-                    return (
-                      <article key={card.title} className={`rounded-2xl border p-4 sm:p-5 ${toneClass}`}>
-                        <div className="flex items-start gap-3">
-                          <span className={`inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg ${iconToneClass}`}>
-                            <Icon className="h-5 w-5" />
-                          </span>
-                          <div>
-                            <h5 className="text-base font-semibold text-neutral-900 leading-tight">{card.title}</h5>
-                            <p className="mt-1 text-sm text-neutral-600 leading-relaxed">{card.description}</p>
-                          </div>
-                        </div>
-                      </article>
-                    );
-                  })}
+                  {modelDetailCards.map((card) => (
+                    <ModalInfoCard
+                      key={card.title}
+                      icon={card.icon}
+                      title={card.title}
+                      description={card.description}
+                      tone={card.tone as InfoCardTone}
+                    />
+                  ))}
                 </div>
-                <article className="rounded-2xl border border-neutral-200 bg-white p-4">
-                  <div className="flex items-start gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600">
-                      <StopCircleIcon className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <h5 className="text-sm font-semibold text-neutral-900">
-                        {language === 'fr' ? "Si vous arrêtez l'abonnement" : 'If you stop the subscription'}
-                      </h5>
-                      <p className="mt-1 text-sm text-neutral-600 leading-relaxed">
-                        {language === 'fr'
-                          ? "L'accès à l'application est suspendu après le préavis prévu. Une sauvegarde des données peut être fournie selon le contrat."
-                          : 'Access to the application is suspended after the required notice period. A data backup may be provided according to the contract.'}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-                <article className="rounded-2xl border border-blue-100 bg-blue-50/40 p-4">
-                  <div className="flex items-start gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
-                      <InformationCircleIcon className="h-5 w-5" />
-                    </span>
-                    <p className="text-sm text-neutral-700 leading-relaxed">
-                      {language === 'fr'
-                        ? "Cette fiche n'est pas un contrat juridique, mais une explication claire du modèle. Les détails définitifs sont validés ensemble."
-                        : 'This sheet is not a legal contract, but a clear explanation of the model. Final details are validated together.'}
-                    </p>
-                  </div>
-                </article>
+                <ModalInfoCard
+                  icon={KeyIcon}
+                  tone="amber"
+                  title={language === 'fr' ? 'Nom de domaine personnalisé (règle importante)' : 'Custom domain (important rule)'}
+                  description={
+                    language === 'fr' ? (
+                      <>
+                        Le nom de domaine personnalisé est offert uniquement en paiement annuel.
+                        Sans paiement annuel, le domaine par défaut est du type{' '}
+                        <span className="font-semibold text-ink">votre-entreprise.</span>
+                        <span className="font-semibold text-brand-700">kb-saas.com</span>.
+                      </>
+                    ) : (
+                      <>
+                        The custom domain is offered only with annual billing.
+                        Without annual billing, the default domain follows{' '}
+                        <span className="font-semibold text-ink">your-company.</span>
+                        <span className="font-semibold text-brand-700">kb-saas.com</span>.
+                      </>
+                    )
+                  }
+                />
+                <ModalInfoCard
+                  icon={StopCircleIcon}
+                  tone="neutral"
+                  title={language === 'fr' ? "Si vous arrêtez l'abonnement" : 'If you stop the subscription'}
+                  description={
+                    language === 'fr'
+                      ? "L'accès à l'application est suspendu après le préavis prévu. Une sauvegarde des données peut être fournie selon le contrat."
+                      : 'Access to the application is suspended after the required notice period. A data backup may be provided according to the contract.'
+                  }
+                />
+                <ModalInfoCard
+                  icon={InformationCircleIcon}
+                  tone="blue"
+                  title={language === 'fr' ? 'Information importante' : 'Important information'}
+                  description={
+                    language === 'fr'
+                      ? "Cette fiche n'est pas un contrat juridique, mais une explication claire du modèle. Les détails définitifs sont validés ensemble."
+                      : 'This sheet is not a legal contract, but a clear explanation of the model. Final details are validated together.'
+                  }
+                />
               </section>
 
               <div className="pt-1 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">

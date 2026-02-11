@@ -22,6 +22,12 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
   const formatAmount = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
   const equivLabel = t('saas.pricing.equivalentPerMonth').replace('{amount}', formatAmount(monthlyPrice ?? 0));
   const isPopular = plan.popular ?? false;
+  const oldPricesByPlan: Record<string, number> = {
+    'good-deal': 250000,
+    'pro': 400000,
+    'ultra': 650000,
+  };
+  const oldPrice = oldPricesByPlan[plan.id];
   const previewLimit = 6;
   const visibleFeatures = plan.features.slice(0, previewLimit);
   const remainingFeaturesCount = Math.max(plan.features.length - previewLimit, 0);
@@ -89,33 +95,47 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
             </div>
           ) : (
             <div className="space-y-2">
-              {billingPeriod === 'monthly' && annualSavings != null && annualSavings > 0 && (
+              {billingPeriod === 'monthly' && oldPrice != null && (
                 <p className="font-sans text-sm text-neutral-500 line-through">
-                  {formatAmount(annualSavings)} F {language === 'fr' ? 'Paiement Annuel' : 'Annual payment'}
+                  {formatAmount(oldPrice)} F (HT)
                 </p>
               )}
-              <div className="rounded-2xl bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 px-3 sm:px-4 py-3.5 sm:py-4 text-white shadow-md border border-brand-400/30">
-                <div className="w-full text-center whitespace-nowrap overflow-hidden">
-                  <p className="font-display font-semibold leading-tight tracking-tight tabular-nums text-[clamp(1.45rem,4.2vw,2.2rem)]">
+
+              <div className="rounded-2xl border border-brand-100 bg-white px-4 py-4 shadow-sm">
+                <div className="flex items-end justify-between gap-2">
+                  <p className="font-display font-semibold leading-[0.95] tracking-tight tabular-nums text-[clamp(2rem,6.2vw,3.6rem)] bg-gradient-to-r from-indigo-500 via-violet-500 to-pink-500 bg-clip-text text-transparent whitespace-nowrap">
                     {plan.price.toLocaleString('fr-FR')}
-                    <span className="ml-1 text-[clamp(0.9rem,2.1vw,1.2rem)] align-top">f</span>
-                    <span className="ml-2 font-display text-[clamp(0.9rem,2.2vw,1.2rem)]">/{plan.period}</span>
-                    <span className="ml-1 font-sans text-[clamp(0.68rem,1.6vw,0.86rem)] font-semibold opacity-95">
-                      ({language === 'fr' ? 'Hors Taxes' : 'Excl. tax'})
-                    </span>
+                  </p>
+                  <p className="font-sans text-[clamp(0.72rem,1.9vw,0.95rem)] text-neutral-600 font-semibold text-right leading-tight whitespace-nowrap">
+                    f ({language === 'fr' ? 'HT' : 'excl. tax'})/ {plan.period}
                   </p>
                 </div>
+
+                {billingPeriod === 'monthly' && monthlyPrice != null && annualSavings != null && annualSavings > 0 && (
+                  <>
+                    <div className="mt-3 rounded-xl border border-indigo-200 bg-indigo-50/40 px-3 py-2.5">
+                      <p className="text-sm font-medium text-neutral-700 leading-snug">
+                        {language === 'fr'
+                          ? `Paiement annuel : ${formatAmount(monthlyPrice * 12 - annualSavings)} f (HT) au lieu de ${formatAmount(monthlyPrice * 12)} f (HT)`
+                          : `Annual payment: ${formatAmount(monthlyPrice * 12 - annualSavings)} f (excl. tax) instead of ${formatAmount(monthlyPrice * 12)} f (excl. tax)`}
+                      </p>
+                    </div>
+                    <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50/50 px-3 py-2.5">
+                      <p className="text-sm font-semibold text-emerald-700 leading-snug">
+                        • {language === 'fr'
+                          ? `Economie de ${formatAmount(annualSavings)} F par an par rapport au paiement mensuel.`
+                          : `Save ${formatAmount(annualSavings)} F per year compared to monthly payment.`}
+                      </p>
+                    </div>
+                  </>
+                )}
+
+                {billingPeriod === 'annual' && monthlyPrice != null && (
+                  <p className="text-center font-sans text-sm font-semibold text-brand-600 mt-3">
+                    {equivLabel}
+                  </p>
+                )}
               </div>
-              {billingPeriod === 'annual' && monthlyPrice != null && (
-                <p className="text-center font-sans text-sm font-semibold text-brand-600 mt-2">
-                  {equivLabel}
-                </p>
-              )}
-              {plan.originalPrice && !(billingPeriod === 'annual' && monthlyPrice != null) && (
-                <p className="text-center font-sans text-xs text-neutral-400 mt-1 line-through">
-                  {plan.originalPrice.toLocaleString('fr-FR')} {plan.currency} / {language === 'fr' ? 'mois' : 'month'}
-                </p>
-              )}
             </div>
           )}
         </div>
