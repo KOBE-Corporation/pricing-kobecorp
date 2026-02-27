@@ -15,8 +15,6 @@ interface PricingCardProps {
   onSelect?: (plan: ExtendedPricingPlan) => void;
 }
 
-const formatXAF = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
-
 const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPrice, onSelect }: PricingCardProps) => {
   const { t, language } = useLanguage();
   const formatAmount = (n: number) => n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });

@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
+import type { ComponentType, CSSProperties } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 type FeatureItem = {
-  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+  icon: ComponentType<{ className?: string; style?: CSSProperties }>;
   titleFr: string;
   titleEn: string;
   descriptionFr: string;
