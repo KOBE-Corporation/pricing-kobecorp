@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# KOBE Corporation Pricing
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Page de tarification des offres SaaS, Full-Control et hébergement de **KOBE Corporation** (Yaoundé, Cameroun). Application React avec support multilingue (FR/EN).
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** + **TypeScript** + **Vite 7**
+- **Tailwind CSS** pour le style
+- **React Router** pour la navigation
+- **Heroicons** pour les icônes
 
-## React Compiler
+## Démarrage en local
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+L’app est disponible sur `http://localhost:5173` (ou le port indiqué par Vite).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Commande       | Description                |
+|----------------|----------------------------|
+| `npm run dev`  | Serveur de développement   |
+| `npm run build`| Build de production (TS + Vite) |
+| `npm run preview` | Aperçu du build (prod locale) |
+| `npm run lint` | Vérification ESLint        |
+
+## Structure du projet
+
+- `src/` — Code source (composants, pages, contextes, données)
+- `src/components/` — Composants réutilisables (ex. `PricingCard`, sections)
+- `src/pages/` — Pages (SaaS, Full-Control, etc.)
+- `src/contexts/` — Contexte langue (FR/EN)
+- `src/data/` — Données des forfaits et services
+- `setup-pricing/` — Config déploiement (Dockerfile, `compose.yaml`, `.env`)
+
+## Variables d’environnement (build)
+
+Les variables Vite utilisées au build (contact, newsletter, nom d’app, URL) sont définies dans `setup-pricing/.env`. En CI, elles sont lues depuis ce fichier ou passées en build-args. Ne pas commiter de secrets : utiliser des variables de repo ou des secrets GitHub.
+
+## Build Docker
+
+```bash
+cd setup-pricing
+docker compose build
+# ou depuis la racine :
+docker build -f setup-pricing/Dockerfile .
 ```
+
+Image publiée sur Docker Hub : `azerty78/pricing-kobecorp`.
+
+## CI/CD (GitHub Actions)
+
+Le workflow `.github/workflows/ci-cd.yml` s’exécute sur push/PR vers `main` ou `master` :
+
+1. **Tags** — Création de tags Git (sémantiques ou dev)
+2. **Build** — Build de l’image Docker et push vers Docker Hub
+3. **Test** — Vérification du démarrage du conteneur (hors PR)
+4. **Release** — Création d’une GitHub Release avec notes
+
+**Secrets requis** : `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD`.
+
+## Déploiement en production
+
+Le pipeline publie uniquement l’image sur Docker Hub. Le déploiement sur le serveur se fait manuellement (ou via un autre outil) :
+
+- **Docker Compose** : utiliser `setup-pricing/compose.yaml` (réseau `kobecorp-network`, reverse proxy attendu sur 80/443).
+- **Docker seul** : `docker pull azerty78/pricing-kobecorp:latest` puis `docker run` avec le port exposé.
+
+## Licence
+
+Projet privé — KOBE Corporation.

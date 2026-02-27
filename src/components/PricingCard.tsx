@@ -98,6 +98,9 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
               {billingPeriod === 'monthly' && oldPrice != null && (
                 <p className="font-sans text-sm text-neutral-500 line-through">
                   {formatAmount(oldPrice)} F (HT)
+                  <span className="ml-1.5 text-xs font-medium text-amber-600/90" title={language === 'fr' ? 'Ces tarifs ne sont plus d\'actualité' : 'These prices are no longer current'}>
+                    {language === 'fr' ? '(Prix obsolète)' : '(Obsolete)'}
+                  </span>
                 </p>
               )}
 
@@ -105,7 +108,7 @@ const PricingCard = ({ plan, annualSavings, billingPeriod = 'monthly', monthlyPr
                 <div className="rounded-2xl bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 px-3 sm:px-4 py-3.5 sm:py-4 text-white shadow-md border border-brand-400/30">
                   <div className="w-full text-center whitespace-nowrap">
                   <p className="font-display font-semibold leading-[1.15] tracking-tight tabular-nums text-[clamp(1.18rem,3.2vw,1.72rem)]">
-                      {plan.price.toLocaleString('fr-FR')}
+                      {formatAmount(plan.price)}
                       <span className="ml-1 text-[clamp(0.82rem,1.8vw,1.05rem)] align-top"> f</span>
                     <span className="ml-1 font-display text-[clamp(0.66rem,1.45vw,0.84rem)] align-middle">
                         / {plan.period} (HT)
