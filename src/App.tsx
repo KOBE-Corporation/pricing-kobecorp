@@ -7,6 +7,7 @@ import FullControl from './pages/FullControl';
 import Hosting from './pages/Hosting';
 import Applications from './pages/Applications';
 import Contact from './pages/Contact';
+import SaaSPlanDetail from './pages/SaaSPlanDetail';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -25,6 +26,7 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<SaaS />} />
           <Route path="/saas" element={<SaaS />} />
+          <Route path="/saas/:planId" element={<SaaSPlanDetail />} />
           <Route path="/full-control" element={<FullControl />} />
           <Route path="/hebergement" element={<Hosting />} />
           <Route path="/contact" element={<Contact />} />

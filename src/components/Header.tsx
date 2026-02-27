@@ -53,11 +53,12 @@ const Header = () => {
   };
 
   const isActiveRoute = (paths: string[]) => paths.includes(location.pathname);
+  const isSaasActive = location.pathname === '/' || location.pathname === '/saas' || location.pathname.startsWith('/saas/');
   const currentHash = location.hash || '#hero';
 
   const handleSaasClick = () => {
     // Si on n'est pas encore sur la page SaaS, on y va et on scroll sur le hero
-    if (!isActiveRoute(['/', '/saas'])) {
+    if (!isSaasActive) {
       goToSaasHero();
       setIsSectionMenuOpen(false);
       return;
@@ -138,23 +139,23 @@ const Header = () => {
                 type="button"
                 onClick={handleSaasClick}
                 className={`inline-flex items-center gap-1 text-sm font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 ${
-                  isActiveRoute(['/', '/saas'])
+                  isSaasActive
                     ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 hover:bg-brand-50/80'
                     : 'text-neutral-700 hover:text-brand-600 hover:bg-brand-50'
                 }`}
                 aria-haspopup="listbox"
-                aria-expanded={isActiveRoute(['/', '/saas']) && isSectionMenuOpen}
+                aria-expanded={isSaasActive && isSectionMenuOpen}
               >
                 SaaS
                 <ChevronDownIcon
                   className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
-                    isActiveRoute(['/', '/saas']) && isSectionMenuOpen ? 'rotate-180' : ''
+                    isSaasActive && isSectionMenuOpen ? 'rotate-180' : ''
                   }`}
                   aria-hidden
                 />
               </button>
 
-              {isActiveRoute(['/', '/saas']) && (
+              {isSaasActive && (
                 <div
                   className={`absolute left-0 mt-2 w-44 origin-top rounded-2xl bg-white shadow-lg border border-neutral-200 py-2 z-50 transition-all duration-200 ease-out ${
                     isSectionMenuOpen

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
 import {
@@ -29,6 +29,7 @@ type DynamicSaasPlan = (typeof saasPlans)[number] & {
 const SaaS = () => {
   const { language, t, tLang } = useLanguage();
   const location = useLocation();
+  const navigate = useNavigate();
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
   const [selectedPlan, setSelectedPlan] = useState<DynamicSaasPlan | null>(null);
 
@@ -89,18 +90,9 @@ const SaaS = () => {
   }));
 
   const handleSelectedPlanAction = () => {
-    if (!selectedPlan?.ctaLink) return;
-    if (selectedPlan.ctaLink.startsWith('mailto:')) {
-      window.location.href = selectedPlan.ctaLink;
-      return;
-    }
-    const element = document.querySelector(selectedPlan.ctaLink);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-    }
+    if (!selectedPlan) return;
+    setSelectedPlan(null);
+    navigate(`/saas/${selectedPlan.id}`);
   };
 
   const modelDetailCards = [
