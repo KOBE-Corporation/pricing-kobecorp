@@ -18,10 +18,13 @@ const ScrollToTop = () => {
 };
 
 const AppContent = () => {
+  const { pathname } = useLocation();
+  const isPlanDetailPage = /^\/saas\/[^/]+$/.test(pathname);
+
   return (
     <div className="min-h-screen bg-white">
       <ScrollToTop />
-      <Header />
+      {!isPlanDetailPage && <Header />}
       <main>
         <Routes>
           <Route path="/" element={<SaaS />} />
