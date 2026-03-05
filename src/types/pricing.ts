@@ -23,4 +23,8 @@ export type PricingPlan = {
   ctaLink?: string;
   /** Fourchette indicative (ex. Full-Control) : min/max F CFA pour X jours */
   priceRange?: PriceRange;
+  /** Prix facturé en cas de facturation annuelle (total pour 12 mois) */
+  annualPrice?: number;
+  /** Montant de la remise annuelle par rapport à 12 × prix mensuel */
+  annualSavings?: number;
 };
