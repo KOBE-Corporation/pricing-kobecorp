@@ -26,6 +26,8 @@ const SaaSPlanDetail = () => {
   });
   const [paymentMethod, setPaymentMethod] = useState<string>('');
   const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly');
 
   const plan = planId ? (saasPlans.find((p) => p.id === planId) ?? null) : null;
@@ -116,14 +118,20 @@ const SaaSPlanDetail = () => {
         onToggleLanguage={toggleLanguage}
       />
 
-      <section className="flex-1 bg-[#f5f5f7] text-neutral-900 flex items-stretch">
-        <div className="w-full max-w-xl mx-auto px-4 sm:px-8 py-8 sm:py-10 lg:py-14">
+      <section className="flex-1 min-h-0 flex flex-col bg-[#f5f5f7] text-neutral-900 overflow-y-auto">
+        <div className="w-full max-w-xl mx-auto px-4 sm:px-8 py-8 sm:py-10 lg:py-14 flex-1">
           <form
             onSubmit={(e) => {
               e.preventDefault();
               setSubmitAttempted(true);
               if (!paymentMethod) return;
-              // Intégration paiement future : pour l'instant, simple no-op.
+              if (formData.domainName.trim() !== '' && domainSlug === 'votre-domaine') return;
+              setIsSubmitting(true);
+              // Simule un envoi (à remplacer par l’appel API réel)
+              setTimeout(() => {
+                setIsSubmitting(false);
+                setSubmitSuccess(true);
+              }, 1200);
             }}
             className="space-y-8 sm:space-y-9"
           >
@@ -138,6 +146,9 @@ const SaaSPlanDetail = () => {
               updateField={updateField}
               domainSlug={domainSlug}
               isAnnual={isAnnual}
+              domainError={
+                formData.domainName.trim() !== '' && domainSlug === 'votre-domaine'
+              }
               t={t}
             />
 
@@ -150,33 +161,58 @@ const SaaSPlanDetail = () => {
 
             {/* Validation + CTA */}
             <section className="space-y-4">
-              <label className="flex items-start gap-3 text-xs text-neutral-600">
-                <input
-                  type="checkbox"
-                  className="mt-0.5 h-4 w-4 rounded border-neutral-300 text-black focus:ring-black"
-                  required
-                />
-                <span>
+              {submitSuccess ? (
+                <div
+                  role="status"
+                  className="rounded-2xl bg-emerald-50 border border-emerald-200 px-4 py-4 sm:py-5 text-center"
+                >
+                  <p className="text-sm font-semibold text-emerald-800">
+                    {t('Demande enregistrée', 'Request received')}
+                  </p>
+                  <p className="mt-1 text-xs text-emerald-700">
+                    {t(
+                      'Nous vous contacterons très prochainement à l’adresse e-mail indiquée pour finaliser votre abonnement.',
+                      'We will contact you shortly at the email address provided to complete your subscription.'
+                    )}
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <label className="flex items-start gap-3 text-xs text-neutral-600">
+                    <input
+                      type="checkbox"
+                      className="mt-0.5 h-4 w-4 rounded border-neutral-300 text-black focus:ring-black"
+                      required
+                      disabled={isSubmitting}
+                    />
+                    <span>
+                      {t(
+                        "J'accepte les conditions d'utilisation et la politique de confidentialité de KOBE Corporation.",
+                        "I agree to KOBE Corporation's terms of use and privacy policy."
+                      )}
+                    </span>
+                  </label>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full h-12 sm:h-14 rounded-full bg-black text-white text-[15px] font-semibold shadow-lg shadow-black/25 active:scale-[0.99] transition touch-manipulation disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting
+                      ? t('Envoi en cours…', 'Submitting…')
+                      : t("S'abonner", 'Subscribe')}
+                  </button>
+                </>
+              )}
+
+              {!submitSuccess && (
+                <p className="text-[11px] leading-relaxed text-neutral-500">
                   {t(
-                    "J'accepte les conditions d'utilisation et la politique de confidentialité de KOBE Corporation.",
-                    "I agree to KOBE Corporation's terms of use and privacy policy."
+                    "En vous abonnant, vous autorisez KOBE Corporation à vous débiter au montant indiqué ci-dessus, selon la fréquence choisie. Vous pouvez modifier ou annuler votre abonnement à tout moment en nous contactant.",
+                    'By subscribing, you authorize KOBE Corporation to charge you the amount shown above at the selected frequency. You can change or cancel your subscription at any time by contacting us.'
                   )}
-                </span>
-              </label>
-
-              <button
-                type="submit"
-                className="w-full h-12 sm:h-14 rounded-full bg-black text-white text-[15px] font-semibold shadow-lg shadow-black/25 active:scale-[0.99] transition touch-manipulation disabled:opacity-50"
-              >
-                {t("S'abonner", 'Subscribe')}
-              </button>
-
-              <p className="text-[11px] leading-relaxed text-neutral-500">
-                {t(
-                  "En vous abonnant, vous autorisez KOBE Corporation à vous débiter au montant indiqué ci-dessus, selon la fréquence choisie. Vous pouvez modifier ou annuler votre abonnement à tout moment en nous contactant.",
-                  'By subscribing, you authorize KOBE Corporation to charge you the amount shown above at the selected frequency. You can change or cancel your subscription at any time by contacting us.'
-                )}
-              </p>
+                </p>
+              )}
 
               <p className="text-[11px] text-neutral-500">
                 {t("Besoin d'aide ?", 'Need help?')}{' '}

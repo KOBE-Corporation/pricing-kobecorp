@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { GlobeAltIcon } from '@heroicons/react/24/outline';
 import type { SaaSPlanFormData } from '../../types/saasForm';
 
@@ -6,10 +7,20 @@ type DomainSectionProps = {
   updateField: (field: keyof SaaSPlanFormData, value: string) => void;
   domainSlug: string;
   isAnnual: boolean;
+  domainError?: boolean;
   t: (fr: string, en: string) => string;
 };
 
-export function DomainSection({ formData, updateField, domainSlug, isAnnual, t }: DomainSectionProps) {
+export function DomainSection({
+  formData,
+  updateField,
+  domainSlug,
+  isAnnual,
+  domainError = false,
+  t,
+}: DomainSectionProps) {
+  const errorId = useId();
+
   return (
     <section>
       <h2 className="text-base sm:text-lg font-semibold text-neutral-900">
@@ -25,11 +36,21 @@ export function DomainSection({ formData, updateField, domainSlug, isAnnual, t }
             type="text"
             value={formData.domainName}
             onChange={(e) => updateField('domainName', e.target.value)}
-            className="input-base-form"
+            className={`input-base-form ${domainError ? 'border-red-400 focus:ring-red-500/25 focus:border-red-500' : ''}`}
             placeholder={t('ex: mon-entreprise', 'e.g. my-company')}
             required
+            aria-invalid={domainError}
+            aria-describedby={domainError ? errorId : undefined}
           />
         </label>
+        {domainError && (
+          <p id={errorId} className="text-xs text-red-600" role="alert">
+            {t(
+              'Caractères autorisés : lettres (a-z), chiffres et tirets. Ex. : mon-entreprise',
+              'Allowed characters: letters (a-z), numbers and hyphens. E.g.: my-company'
+            )}
+          </p>
+        )}
         {isAnnual ? (
           <>
             <p className="text-sm text-neutral-600">

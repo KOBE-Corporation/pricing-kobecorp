@@ -101,12 +101,15 @@ export function PlanSummaryAside({
         {isAnnual && savingsForPlan !== undefined && savingsForPlan > 0 && (
           <p className="mt-2 text-xs text-emerald-400">
             {language === 'fr'
-              ? `Vous économisez environ ${formatAmount(savingsForPlan)} ${plan.currency} par an.`
-              : `You save about ${formatAmount(savingsForPlan)} ${plan.currency} per year.`}
+              ? `Vous économisez ${formatAmount(savingsForPlan)} ${plan.currency} par an.`
+              : `You save ${formatAmount(savingsForPlan)} ${plan.currency} per year.`}
           </p>
         )}
 
-        <div className="mt-7 mb-6">
+        <p className="mt-4 text-[11px] text-neutral-500 uppercase tracking-wide">
+          {t('Prix en XAF', 'Price in XAF')}
+        </p>
+        <div className="mt-2 mb-6">
           <div className="text-4xl sm:text-5xl font-semibold tracking-tight">
             {formatAmount(currentPrice)} {plan.currency}
           </div>
