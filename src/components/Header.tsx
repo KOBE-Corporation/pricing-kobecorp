@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, GlobeAltIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { companyInfo } from '../data/companyInfo';
 import { useLanguage } from '../contexts/useLanguage';
+import { OptimizedImage } from './OptimizedImage';
 
 const SAAS_SECTIONS = [
   { id: 'hero', label: 'Accueil' },
@@ -112,22 +113,25 @@ const Header = () => {
             e.preventDefault();
             goToSaasHero();
           }}
-          className="flex items-center gap-3 hover:scale-105 transition-transform duration-200"
+          className="flex min-w-0 flex-1 items-center gap-2 transition-transform duration-200 hover:scale-105 sm:gap-3"
         >
-          <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl overflow-hidden bg-black flex items-center justify-center ring-1 ring-neutral-800/40 shadow-subtle">
-            <img
-              src="/kobe-corporation-logo.jpeg"
-              alt="Logo KOBE Corporation"
-              className="h-full w-full object-cover"
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-transparent p-1 sm:h-12 sm:w-12">
+            <OptimizedImage
+              src="/logo-nom.jpeg"
+              alt={`${companyInfo.name} - ${companyInfo.slogan}`}
+              width={48}
+              height={48}
+              priority="high"
+              className="h-full w-full rounded-lg object-contain"
             />
           </div>
-          <div className="flex flex-col">
-            <h1 className="font-display font-semibold text-ink text-lg sm:text-xl leading-tight">
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-display text-sm font-semibold text-ink sm:text-base lg:text-xl">
               {companyInfo.name}
-            </h1>
-            <span className="text-brand-500 font-semibold text-xs sm:text-sm">
+            </p>
+            <p className="truncate text-[10px] font-semibold text-brand-500 sm:text-xs">
               {companyInfo.slogan}
-            </span>
+            </p>
           </div>
         </Link>
 

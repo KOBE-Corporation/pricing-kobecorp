@@ -1,13 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
@@ -46,18 +43,46 @@ export default {
           900: '#171717',
         },
         ink: '#171717',
-        success: { 500: '#10b981', 600: '#059669' },
-        error: { 500: '#ef4444', 600: '#dc2626' },
+        slate: {
+          50: '#f9fafb',
+          100: '#f3f4f6',
+          200: '#e5e7eb',
+          300: '#d1d5db',
+          400: '#9ca3af',
+          500: '#6b7280',
+          600: '#4b5563',
+          700: '#374151',
+          800: '#1f2937',
+          900: '#111827',
+        },
+        success: {
+          500: '#10b981',
+          600: '#059669',
+        },
+        error: {
+          500: '#ef4444',
+          600: '#dc2626',
+        },
       },
       boxShadow: {
         soft: '0 20px 50px -25px rgba(17, 24, 39, 0.35)',
         card: '0 2px 8px rgba(0, 0, 0, 0.04)',
         'card-hover': '0 8px 24px rgba(0, 0, 0, 0.08)',
         subtle: '0 1px 3px rgba(0, 0, 0, 0.05)',
-        'pricing': '0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04)',
-        'pricing-hover': '0 20px 40px -12px rgba(0, 0, 0, 0.12), 0 8px 16px -8px rgba(0, 0, 0, 0.08)',
-        'pricing-popular': '0 12px 28px -8px rgba(10, 122, 255, 0.2), 0 4px 12px -4px rgba(0, 0, 0, 0.06)',
-        'pricing-popular-hover': '0 24px 48px -12px rgba(10, 122, 255, 0.25), 0 12px 24px -8px rgba(0, 0, 0, 0.08)',
+        pricing:
+          '0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04)',
+        'pricing-hover':
+          '0 20px 40px -12px rgba(0, 0, 0, 0.12), 0 8px 16px -8px rgba(0, 0, 0, 0.08)',
+        'pricing-popular':
+          '0 12px 28px -8px rgba(10, 122, 255, 0.2), 0 4px 12px -4px rgba(0, 0, 0, 0.06)',
+        'pricing-popular-hover':
+          '0 24px 48px -12px rgba(10, 122, 255, 0.25), 0 12px 24px -8px rgba(0, 0, 0, 0.08)',
+      },
+      backgroundImage: {
+        'gradient-radial':
+          'radial-gradient(circle at 20% 20%, rgba(59,130,246,0.15), transparent 35%), radial-gradient(circle at 80% 0%, rgba(191,219,254,0.2), transparent 40%)',
+        'organic-shapes':
+          'radial-gradient(ellipse at top left, rgba(191,219,254,0.3) 0%, transparent 50%), radial-gradient(ellipse at top right, rgba(191,219,254,0.25) 0%, transparent 50%)',
       },
     },
   },

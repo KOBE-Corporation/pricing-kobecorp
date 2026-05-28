@@ -7,12 +7,10 @@
 :root {
   color: #1f2937;
   background-color: #ffffff;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --brand-primary: #0a7aff;
-  --brand-hover: #0066e6;
 }
 
 body {
@@ -25,58 +23,430 @@ body {
   min-height: 100vh;
 }
 
+/* Cards épurées - Utiliser les classes Tailwind shadow-card et shadow-card-hover */
+
+/* Formes organiques pour le background */
+.organic-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.organic-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at 10% 10%, rgba(191, 219, 254, 0.3) 0%, transparent 50%),
+              radial-gradient(ellipse at 90% 0%, rgba(191, 219, 254, 0.25) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.organic-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* Animations */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Micro-interactions améliorées */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Smooth transitions pour tous les éléments interactifs */
+button,
+a,
+[role="button"] {
+  transition-property: transform, opacity, color, background-color, border-color, box-shadow;
+  transition-duration: 0.25s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animation pour la bannière de cookies */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+}
+
+/* Focus visible amélioré - Retiré pour les boutons de navigation */
+*:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Animations pour les menus de navigation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animations pour les formes géométriques du background hero */
 @keyframes float-shape {
-  0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
-  25% { transform: translateY(-10px) translateX(5px) rotate(2deg); }
-  50% { transform: translateY(-5px) translateX(-5px) rotate(-2deg); }
-  75% { transform: translateY(-15px) translateX(3px) rotate(1deg); }
-}
-
-@keyframes float-gentle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes pulse-border {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-5px) translateX(-5px) rotate(-2deg);
+  }
+  75% {
+    transform: translateY(-15px) translateX(3px) rotate(1deg);
+  }
 }
 
 @keyframes rotate-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes pulse-border {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .animate-float-shape {
-  animation: float-shape 6s ease-in-out infinite;
-}
-
-.animate-float-gentle {
-  animation: float-gentle 4s ease-in-out infinite;
-}
-
-.animate-pulse-border {
-  animation: pulse-border 3s ease-in-out infinite;
+  animation: float-shape 8s ease-in-out infinite;
 }
 
 .animate-rotate-slow {
   animation: rotate-slow 20s linear infinite;
 }
 
-.animate-fadeInUp {
-  animation: fadeInUp 0.4s ease-out both;
+.animate-pulse-border {
+  animation: pulse-border 3s ease-in-out infinite;
 }
 
-/* Effet carte pricing : lift fluide au survol */
+.animate-float-gentle {
+  animation: float-gentle 6s ease-in-out infinite;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+/* Classes standardisées pour les animations de page */
+.animate-page-enter {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.animate-page-enter-hidden {
+  transform: translateY(16px);
+  opacity: 0;
+}
+
+.animate-page-enter-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Sur mobile, animations plus courtes */
+@media (max-width: 1023px) {
+  .animate-page-enter {
+    transition-duration: 0.4s;
+  }
+}
+
+@media (max-width: 767px) {
+  .animate-page-enter {
+    transition-duration: 0.3s;
+  }
+  
+  .animate-page-enter-hidden {
+    transform: translateY(8px);
+  }
+}
+
+/* Retirer DÉFINITIVEMENT le focus ring et les borders pour les boutons de navigation */
+nav button,
+nav a,
+nav [role="button"] {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+nav button:focus,
+nav button:focus-visible,
+nav button:active,
+nav a:focus,
+nav a:focus-visible,
+nav a:active,
+nav [role="button"]:focus,
+nav [role="button"]:focus-visible,
+nav [role="button"]:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  ring: none !important;
+  outline-offset: 0 !important;
+}
+
+/* Spécifique pour les composants de navigation */
+nav button:focus-visible,
+nav a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Optimisation des animations avec will-change */
+.animate-fadeInUp,
+.animate-slideInLeft {
+  will-change: transform, opacity;
+}
+
+/* Respecter prefers-reduced-motion pour l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-fadeInUp,
+  .animate-slideInLeft,
+  .animate-pulse,
+  .animate-pulse-soft,
+  .animate-float-shape,
+  .animate-rotate-slow,
+  .animate-pulse-border,
+  .animate-float-gentle {
+    animation: none !important;
+  }
+}
+
+/* Optimisation des animations de formes pour mobile */
+@media (max-width: 1023px) {
+  .animate-float-shape {
+    animation-duration: 10s; /* Plus lent sur tablette */
+  }
+  
+  .animate-rotate-slow {
+    animation-duration: 25s; /* Plus lent sur tablette */
+  }
+  
+  .animate-float-gentle {
+    animation-duration: 8s; /* Plus lent sur tablette */
+  }
+}
+
+@media (max-width: 767px) {
+  .animate-float-shape {
+    animation-duration: 12s; /* Encore plus lent sur mobile */
+  }
+  
+  .animate-rotate-slow {
+    animation-duration: 30s; /* Encore plus lent sur mobile */
+  }
+  
+  .animate-pulse-border {
+    animation-duration: 4s; /* Plus lent sur mobile */
+  }
+  
+  .animate-float-gentle {
+    animation-duration: 10s; /* Encore plus lent sur mobile */
+  }
+}
+
+/* Eviter l'usage global de will-change pour ne pas saturer le GPU/mémoire */
+
+/* Optimisation pour mobile : réduire les durées d'animation et simplifier */
+@media (max-width: 1023px) {
+  /* Réduire les durées de transition sur mobile/tablette */
+  button,
+  a,
+  [role="button"],
+  .transition-all,
+  .transition-transform,
+  .transition-opacity {
+    transition-duration: 0.2s !important;
+  }
+
+  /* Simplifier les animations sur mobile */
+  .animate-fadeInUp,
+  .animate-slideInLeft {
+    animation-duration: 0.25s !important;
+  }
+
+  /* Désactiver certaines animations complexes sur mobile pour améliorer les performances */
+  .animate-gradient-shift {
+    animation: none !important;
+  }
+
+  /* Optimiser les rendus sur mobile */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+  }
+}
+
+/* Optimisation spécifique pour smartphones */
+@media (max-width: 767px) {
+  /* Encore plus de simplification pour les smartphones */
+  button,
+  a,
+  [role="button"] {
+    transition-duration: 0.15s !important;
+  }
+
+  .animate-fadeInUp,
+  .animate-slideInLeft {
+    animation-duration: 0.2s !important;
+  }
+
+  /* Désactiver will-change sur mobile pour économiser la mémoire */
+  .animate-fadeInUp,
+  .animate-slideInLeft {
+    will-change: auto;
+  }
+
+  .transition-transform,
+  .transition-opacity,
+  .transition-all {
+    will-change: auto;
+  }
+}
+
+/* Mode performance (appareils modestes / data saver / réseau lent) */
+.low-perf-mode .animate-float-shape,
+.low-perf-mode .animate-rotate-slow,
+.low-perf-mode .animate-pulse-border,
+.low-perf-mode .animate-float-gentle,
+.low-perf-mode .animate-gradient-shift,
+.low-perf-mode .animate-pulse-soft,
+.low-perf-mode .animate-spin {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+.low-perf-mode .transition-all,
+.low-perf-mode .transition-transform,
+.low-perf-mode .transition-opacity {
+  transition-duration: 0.16s !important;
+}
+
+.low-perf-mode .glass-panel {
+  backdrop-filter: none !important;
+}
+
+.low-perf-mode [class*='backdrop-blur'] {
+  backdrop-filter: none !important;
+}
+
+/* Amélioration des contrastes pour WCAG AA */
+.text-neutral-600 {
+  color: #525252; /* Amélioration du contraste pour WCAG AA */
+}
+
+.text-neutral-700 {
+  color: #404040; /* Amélioration du contraste pour WCAG AA */
+}
+
+/* Amélioration des performances avec contain */
+.contain-layout {
+  contain: layout;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-strict {
+  contain: strict;
+}
+
+/* --- Sp�cifique pricing (Phase 1) --- */
+@layer components {
+  .glass-panel {
+    @apply bg-white/90 backdrop-blur-sm;
+  }
+}
+
 .pricing-card {
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.25s ease;
-  will-change: transform;
 }
 
 .pricing-card:hover {
@@ -88,7 +458,6 @@ body {
   box-shadow: 0 24px 48px -12px rgba(10, 122, 255, 0.25), 0 12px 24px -8px rgba(0, 0, 0, 0.08);
 }
 
-/* Safe area pour encoches / barre de statut (style iOS) */
 .safe-area-top {
   padding-top: env(safe-area-inset-top, 0);
 }
@@ -100,9 +469,8 @@ body {
   padding-right: env(safe-area-inset-right, 0);
 }
 
-/* Champs formulaire partagés (souscription SaaS, etc.) */
 .input-base-form {
-  @apply w-full h-12 pl-12 pr-4 rounded-2xl bg-neutral-50/80 border border-neutral-200/90 text-[17px] text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#0a7aff]/25 focus:border-[#0a7aff] focus:bg-white transition-all duration-200;
+  @apply w-full h-12 pl-12 pr-4 rounded-2xl bg-neutral-50/80 border border-neutral-200/90 text-[17px] text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-brand-500/25 focus:border-brand-500 focus:bg-white transition-all duration-200;
 }
 .input-base-form-select {
   @apply input-base-form appearance-none pr-12;

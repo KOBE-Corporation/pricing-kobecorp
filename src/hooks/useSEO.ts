@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const SITE_URL = 'https://pricing.kobecorporation.com';
-const OG_IMAGE = `${SITE_URL}/kobe-corporation-logo.jpeg`;
+const OG_IMAGE = `${SITE_URL}/logo-nom.jpeg`;
 
 function setMeta(name: string, content: string, attribute: 'name' | 'property' = 'name') {
   let el = document.querySelector<HTMLMetaElement>(`meta[${attribute}="${name}"]`);

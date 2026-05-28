@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { MapPinIcon, PhoneIcon, EnvelopeIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 import { companyInfo } from '../data/companyInfo';
 import { useLanguage } from '../contexts/useLanguage';
+import { OptimizedImage } from './OptimizedImage';
 
 const Footer = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -40,19 +41,22 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 items-start">
           {/* À propos */}
           <div>
-            <Link to="/" className="inline-flex items-center gap-3 mb-3">
-              <div className="h-9 w-9 rounded-xl overflow-hidden bg-black flex items-center justify-center ring-1 ring-neutral-800/40 shadow-subtle">
-                <img
-                  src="/kobe-corporation-logo.jpeg"
-                  alt="Logo KOBE Corporation"
-                  className="h-full w-full object-cover"
+            <Link to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105">
+              <div className="flex h-12 w-12 items-center justify-center bg-transparent p-1.5">
+                <OptimizedImage
+                  src="/logo-nom.jpeg"
+                  alt={`${companyInfo.name} - ${companyInfo.slogan}`}
+                  width={48}
+                  height={48}
+                  priority="high"
+                  className="h-full w-full rounded-lg object-contain"
                 />
               </div>
               <div>
-                <h2 className="font-display text-lg font-semibold text-ink">
+                <p className="font-display text-lg font-semibold text-ink">
                   {companyInfo.name}
-                </h2>
-                <p className="text-sm font-semibold" style={{ color: '#0a7aff' }}>
+                </p>
+                <p className="text-sm font-semibold text-brand-500">
                   {companyInfo.slogan}
                 </p>
               </div>
