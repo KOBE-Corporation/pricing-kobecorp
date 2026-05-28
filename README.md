@@ -5,14 +5,14 @@ Page de tarification des offres SaaS, Full-Control et hébergement de **KOBE Cor
 ## Stack
 
 - **React 19** + **TypeScript** + **Vite 7**
-- **Tailwind CSS** pour le style
-- **React Router** pour la navigation
-- **Heroicons** pour les icônes
+- **Tailwind CSS**
+- **React Router**
+- **Heroicons**
 
 ## Démarrage en local
 
 ```bash
-npm install
+npm ci --legacy-peer-deps
 npm run dev
 ```
 
@@ -20,54 +20,61 @@ L’app est disponible sur `http://localhost:5173` (ou le port indiqué par Vite
 
 ## Scripts
 
-| Commande       | Description                |
-|----------------|----------------------------|
-| `npm run dev`  | Serveur de développement   |
-| `npm run build`| Build de production (TS + Vite) |
-| `npm run preview` | Aperçu du build (prod locale) |
-| `npm run lint` | Vérification ESLint        |
+| Commande | Description |
+|----------|-------------|
+| `npm run dev` | Serveur de développement |
+| `npm run build` | Build de production (TypeScript + Vite) |
+| `npm run preview` | Aperçu du build local |
+| `npm run lint` | Vérification ESLint |
 
-## Structure du projet
+## Structure
 
 - `src/` — Code source (composants, pages, contextes, données)
-- `src/components/` — Composants réutilisables (ex. `PricingCard`, sections)
-- `src/pages/` — Pages (SaaS, Full-Control, etc.)
-- `src/contexts/` — Contexte langue (FR/EN)
-- `src/data/` — Données des forfaits et services
-- `setup-pricing/` — Config déploiement (Dockerfile, `compose.yaml`, `.env`)
+- `setup-pricing/` — Docker, Nginx interne, `compose.yaml` (déploiement VPS)
 
-## Variables d’environnement (build)
+## Variables d’environnement (build Vite)
 
-Les variables Vite utilisées au build (contact, newsletter, nom d’app, URL) sont définies dans `setup-pricing/.env`. En CI, elles sont lues depuis ce fichier ou passées en build-args. Ne pas commiter de secrets : utiliser des variables de repo ou des secrets GitHub.
+Définir dans `setup-pricing/.env` en local (fichier **non versionné**). En CI, utiliser les secrets GitHub :
 
-## Build Docker
+- `VITE_EMAILJS_PUBLIC_KEY`
+- `VITE_EMAILJS_SERVICE_ID`
+- `VITE_EMAILJS_CONTACT_TEMPLATE_ID`
+- `VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID`
+- `VITE_APP_NAME` / `VITE_APP_URL` (valeurs par défaut dans le workflow)
+
+## Docker (production)
+
+Build multi-stage : Vite → **Nginx Alpine** (fichiers statiques, port 80 interne).
 
 ```bash
-cd setup-pricing
-docker compose build
-# ou depuis la racine :
+# Depuis la racine du dépôt
 docker build -f setup-pricing/Dockerfile .
 ```
 
-Image publiée sur Docker Hub : `azerty78/pricing-kobecorp`.
+Image Docker Hub : `azerty78/pricing-kobecorp:latest`
 
-## CI/CD (GitHub Actions)
+Sur le VPS :
 
-Le workflow `.github/workflows/ci-cd.yml` s’exécute sur push/PR vers `main` ou `master` :
+```bash
+cd ~/kobe-corporation/pricing-kobecorp/setup-pricing
+docker compose -f compose.yaml pull
+docker compose -f compose.yaml up -d --force-recreate --remove-orphans
+```
 
-1. **Tags** — Création de tags Git (sémantiques ou dev)
-2. **Build** — Build de l’image Docker et push vers Docker Hub
-3. **Test** — Vérification du démarrage du conteneur (hors PR)
-4. **Release** — Création d’une GitHub Release avec notes
+Le reverse proxy Nginx du VPS est géré dans un dépôt séparé (Cloudflare Flexible SSL).
 
-**Secrets requis** : `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD`.
+## CI/CD
 
-## Déploiement en production
+Workflow : `.github/workflows/cicd.yml`
 
-Le pipeline publie uniquement l’image sur Docker Hub. Le déploiement sur le serveur se fait manuellement (ou via un autre outil) :
+1. Qualité : lint, typecheck, tests, TruffleHog, `npm audit`
+2. Build Vite
+3. Build image Docker + Trivy + SBOM
+4. Push Docker Hub + signature Cosign
+5. Déploiement VPS : `docker pull` + `docker compose up -d`
+6. Smoke test conteneur
 
-- **Docker Compose** : utiliser `setup-pricing/compose.yaml` (réseau `kobecorp-network`, reverse proxy attendu sur 80/443).
-- **Docker seul** : `docker pull azerty78/pricing-kobecorp:latest` puis `docker run` avec le port exposé.
+**Secrets GitHub** : `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD`, `VITE_EMAILJS_*`, `VPS_HOST`, `VPS_USERNAME`, `VPS_SSH_KEY` (optionnel : `VPS_PORT`, `VPS_DEPLOY_DIR`).
 
 ## Licence
 

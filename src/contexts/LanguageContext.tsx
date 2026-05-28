@@ -1,24 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
-
-type Language = 'fr' | 'en';
-
-interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
-  t: (path: string) => string;
-  /** Retourne la traduction pour une langue donnée (pour centraliser textes FR/EN). */
-  tLang: (path: string, lang: Language) => string;
-}
-
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error('useLanguage must be used within LanguageProvider');
-  }
-  return context;
-};
+import { useState, type ReactNode } from 'react';
+import { LanguageContext, type Language } from './i18n-context';
 
 interface LanguageProviderProps {
   children: ReactNode;
@@ -493,11 +474,15 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
     },
   };
 
-  const getByPath = (obj: any, path: string): string => {
+  const getByPath = (obj: Record<string, unknown>, path: string): string => {
     const keys = path.split('.');
-    let value: any = obj;
+    let value: unknown = obj;
     for (const key of keys) {
-      value = value?.[key];
+      if (typeof value !== 'object' || value === null) {
+        console.warn(`Translation missing for path: ${path}`);
+        return path;
+      }
+      value = (value as Record<string, unknown>)[key];
       if (value === undefined) {
         console.warn(`Translation missing for path: ${path}`);
         return path;
@@ -506,8 +491,10 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
     return typeof value === 'string' ? value : path;
   };
 
-  const t = (path: string): string => getByPath(translations[language], path);
-  const tLang = (path: string, lang: Language): string => getByPath(translations[lang], path);
+  const t = (path: string): string =>
+    getByPath(translations[language] as Record<string, unknown>, path);
+  const tLang = (path: string, lang: Language): string =>
+    getByPath(translations[lang] as Record<string, unknown>, path);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t, tLang }}>

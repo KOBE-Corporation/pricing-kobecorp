@@ -1,5 +1,5 @@
 import { SparklesIcon } from '@heroicons/react/24/outline';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 import Button from './Button';
 import Badge from './Badge';
 

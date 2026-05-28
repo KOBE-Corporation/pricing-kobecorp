@@ -1,5 +1,5 @@
 import type { ComponentType, CSSProperties } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 type FeatureItem = {
   icon: ComponentType<{ className?: string; style?: CSSProperties }>;

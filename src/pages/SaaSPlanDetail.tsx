@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 import { useSEO } from '../hooks/useSEO';
 import { saasPlans } from '../data/saasPlans';
 import { companyInfo } from '../data/companyInfo';

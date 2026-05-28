@@ -1,4 +1,4 @@
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 import type { Service } from '../types/servicesData';
 import { hasDetailedContent } from '../types/servicesData';
 import {

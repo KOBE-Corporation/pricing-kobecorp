@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MapPinIcon, PhoneIcon, EnvelopeIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 import { companyInfo } from '../data/companyInfo';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 const Footer = () => {
   const { language, setLanguage, t } = useLanguage();

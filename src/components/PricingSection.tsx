@@ -1,6 +1,6 @@
 import { PricingPlan } from '../types/pricing';
 import PricingCard from './PricingCard';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 interface PricingSectionProps {
   plans: PricingPlan[];

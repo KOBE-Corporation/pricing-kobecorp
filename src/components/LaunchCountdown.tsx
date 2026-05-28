@@ -16,8 +16,8 @@ type LaunchCountdownProps = {
   dateLabel?: string;
 };
 
-const getCountdownParts = (targetTimestamp: number): CountdownParts => {
-  const diff = targetTimestamp - Date.now();
+const getCountdownParts = (targetTimestamp: number, now = Date.now()): CountdownParts => {
+  const diff = targetTimestamp - now;
   if (diff <= 0) {
     return {
       days: '00',
@@ -55,31 +55,23 @@ const LaunchCountdown = ({
     return Number.isNaN(parsed) ? null : parsed;
   }, [targetDate]);
 
-  const [countdown, setCountdown] = useState<CountdownParts | null>(() => {
-    if (!targetTimestamp) return null;
-    return getCountdownParts(targetTimestamp);
-  });
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
-    if (!targetTimestamp) {
-      setCountdown(null);
-      return;
-    }
+    if (!targetTimestamp) return;
 
-    const tick = () => {
-      const next = getCountdownParts(targetTimestamp);
-      setCountdown(next);
-      return next.finished;
-    };
-
-    tick();
     const timer = window.setInterval(() => {
-      const finished = tick();
-      if (finished) window.clearInterval(timer);
+      setTick((value) => value + 1);
     }, 1000);
 
     return () => window.clearInterval(timer);
   }, [targetTimestamp]);
+
+  const countdown = useMemo(() => {
+    if (!targetTimestamp) return null;
+    void tick;
+    return getCountdownParts(targetTimestamp);
+  }, [targetTimestamp, tick]);
 
   if (!countdown) return null;
   if (countdown.finished) return null;
@@ -126,4 +118,3 @@ const LaunchCountdown = ({
 };
 
 export default LaunchCountdown;
-

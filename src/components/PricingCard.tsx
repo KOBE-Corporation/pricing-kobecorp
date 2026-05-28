@@ -1,7 +1,7 @@
 import { PricingPlan } from '../types/pricing';
 import { XMarkIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { CheckIcon as CheckIconSolid } from '@heroicons/react/24/solid';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 interface ExtendedPricingPlan extends PricingPlan {
   originalPrice?: number;
