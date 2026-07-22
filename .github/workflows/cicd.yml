@@ -475,11 +475,23 @@ jobs:
               exit 1
             fi
 
-            HEALTH="$(docker inspect -f '{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' "${CONTAINER_NAME}")"
-            echo "Health status: ${HEALTH}"
+            # Attendre que nginx réponde (127.0.0.1 évite le localhost→IPv6 sous Alpine)
+            ok=0
+            for i in $(seq 1 30); do
+              HEALTH="$(docker inspect -f '{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' "${CONTAINER_NAME}")"
+              echo "Attempt ${i}/30 — Health status: ${HEALTH}"
+              if docker exec "${CONTAINER_NAME}" wget -q --spider http://127.0.0.1/health; then
+                ok=1
+                break
+              fi
+              sleep 2
+            done
 
-            docker exec "${CONTAINER_NAME}" wget -q --spider http://localhost/ || {
-              echo "Le conteneur ne répond pas en local"
+            if [ "$ok" -ne 1 ]; then
+              echo "Le conteneur ne répond pas en local après attente"
+              docker ps -a --filter "name=^${CONTAINER_NAME}$"
               docker logs --tail 100 "${CONTAINER_NAME}" || true
               exit 1
-            }
+            fi
+
+            echo "Smoke test OK"
