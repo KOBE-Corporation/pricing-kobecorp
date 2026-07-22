@@ -390,6 +390,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           source: "setup-pricing/compose.yaml"
+          # ~ is expanded by remote scp; if VPS_DEPLOY_DIR is set, prefer an absolute path
           target: "${{ secrets.VPS_DEPLOY_DIR || '~/kobe-corporation/pricing-kobecorp/setup-pricing' }}/"
           strip_components: 2
           overwrite: true
@@ -400,7 +401,7 @@ jobs:
           FRONT_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-          DEPLOY_DIR: ${{ secrets.VPS_DEPLOY_DIR || '~/kobe-corporation/pricing-kobecorp/setup-pricing' }}
+          DEPLOY_DIR: ${{ secrets.VPS_DEPLOY_DIR }}
         with:
           host: ${{ secrets.VPS_HOST }}
           port: ${{ secrets.VPS_PORT || 22 }}
@@ -411,6 +412,11 @@ jobs:
             set -eu
 
             DEPLOY_DIR="${DEPLOY_DIR:-$HOME/kobe-corporation/pricing-kobecorp/setup-pricing}"
+            # ~ n'est pas expansé dans les guillemets → éviter /home/user/~/...
+            case "$DEPLOY_DIR" in
+              "~/"*) DEPLOY_DIR="$HOME/${DEPLOY_DIR#\~/}" ;;
+              "~")   DEPLOY_DIR="$HOME" ;;
+            esac
             mkdir -p "$DEPLOY_DIR"
             cd "$DEPLOY_DIR"
 
