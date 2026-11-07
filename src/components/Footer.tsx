@@ -44,7 +44,7 @@ const Footer = () => {
             <Link to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105">
               <div className="flex h-12 w-12 items-center justify-center bg-transparent p-1.5">
                 <OptimizedImage
-                  src="/logo/full.png"
+                  src="/logo/nbg.png"
                   alt={`${companyInfo.name} - ${companyInfo.slogan}`}
                   width={48}
                   height={48}
