@@ -112,7 +112,6 @@ jobs:
   secret-scan:
     name: Secret scan (TruffleHog)
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -155,6 +154,7 @@ jobs:
   dependency-audit:
     name: npm audit
     runs-on: ubuntu-latest
+    needs: tag
     continue-on-error: true
     needs: tag
     steps:
@@ -172,7 +172,6 @@ jobs:
 
       - name: Run npm audit (fail on critical)
         run: npm audit --audit-level=critical --omit=dev || echo "::warning::Critical vulnerabilities detected (non-blocking)"
-
   build:
     name: Build Vite application
     runs-on: ubuntu-latest
