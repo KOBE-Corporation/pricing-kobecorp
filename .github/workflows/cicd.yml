@@ -402,12 +402,13 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
           DEPLOY_DIR: ${{ secrets.VPS_DEPLOY_DIR }}
+          COMPOSE_PROJECT_NAME: pricing-kobecorp
         with:
           host: ${{ secrets.VPS_HOST }}
           port: ${{ secrets.VPS_PORT || 22 }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: FRONT_IMAGE,DOCKERHUB_USERNAME,DOCKERHUB_PASSWORD,DEPLOY_DIR
+          envs: FRONT_IMAGE,DOCKERHUB_USERNAME,DOCKERHUB_PASSWORD,DEPLOY_DIR,COMPOSE_PROJECT_NAME
           script: |
             set -eu
 
@@ -419,6 +420,14 @@ jobs:
             esac
             mkdir -p "$DEPLOY_DIR"
             cd "$DEPLOY_DIR"
+            PROJECT="${COMPOSE_PROJECT_NAME:-pricing-kobecorp}"
+            echo "==> Deploy dir: $DEPLOY_DIR (project=$PROJECT)"
+
+            if [ ! -f compose.yaml ]; then
+              echo "compose.yaml introuvable dans $DEPLOY_DIR"
+              ls -la
+              exit 1
+            fi
 
             if ! command -v docker >/dev/null 2>&1; then
               echo "Docker absent sur le VPS"
@@ -431,14 +440,25 @@ jobs:
 
             docker network inspect kobecorp-network >/dev/null 2>&1 || docker network create kobecorp-network
 
+            # Un seul pull (docker) — éviter `compose pull` qui race avec
+            # `image prune` sur le store containerd ("lease does not exist").
             echo "==> Pull image Docker Hub : $FRONT_IMAGE"
             docker pull "$FRONT_IMAGE"
 
-            echo "==> Docker Compose pull/up"
-            docker compose -f compose.yaml pull
-            docker compose -f compose.yaml up -d --force-recreate --remove-orphans
-            docker compose -f compose.yaml ps
-            docker image prune -f
+            echo "==> Docker Compose up (image déjà locale, --pull never)"
+            docker compose -p "$PROJECT" -f compose.yaml up -d --force-recreate --remove-orphans --pull never
+            docker compose -p "$PROJECT" -f compose.yaml ps
+
+            # Remettre les autres sites sur le réseau s'ils tournent
+            if docker ps --format '{{.Names}}' | grep -qx 'kobecorporation-web'; then
+              docker network connect kobecorp-network kobecorporation-web 2>/dev/null || true
+            fi
+            if docker ps --format '{{.Names}}' | grep -qx 'ben-djibril-site'; then
+              docker network connect kobecorp-network ben-djibril-site 2>/dev/null || true
+            fi
+
+            # Prune après up seulement, non bloquant (évite de casser d'autres pulls)
+            docker image prune -f || true
 
             docker logout || true
 
