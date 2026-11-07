@@ -1,5 +1,11 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pricing.kobecorporation.com/sitemap.xml
+# Pages légales hébergées sur le site officiel (éviter le crawl de stubs)
+Disallow: /privacy
+Disallow: /legal
+Disallow: /terms
+Disallow: /about
+Disallow: /services
 
+Sitemap: https://pricing.kobecorporation.com/sitemap.xml

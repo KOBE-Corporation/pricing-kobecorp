@@ -28,7 +28,8 @@ ENV VITE_APP_URL=${VITE_APP_URL}
 ENV NODE_ENV=production
 
 RUN rm -rf node_modules/.cache .vite dist || true
-RUN npx vite build
+# Aligné sur package.json : tsc + vite (ne pas utiliser seulement vite build)
+RUN npm run build
 
 # Stage 2: Serveur nginx pour la production
 FROM nginx:alpine AS production

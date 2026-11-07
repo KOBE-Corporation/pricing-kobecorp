@@ -44,7 +44,7 @@ const Footer = () => {
             <Link to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105">
               <div className="flex h-12 w-12 items-center justify-center bg-transparent p-1.5">
                 <OptimizedImage
-                  src="/logo-nom.jpeg"
+                  src="/logo/nbg.png"
                   alt={`${companyInfo.name} - ${companyInfo.slogan}`}
                   width={48}
                   height={48}
@@ -224,16 +224,20 @@ const Footer = () => {
             </a>
             <div className="flex gap-2">
               <a
-                href="/privacy"
+                href="https://www.kobecorporation.com/fr/legal"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm text-neutral-600 rounded-lg px-2 py-1 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
               >
-                {language === 'fr' ? 'Mentions légales' : 'Privacy'}
+                {language === 'fr' ? 'Mentions légales' : 'Legal notice'}
               </a>
               <a
-                href="/legal"
+                href="https://www.kobecorporation.com/fr/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm text-neutral-600 rounded-lg px-2 py-1 transition-all duration-200 hover:text-brand-600 hover:bg-brand-50"
               >
-                {language === 'fr' ? 'Politique de confidentialité' : 'Terms'}
+                {language === 'fr' ? 'Politique de confidentialité' : 'Privacy policy'}
               </a>
             </div>
           </div>

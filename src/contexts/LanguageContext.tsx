@@ -20,6 +20,7 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('kobe-language', lang);
+    document.documentElement.lang = lang;
   };
 
   // Import des traductions

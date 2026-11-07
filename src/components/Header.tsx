@@ -117,7 +117,7 @@ const Header = () => {
         >
           <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-transparent p-1 sm:h-12 sm:w-12">
             <OptimizedImage
-              src="/logo-nom.jpeg"
+              src="/logo/nbg.png"
               alt={`${companyInfo.name} - ${companyInfo.slogan}`}
               width={48}
               height={48}

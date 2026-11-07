@@ -9,15 +9,14 @@
   "lang": "fr",
   "icons": [
     {
-      "src": "/logo-nom.jpeg",
+      "src": "/favicon.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
     },
     {
-      "src": "/logo-nom.jpeg",
+      "src": "/logo/nbg.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ]
 }
-
