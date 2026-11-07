@@ -41,13 +41,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 items-start">
           {/* À propos */}
           <div>
-            <Link to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105">
-              <div className="flex h-12 w-12 items-center justify-center bg-transparent p-1.5">
+            <Link to="/" className="mb-4 inline-flex items-center gap-3 transition-transform duration-200 hover:scale-105">
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 sm:h-24 sm:w-24">
                 <OptimizedImage
                   src="/logo/nbg.png"
                   alt={`${companyInfo.name} - ${companyInfo.slogan}`}
-                  width={48}
-                  height={48}
+                  width={96}
+                  height={96}
                   priority="high"
                   className="h-full w-full rounded-lg object-contain"
                 />
