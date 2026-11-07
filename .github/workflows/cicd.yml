@@ -445,6 +445,12 @@ jobs:
             echo "==> Pull image Docker Hub : $FRONT_IMAGE"
             docker pull "$FRONT_IMAGE"
 
+            # Libérer le container_name fixe (ancien projet = nom du dossier setup-pricing)
+            echo "==> Stop/remove stale pricing container if present"
+            docker compose -p setup-pricing -f compose.yaml down --remove-orphans 2>/dev/null || true
+            docker compose -p "$PROJECT" -f compose.yaml down --remove-orphans 2>/dev/null || true
+            docker rm -f pricing-kobecorp 2>/dev/null || true
+
             echo "==> Docker Compose up (image déjà locale, --pull never)"
             docker compose -p "$PROJECT" -f compose.yaml up -d --force-recreate --remove-orphans --pull never
             docker compose -p "$PROJECT" -f compose.yaml ps
