@@ -1,107 +1,50 @@
-import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Bars3Icon, XMarkIcon, GlobeAltIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import { companyInfo } from '../data/companyInfo';
-import { useLanguage } from '../contexts/useLanguage';
-import { OptimizedImage } from './OptimizedImage';
-
-const SAAS_SECTIONS = [
-  { id: 'hero', label: 'Accueil' },
-  { id: 'services', label: 'Services' },
-  { id: 'forfaits', label: 'Programmes' },
-  { id: 'missions', label: 'Missions' },
-  { id: 'processus', label: 'Processus' },
-] as const;
-
-const FULL_CONTROL_SECTIONS = SAAS_SECTIONS;
-
-const HOSTING_SECTIONS = [
-  { id: 'hero', label: 'Accueil' },
-  { id: 'services', label: 'Services' },
-] as const;
+import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import {
+  ArrowRightIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
+import { companyInfo } from '../data/companyInfo'
+import { useLanguage } from '../contexts/useLanguage'
+import { OptimizedImage } from './OptimizedImage'
+import { BRAND_LOGO_FULL_PATH } from '../constants/brand'
+import { NavigationMenu } from './navigation/NavigationMenu'
+import { MobileNavigationMenu } from './navigation/MobileNavigationMenu'
+import { useNavigationItems } from '../data/navigation'
+import { LanguageFlag } from './icons/LanguageFlag'
+import { HEADER_SCROLL_OFFSET } from '../constants/layout'
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSectionMenuOpen, setIsSectionMenuOpen] = useState(false);
-  const [isFullControlMenuOpen, setIsFullControlMenuOpen] = useState(false);
-  const [isHostingMenuOpen, setIsHostingMenuOpen] = useState(false);
-  const { language, setLanguage } = useLanguage();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { language, setLanguage } = useLanguage()
+  const navItems = useNavigationItems()
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const toggleLanguage = () => {
-    setLanguage(language === 'fr' ? 'en' : 'fr');
-  };
-
-  const scrollToSection = (anchor: string) => {
-    const element = document.querySelector(anchor);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-    }
-  };
+    setLanguage(language === 'fr' ? 'en' : 'fr')
+  }
 
   const goToSaasHero = () => {
-    const performScroll = () => scrollToSection('#hero');
+    const scroll = () => {
+      const element = document.getElementById('hero')
+      if (!element) return
+      const offsetPosition =
+        element.getBoundingClientRect().top + window.pageYOffset - HEADER_SCROLL_OFFSET
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+      window.history.replaceState(null, '', '/saas#hero')
+    }
+
     if (location.pathname !== '/' && location.pathname !== '/saas') {
-      navigate('/saas');
-      setTimeout(performScroll, 150);
+      navigate('/saas#hero')
+      setTimeout(scroll, 150)
     } else {
-      performScroll();
+      scroll()
     }
-  };
+  }
 
-  const isActiveRoute = (paths: string[]) => paths.includes(location.pathname);
-  const isSaasActive = location.pathname === '/' || location.pathname === '/saas' || location.pathname.startsWith('/saas/');
-  const currentHash = location.hash || '#hero';
-
-  const handleSaasClick = () => {
-    // Si on n'est pas encore sur la page SaaS, on y va et on scroll sur le hero
-    if (!isSaasActive) {
-      goToSaasHero();
-      setIsSectionMenuOpen(false);
-      return;
-    }
-
-    // Si on est déjà sur SaaS, le bouton sert de déclencheur du menu de sections
-    setIsSectionMenuOpen((open) => !open);
-    if (!isSectionMenuOpen) {
-      setIsFullControlMenuOpen(false);
-      setIsHostingMenuOpen(false);
-    }
-  };
-
-  const handleFullControlClick = () => {
-    if (!isActiveRoute(['/full-control'])) {
-      navigate('/full-control');
-      setIsFullControlMenuOpen(false);
-      setIsSectionMenuOpen(false);
-      setIsHostingMenuOpen(false);
-      return;
-    }
-    setIsFullControlMenuOpen((open) => !open);
-    if (!isFullControlMenuOpen) {
-      setIsSectionMenuOpen(false);
-      setIsHostingMenuOpen(false);
-    }
-  };
-
-  const handleHostingClick = () => {
-    if (!isActiveRoute(['/hebergement'])) {
-      navigate('/hebergement');
-      setIsHostingMenuOpen(false);
-      setIsSectionMenuOpen(false);
-      setIsFullControlMenuOpen(false);
-      return;
-    }
-    setIsHostingMenuOpen((open) => !open);
-    if (!isHostingMenuOpen) {
-      setIsSectionMenuOpen(false);
-      setIsFullControlMenuOpen(false);
-    }
-  };
+  const chatLabel = language === 'fr' ? 'Discuter avec Ben Djibril' : 'Chat with Ben Djibril'
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/80 backdrop-blur-md shadow-subtle">
@@ -110,14 +53,15 @@ const Header = () => {
         <Link
           to="/saas"
           onClick={(e) => {
-            e.preventDefault();
-            goToSaasHero();
+            e.preventDefault()
+            setMobileMenuOpen(false)
+            goToSaasHero()
           }}
-          className="flex min-w-0 flex-1 items-center gap-2 transition-transform duration-200 hover:scale-105 sm:gap-3"
+          className="flex min-w-0 flex-1 items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded-lg"
         >
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-transparent p-1 sm:h-12 sm:w-12">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 p-1 sm:h-12 sm:w-12">
             <OptimizedImage
-              src="/logo/nbg.png"
+              src={BRAND_LOGO_FULL_PATH}
               alt={`${companyInfo.name} - ${companyInfo.slogan}`}
               width={48}
               height={48}
@@ -135,268 +79,92 @@ const Header = () => {
           </div>
         </Link>
 
-        {/* Navigation Desktop - onglets principaux */}
-        <div className="hidden md:flex items-center gap-6">
-          <nav className="flex items-center gap-4">
-            <div className="relative">
-              <button
-                type="button"
-                onClick={handleSaasClick}
-                className={`inline-flex items-center gap-1 text-sm font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 ${
-                  isSaasActive
-                    ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 hover:bg-brand-50/80'
-                    : 'text-neutral-700 hover:text-brand-600 hover:bg-brand-50'
-                }`}
-                aria-haspopup="listbox"
-                aria-expanded={isSaasActive && isSectionMenuOpen}
-              >
-                SaaS
-                <ChevronDownIcon
-                  className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
-                    isSaasActive && isSectionMenuOpen ? 'rotate-180' : ''
-                  }`}
-                  aria-hidden
-                />
-              </button>
-
-              {isSaasActive && (
-                <div
-                  className={`absolute left-0 mt-2 w-44 origin-top rounded-2xl bg-white shadow-lg border border-neutral-200 py-2 z-50 transition-all duration-200 ease-out ${
-                    isSectionMenuOpen
-                      ? 'visible scale-100 opacity-100'
-                      : 'invisible scale-95 opacity-0 pointer-events-none'
-                  }`}
-                  role="listbox"
-                  aria-hidden={!isSectionMenuOpen}
-                >
-                  {SAAS_SECTIONS.map(({ id, label }) => (
-                    <Link
-                      key={id}
-                      to={`/saas#${id}`}
-                      onClick={() => setIsSectionMenuOpen(false)}
-                      className={`block w-full text-left px-4 py-2 text-sm ${
-                        currentHash === `#${id}` ? 'text-brand-600 font-semibold' : 'text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      {label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="relative">
-              <button
-                type="button"
-                onClick={handleFullControlClick}
-                className={`inline-flex items-center gap-1 text-sm font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 ${
-                  isActiveRoute(['/full-control'])
-                    ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 hover:bg-brand-50/80'
-                    : 'text-neutral-700 hover:text-brand-600 hover:bg-brand-50'
-                }`}
-                aria-haspopup="listbox"
-                aria-expanded={isActiveRoute(['/full-control']) && isFullControlMenuOpen}
-              >
-                Full-Control
-                <ChevronDownIcon
-                  className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
-                    isActiveRoute(['/full-control']) && isFullControlMenuOpen ? 'rotate-180' : ''
-                  }`}
-                  aria-hidden
-                />
-              </button>
-
-              {isActiveRoute(['/full-control']) && (
-                <div
-                  className={`absolute left-0 mt-2 w-44 origin-top rounded-2xl bg-white shadow-lg border border-neutral-200 py-2 z-50 transition-all duration-200 ease-out ${
-                    isFullControlMenuOpen
-                      ? 'visible scale-100 opacity-100'
-                      : 'invisible scale-95 opacity-0 pointer-events-none'
-                  }`}
-                  role="listbox"
-                  aria-hidden={!isFullControlMenuOpen}
-                >
-                  {FULL_CONTROL_SECTIONS.map(({ id, label }) => (
-                    <Link
-                      key={id}
-                      to={`/full-control#${id}`}
-                      onClick={() => setIsFullControlMenuOpen(false)}
-                      className={`block w-full text-left px-4 py-2 text-sm ${
-                        currentHash === `#${id}` ? 'text-brand-600 font-semibold' : 'text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      {label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="relative">
-              <button
-                type="button"
-                onClick={handleHostingClick}
-                className={`inline-flex items-center gap-1 text-sm font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 ${
-                  isActiveRoute(['/hebergement'])
-                    ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 hover:bg-brand-50/80'
-                    : 'text-neutral-700 hover:text-brand-600 hover:bg-brand-50'
-                }`}
-                aria-haspopup="listbox"
-                aria-expanded={isActiveRoute(['/hebergement']) && isHostingMenuOpen}
-              >
-                Hébergement
-                <ChevronDownIcon
-                  className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
-                    isActiveRoute(['/hebergement']) && isHostingMenuOpen ? 'rotate-180' : ''
-                  }`}
-                  aria-hidden
-                />
-              </button>
-
-              {isActiveRoute(['/hebergement']) && (
-                <div
-                  className={`absolute left-0 mt-2 w-44 origin-top rounded-2xl bg-white shadow-lg border border-neutral-200 py-2 z-50 transition-all duration-200 ease-out ${
-                    isHostingMenuOpen
-                      ? 'visible scale-100 opacity-100'
-                      : 'invisible scale-95 opacity-0 pointer-events-none'
-                  }`}
-                  role="listbox"
-                  aria-hidden={!isHostingMenuOpen}
-                >
-                  {HOSTING_SECTIONS.map(({ id, label }) => (
-                    <Link
-                      key={id}
-                      to={`/hebergement#${id}`}
-                      onClick={() => setIsHostingMenuOpen(false)}
-                      className={`block w-full text-left px-4 py-2 text-sm ${
-                        currentHash === `#${id}` ? 'text-brand-600 font-semibold' : 'text-neutral-700 hover:bg-neutral-50'
-                      }`}
-                    >
-                      {label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-            <Link
-              to="/contact"
-              className={`inline-flex items-center text-sm font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 ${
-                isActiveRoute(['/contact'])
-                  ? 'text-brand-600 border-b-2 border-brand-500 pb-1.5 pt-1 hover:bg-brand-50/80'
-                  : 'text-neutral-700 hover:text-brand-600 hover:bg-brand-50'
-              }`}
-            >
-              Contact
-            </Link>
-          </nav>
+        {/* Desktop Navigation — lg+ comme le site principal */}
+        <div className="hidden lg:block">
+          <NavigationMenu items={navItems} />
         </div>
 
-        {/* Right side - Language + CTA Desktop */}
-        <div className="hidden md:flex items-center gap-3">
-          {/* Switch langue */}
+        {/* Desktop Actions */}
+        <div className="hidden items-center gap-2 lg:flex">
           <button
+            type="button"
             onClick={toggleLanguage}
-            className="rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md transition-all flex items-center gap-1.5"
+            className="flex items-center gap-1.5 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/20 group"
+            aria-label={language === 'fr' ? 'Switch to English' : 'Passer en français'}
           >
-            <GlobeAltIcon className="h-4 w-4" />
-            {language.toUpperCase()}
+            <LanguageFlag language={language} className="h-3.5 w-[1.15rem]" />
+            <span className="uppercase text-neutral-700 group-hover:text-brand-600">{language}</span>
           </button>
 
-          {/* CTA principal : Discuter avec Ben Djibril */}
           <a
             href="https://ben-djibril.kobecorporation.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all"
-            style={{ backgroundColor: '#0a7aff' }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#0066e6')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#0a7aff')}
+            className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-500/50"
+            aria-label={chatLabel}
           >
-            Discuter avec Ben Djibril
+            {chatLabel}
+            <ArrowRightIcon className="h-4 w-4 text-white" />
           </a>
         </div>
 
-        {/* Mobile - Language + Menu */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Mobile / tablet — menu icon comme le site principal */}
+        <div className="flex shrink-0 items-center gap-2 lg:hidden">
           <button
+            type="button"
             onClick={toggleLanguage}
-            className="rounded-full border border-neutral-200 bg-white p-2 text-xs font-semibold text-neutral-700 shadow-subtle hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 transition-all"
+            className="flex items-center gap-1.5 rounded-full border border-neutral-200 bg-white px-2.5 py-2 text-xs font-semibold text-neutral-700 shadow-subtle transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/20 group"
+            aria-label={language === 'fr' ? 'Switch to English' : 'Passer en français'}
           >
-            <GlobeAltIcon className="h-4 w-4" />
+            <LanguageFlag language={language} className="h-3.5 w-[1.15rem]" />
+            <span className="uppercase text-neutral-700 group-hover:text-brand-600">{language}</span>
           </button>
+
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="rounded-full border border-neutral-200 bg-white p-2 text-neutral-700 shadow-subtle hover:border-brand-300 hover:bg-brand-50 transition-all"
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white p-2 text-neutral-700 shadow-subtle transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/20 group"
+            aria-label="Menu"
+            aria-expanded={mobileMenuOpen}
           >
-            {isMenuOpen ? (
-              <XMarkIcon className="h-5 w-5" />
+            {mobileMenuOpen ? (
+              <XMarkIcon className="h-5 w-5 text-neutral-700 transition-colors duration-300 group-hover:text-brand-500" />
             ) : (
-              <Bars3Icon className="h-5 w-5" />
+              <Bars3Icon className="h-5 w-5 text-neutral-700 transition-colors duration-300 group-hover:text-brand-500" />
             )}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="border-t border-neutral-200 bg-white backdrop-blur-md md:hidden animate-fadeInUp">
-          <nav className="flex flex-col p-4 space-y-2">
-            <button
-              type="button"
-              onClick={() => {
-                goToSaasHero();
-                setIsMenuOpen(false);
-              }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
-            >
-              SaaS
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                navigate('/full-control');
-                setIsMenuOpen(false);
-              }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
-            >
-              Full-Control
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                navigate('/hebergement');
-                setIsMenuOpen(false);
-              }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
-            >
-              Hébergement
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                navigate('/contact');
-                setIsMenuOpen(false);
-              }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors text-left"
-            >
-              Contact
-            </button>
-
-            <a
-              href="https://ben-djibril.kobecorporation.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-md text-center mt-2 transition-all"
-              style={{ backgroundColor: '#0a7aff' }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#0066e6')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#0a7aff')}
-            >
-              Discuter avec Ben Djibril
-            </a>
-          </nav>
+      <div
+        className={`border-t border-neutral-200 bg-white backdrop-blur-md lg:hidden transition-all duration-200 ease-in-out overflow-hidden ${
+          mobileMenuOpen
+            ? 'max-h-screen opacity-100'
+            : 'max-h-0 opacity-0 pointer-events-none'
+        }`}
+        style={{
+          zIndex: 40,
+          willChange: 'max-height, opacity',
+        }}
+      >
+        <div className="mx-auto max-w-7xl px-4 py-4">
+          <MobileNavigationMenu items={navItems} onClose={() => setMobileMenuOpen(false)} />
+          <a
+            href="https://ben-djibril.kobecorporation.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-brand-600 hover:shadow-lg focus:outline-none"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label={chatLabel}
+          >
+            {chatLabel}
+            <ArrowRightIcon className="h-4 w-4 text-white" />
+          </a>
         </div>
-      )}
+      </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

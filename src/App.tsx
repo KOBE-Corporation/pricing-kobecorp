@@ -12,10 +12,21 @@ import { OFFICIAL_SITE_URL } from './constants/brand';
 import { useLanguage } from './contexts/useLanguage';
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
+    if (hash) {
+      const id = hash.replace('#', '');
+      const timer = window.setTimeout(() => {
+        const element = document.getElementById(id);
+        if (!element) return;
+        const offsetPosition =
+          element.getBoundingClientRect().top + window.pageYOffset - 96;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      }, 80);
+      return () => window.clearTimeout(timer);
+    }
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, hash]);
   return null;
 };
 

@@ -3,6 +3,7 @@ import { MapPinIcon, PhoneIcon, EnvelopeIcon, GlobeAltIcon } from '@heroicons/re
 import { companyInfo } from '../data/companyInfo';
 import { useLanguage } from '../contexts/useLanguage';
 import { OptimizedImage } from './OptimizedImage';
+import { BRAND_LOGO_FULL_PATH } from '../constants/brand';
 
 const Footer = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -44,7 +45,7 @@ const Footer = () => {
             <Link to="/" className="mb-4 inline-flex items-center gap-3 transition-transform duration-200 hover:scale-105">
               <div className="flex h-20 w-20 shrink-0 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 sm:h-24 sm:w-24">
                 <OptimizedImage
-                  src="/logo/nbg.png"
+                  src={BRAND_LOGO_FULL_PATH}
                   alt={`${companyInfo.name} - ${companyInfo.slogan}`}
                   width={96}
                   height={96}
